@@ -1,0 +1,6 @@
+@extends('layouts.admin')
+@section('content')
+<div class="p-6 md:p-10"><span class="badge">Customers</span><h1 class="serif mt-3 text-4xl">Customer management</h1>
+<form class="mt-6"><input name="search" value="{{ request('search') }}" placeholder="Email or mobile" class="rounded-xl border p-3"><button class="btn-secondary ml-2">Search</button></form>
+<div class="mt-6 overflow-x-auto rounded-2xl border bg-white"><table class="w-full text-sm"><thead class="bg-stone-50 text-left"><tr><th class="p-4">Customer</th><th>Mobile</th><th>Status</th><th>WhatsApp</th><th></th></tr></thead><tbody>@foreach($customers as $c)<tr class="border-t"><td class="p-4"><b>{{ $c->customerProfile->display_name ?? $c->email }}</b><div class="text-xs text-stone-500">{{ $c->email }}</div></td><td>{{ $c->mobile }}</td><td>{{ $c->status }}</td><td>{{ ($c->customerProfile->whatsapp_opt_in ?? false)?'Opted in':'No' }}</td><td><a class="underline" href="{{ route('admin.customers.show',$c) }}">Open</a></td></tr>@endforeach</tbody></table></div><div class="mt-6">{{ $customers->links() }}</div></div>
+@endsection
