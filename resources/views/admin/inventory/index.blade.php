@@ -1,0 +1,6 @@
+@extends('layouts.admin')
+@section('content')
+<div class="p-6 md:p-10"><span class="badge">Operations</span><h1 class="serif mt-3 text-4xl">Inventory</h1>
+@if(session('success'))<div class="mt-5 rounded-xl bg-green-50 p-4 text-green-800">{{ session('success') }}</div>@endif
+<div class="mt-6 overflow-x-auto rounded-2xl border bg-white"><table class="w-full text-sm"><thead class="bg-stone-50 text-left"><tr><th class="p-4">Product</th><th>Warehouse</th><th>On hand</th><th>Reserved</th><th>Available</th><th>Adjust</th></tr></thead><tbody>@foreach($inventory as $i)<tr class="border-t"><td class="p-4">{{ $i->productVariant->product->name ?? '-' }} / {{ $i->productVariant->sku ?? '-' }}</td><td>{{ $i->warehouse_code }}</td><td>{{ $i->quantity_on_hand }}</td><td>{{ $i->quantity_reserved }}</td><td>{{ $i->quantity_on_hand-$i->quantity_reserved }}</td><td><form method="POST" action="{{ route('admin.inventory.adjust',$i) }}" class="flex gap-2">@csrf<input name="quantity" type="number" placeholder="+/- qty" class="w-24 rounded-lg border p-2"><button class="btn-secondary px-3 py-2 text-xs">Apply</button></form></td></tr>@endforeach</tbody></table></div><div class="mt-6">{{ $inventory->links() }}</div></div>
+@endsection

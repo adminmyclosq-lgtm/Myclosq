@@ -1,0 +1,808 @@
+﻿table_no,table,field,datatype,nullable,default
+1,users,id,BIGINT UNSIGNED,NO,
+1,users,uuid,CHAR(36),NO,
+1,users,mobile,VARCHAR(20),YES,
+1,users,email,VARCHAR(191),YES,
+1,users,password_hash,VARCHAR(255),YES,
+1,users,status,VARCHAR(30),NO,'active'
+1,users,mobile_verified_at,DATETIME,YES,
+1,users,email_verified_at,DATETIME,YES,
+1,users,last_login_at,DATETIME,YES,
+1,users,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+1,users,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+1,users,deleted_at,DATETIME,YES,
+2,roles,id,BIGINT UNSIGNED,NO,
+2,roles,name,VARCHAR(80),NO,
+2,roles,code,VARCHAR(50),NO,
+2,roles,description,VARCHAR(255),YES,
+2,roles,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+2,roles,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+3,permissions,id,BIGINT UNSIGNED,NO,
+3,permissions,name,VARCHAR(100),NO,
+3,permissions,code,VARCHAR(80),NO,
+3,permissions,description,VARCHAR(255),YES,
+3,permissions,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+3,permissions,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+4,role_user,role_id,BIGINT UNSIGNED,NO,
+4,role_user,user_id,BIGINT UNSIGNED,NO,
+4,role_user,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+4,role_user,FOREIGN,KEY,YES,
+4,role_user,FOREIGN,KEY,YES,
+5,permission_role,role_id,BIGINT UNSIGNED,NO,
+5,permission_role,permission_id,BIGINT UNSIGNED,NO,
+5,permission_role,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+5,permission_role,FOREIGN,KEY,YES,
+5,permission_role,FOREIGN,KEY,YES,
+6,customer_profiles,id,BIGINT UNSIGNED,NO,
+6,customer_profiles,user_id,BIGINT UNSIGNED,NO,
+6,customer_profiles,first_name,VARCHAR(100),YES,
+6,customer_profiles,last_name,VARCHAR(100),YES,
+6,customer_profiles,display_name,VARCHAR(150),YES,
+6,customer_profiles,gender,VARCHAR(30),YES,
+6,customer_profiles,date_of_birth,DATE,YES,
+6,customer_profiles,whatsapp_opt_in,BOOLEAN,NO,FALSE
+6,customer_profiles,whatsapp_opt_in_at,DATETIME,YES,
+6,customer_profiles,marketing_opt_in,BOOLEAN,NO,FALSE
+6,customer_profiles,source_channel,VARCHAR(50),YES,
+6,customer_profiles,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+6,customer_profiles,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+6,customer_profiles,FOREIGN,KEY,YES,
+7,customer_addresses,id,BIGINT UNSIGNED,NO,
+7,customer_addresses,user_id,BIGINT UNSIGNED,NO,
+7,customer_addresses,address_type,VARCHAR(20),NO,'shipping'
+7,customer_addresses,recipient_name,VARCHAR(150),NO,
+7,customer_addresses,phone,VARCHAR(20),YES,
+7,customer_addresses,address_line1,VARCHAR(255),NO,
+7,customer_addresses,address_line2,VARCHAR(255),YES,
+7,customer_addresses,landmark,VARCHAR(150),YES,
+7,customer_addresses,city,VARCHAR(100),NO,
+7,customer_addresses,state,VARCHAR(100),NO,
+7,customer_addresses,postal_code,VARCHAR(10),NO,
+7,customer_addresses,country,VARCHAR(100),NO,'India'
+7,customer_addresses,is_default,BOOLEAN,NO,FALSE
+7,customer_addresses,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+7,customer_addresses,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+7,customer_addresses,FOREIGN,KEY,YES,
+8,categories,id,BIGINT UNSIGNED,NO,
+8,categories,parent_id,BIGINT UNSIGNED,YES,
+8,categories,name,VARCHAR(150),NO,
+8,categories,slug,VARCHAR(180),NO,
+8,categories,description,TEXT,YES,
+8,categories,image_path,VARCHAR(500),YES,
+8,categories,sort_order,INT UNSIGNED,NO,0
+8,categories,is_active,BOOLEAN,NO,TRUE
+8,categories,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+8,categories,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+8,categories,FOREIGN,KEY,YES,
+9,products,id,BIGINT UNSIGNED,NO,
+9,products,category_id,BIGINT UNSIGNED,YES,
+9,products,name,VARCHAR(200),NO,
+9,products,slug,VARCHAR(220),NO,
+9,products,base_sku,VARCHAR(80),NO,
+9,products,short_description,VARCHAR(500),YES,
+9,products,description,LONGTEXT,YES,
+9,products,ingredients,LONGTEXT,YES,
+9,products,benefits,LONGTEXT,YES,
+9,products,usage_instructions,LONGTEXT,YES,
+9,products,warnings,LONGTEXT,YES,
+9,products,status,VARCHAR(30),NO,'draft'
+9,products,is_featured,BOOLEAN,NO,FALSE
+9,products,seo_title,VARCHAR(255),YES,
+9,products,seo_description,VARCHAR(500),YES,
+9,products,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+9,products,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+9,products,deleted_at,DATETIME,YES,
+9,products,FOREIGN,KEY,YES,
+10,product_variants,id,BIGINT UNSIGNED,NO,
+10,product_variants,product_id,BIGINT UNSIGNED,NO,
+10,product_variants,name,VARCHAR(150),NO,
+10,product_variants,sku,VARCHAR(100),NO,
+10,product_variants,barcode,VARCHAR(100),YES,
+10,product_variants,unit_value,"DECIMAL(10,3)",YES,
+10,product_variants,unit_label,VARCHAR(30),YES,
+10,product_variants,weight_grams,"DECIMAL(10,3)",YES,
+10,product_variants,length_cm,"DECIMAL(10,2)",YES,
+10,product_variants,width_cm,"DECIMAL(10,2)",YES,
+10,product_variants,height_cm,"DECIMAL(10,2)",YES,
+10,product_variants,status,VARCHAR(30),NO,'active'
+10,product_variants,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+10,product_variants,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+10,product_variants,FOREIGN,KEY,YES,
+11,media,id,BIGINT UNSIGNED,NO,
+11,media,uuid,CHAR(36),NO,
+11,media,file_name,VARCHAR(255),NO,
+11,media,storage_path,VARCHAR(500),NO,
+11,media,mime_type,VARCHAR(100),NO,
+11,media,file_size,BIGINT UNSIGNED,NO,
+11,media,width,INT UNSIGNED,YES,
+11,media,height,INT UNSIGNED,YES,
+11,media,alt_text,VARCHAR(255),YES,
+11,media,uploaded_by,BIGINT UNSIGNED,YES,
+11,media,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+11,media,FOREIGN,KEY,YES,
+12,product_images,id,BIGINT UNSIGNED,NO,
+12,product_images,product_variant_id,BIGINT UNSIGNED,NO,
+12,product_images,media_id,BIGINT UNSIGNED,NO,
+12,product_images,image_type,VARCHAR(30),NO,'gallery'
+12,product_images,sort_order,INT UNSIGNED,NO,0
+12,product_images,alt_text,VARCHAR(255),YES,
+12,product_images,is_primary,BOOLEAN,NO,FALSE
+12,product_images,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+12,product_images,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+12,product_images,FOREIGN,KEY,YES,
+12,product_images,FOREIGN,KEY,YES,
+13,product_prices,id,BIGINT UNSIGNED,NO,
+13,product_prices,product_variant_id,BIGINT UNSIGNED,NO,
+13,product_prices,mrp,"DECIMAL(12,2)",NO,
+13,product_prices,selling_price,"DECIMAL(12,2)",NO,
+13,product_prices,tax_percentage,"DECIMAL(5,2)",NO,0.00
+13,product_prices,customer_group,VARCHAR(50),NO,'default'
+13,product_prices,effective_from,DATETIME,NO,
+13,product_prices,effective_to,DATETIME,YES,
+13,product_prices,is_active,BOOLEAN,NO,TRUE
+13,product_prices,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+13,product_prices,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+13,product_prices,FOREIGN,KEY,YES,
+14,product_batches,id,BIGINT UNSIGNED,NO,
+14,product_batches,product_variant_id,BIGINT UNSIGNED,NO,
+14,product_batches,batch_number,VARCHAR(100),NO,
+14,product_batches,manufacture_date,DATE,YES,
+14,product_batches,expiry_date,DATE,YES,
+14,product_batches,quantity_received,INT UNSIGNED,NO,0
+14,product_batches,status,VARCHAR(30),NO,'active'
+14,product_batches,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+14,product_batches,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+14,product_batches,FOREIGN,KEY,YES,
+15,inventory,id,BIGINT UNSIGNED,NO,
+15,inventory,product_variant_id,BIGINT UNSIGNED,NO,
+15,inventory,batch_id,BIGINT UNSIGNED,NO,
+15,inventory,quantity_on_hand,INT,NO,0
+15,inventory,quantity_reserved,INT,NO,0
+15,inventory,reorder_level,INT UNSIGNED,NO,0
+15,inventory,warehouse_code,VARCHAR(50),NO,
+15,inventory,status,VARCHAR(30),NO,'active'
+15,inventory,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+15,inventory,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+15,inventory,FOREIGN,KEY,YES,
+15,inventory,FOREIGN,KEY,YES,
+16,inventory_transactions,id,BIGINT UNSIGNED,NO,
+16,inventory_transactions,inventory_id,BIGINT UNSIGNED,NO,
+16,inventory_transactions,transaction_type,VARCHAR(40),NO,
+16,inventory_transactions,quantity,INT,NO,
+16,inventory_transactions,reference_type,VARCHAR(50),YES,
+16,inventory_transactions,reference_id,BIGINT UNSIGNED,YES,
+16,inventory_transactions,balance_after,INT,NO,
+16,inventory_transactions,remarks,VARCHAR(500),YES,
+16,inventory_transactions,created_by,BIGINT UNSIGNED,YES,
+16,inventory_transactions,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+16,inventory_transactions,FOREIGN,KEY,YES,
+16,inventory_transactions,FOREIGN,KEY,YES,
+17,coupons,id,BIGINT UNSIGNED,NO,
+17,coupons,code,VARCHAR(50),NO,
+17,coupons,name,VARCHAR(150),NO,
+17,coupons,description,VARCHAR(500),YES,
+17,coupons,discount_type,VARCHAR(30),NO,
+17,coupons,discount_value,"DECIMAL(12,2)",NO,
+17,coupons,minimum_cart_value,"DECIMAL(12,2)",NO,0.00
+17,coupons,maximum_discount,"DECIMAL(12,2)",YES,
+17,coupons,starts_at,DATETIME,YES,
+17,coupons,expires_at,DATETIME,YES,
+17,coupons,usage_limit,INT UNSIGNED,YES,
+17,coupons,per_customer_limit,INT UNSIGNED,YES,
+17,coupons,is_active,BOOLEAN,NO,TRUE
+17,coupons,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+17,coupons,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+18,coupon_products,coupon_id,BIGINT UNSIGNED,NO,
+18,coupon_products,product_id,BIGINT UNSIGNED,NO,
+18,coupon_products,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+18,coupon_products,FOREIGN,KEY,YES,
+18,coupon_products,FOREIGN,KEY,YES,
+19,carts,id,BIGINT UNSIGNED,NO,
+19,carts,user_id,BIGINT UNSIGNED,YES,
+19,carts,session_token,CHAR(64),NO,
+19,carts,status,VARCHAR(30),NO,'active'
+19,carts,currency,CHAR(3),NO,'INR'
+19,carts,expires_at,DATETIME,YES,
+19,carts,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+19,carts,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+19,carts,FOREIGN,KEY,YES,
+20,cart_items,id,BIGINT UNSIGNED,NO,
+20,cart_items,cart_id,BIGINT UNSIGNED,NO,
+20,cart_items,product_variant_id,BIGINT UNSIGNED,NO,
+20,cart_items,quantity,INT UNSIGNED,NO,
+20,cart_items,unit_price_snapshot,"DECIMAL(12,2)",NO,
+20,cart_items,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+20,cart_items,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+20,cart_items,FOREIGN,KEY,YES,
+20,cart_items,FOREIGN,KEY,YES,
+21,shipping_methods,id,BIGINT UNSIGNED,NO,
+21,shipping_methods,name,VARCHAR(120),NO,
+21,shipping_methods,code,VARCHAR(50),NO,
+21,shipping_methods,courier,VARCHAR(120),YES,
+21,shipping_methods,description,VARCHAR(500),YES,
+21,shipping_methods,estimated_min_days,TINYINT UNSIGNED,YES,
+21,shipping_methods,estimated_max_days,TINYINT UNSIGNED,YES,
+21,shipping_methods,is_active,BOOLEAN,NO,TRUE
+21,shipping_methods,sort_order,INT UNSIGNED,NO,0
+21,shipping_methods,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+21,shipping_methods,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+21,shipping_methods,estimated_min_days,IS,YES,
+21,shipping_methods,estimated_max_days,IS,YES,
+21,shipping_methods,estimated_max_days,>=,YES,
+22,shipping_rates,id,BIGINT UNSIGNED,NO,
+22,shipping_rates,shipping_method_id,BIGINT UNSIGNED,NO,
+22,shipping_rates,country,VARCHAR(100),NO,'India'
+22,shipping_rates,state,VARCHAR(100),YES,
+22,shipping_rates,postal_code_prefix,VARCHAR(10),YES,
+22,shipping_rates,min_order_value,"DECIMAL(12,2)",NO,0.00
+22,shipping_rates,max_order_value,"DECIMAL(12,2)",YES,
+22,shipping_rates,min_weight_grams,"DECIMAL(12,3)",NO,0.000
+22,shipping_rates,max_weight_grams,"DECIMAL(12,3)",YES,
+22,shipping_rates,shipping_charge,"DECIMAL(12,2)",NO,0.00
+22,shipping_rates,free_shipping,BOOLEAN,NO,FALSE
+22,shipping_rates,effective_from,DATETIME,NO,
+22,shipping_rates,effective_to,DATETIME,YES,
+22,shipping_rates,is_active,BOOLEAN,NO,TRUE
+22,shipping_rates,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+22,shipping_rates,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+22,shipping_rates,FOREIGN,KEY,YES,
+22,shipping_rates,ON,UPDATE,YES,
+22,shipping_rates,min_order_value,>=,YES,
+22,shipping_rates,min_weight_grams,>=,YES,
+22,shipping_rates,shipping_charge,>=,YES,
+23,orders,id,BIGINT UNSIGNED,NO,
+23,orders,uuid,CHAR(36),NO,
+23,orders,order_number,VARCHAR(40),NO,
+23,orders,user_id,BIGINT UNSIGNED,NO,
+23,orders,coupon_id,BIGINT UNSIGNED,YES,
+23,orders,currency,CHAR(3),NO,'INR'
+23,orders,subtotal,"DECIMAL(12,2)",NO,0.00
+23,orders,discount_amount,"DECIMAL(12,2)",NO,0.00
+23,orders,tax_amount,"DECIMAL(12,2)",NO,0.00
+23,orders,shipping_amount,"DECIMAL(12,2)",NO,0.00
+23,orders,shipping_method_id,BIGINT UNSIGNED,YES,
+23,orders,shipping_method_name_snapshot,VARCHAR(120),YES,
+23,orders,grand_total,"DECIMAL(12,2)",NO,0.00
+23,orders,payment_status,VARCHAR(30),NO,'pending'
+23,orders,fulfilment_status,VARCHAR(30),NO,'pending'
+23,orders,shipment_status,VARCHAR(30),NO,'pending'
+23,orders,billing_address_json,JSON,YES,
+23,orders,shipping_address_json,JSON,YES,
+23,orders,customer_note,VARCHAR(1000),YES,
+23,orders,placed_at,DATETIME,YES,
+23,orders,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+23,orders,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+23,orders,FOREIGN,KEY,YES,
+23,orders,FOREIGN,KEY,YES,
+23,orders,FOREIGN,KEY,YES,
+23,orders,ON,UPDATE,YES,
+24,order_items,id,BIGINT UNSIGNED,NO,
+24,order_items,order_id,BIGINT UNSIGNED,NO,
+24,order_items,product_variant_id,BIGINT UNSIGNED,NO,
+24,order_items,product_name_snapshot,VARCHAR(200),NO,
+24,order_items,sku_snapshot,VARCHAR(100),NO,
+24,order_items,quantity,INT UNSIGNED,NO,
+24,order_items,mrp_snapshot,"DECIMAL(12,2)",NO,
+24,order_items,unit_price,"DECIMAL(12,2)",NO,
+24,order_items,discount_amount,"DECIMAL(12,2)",NO,0.00
+24,order_items,tax_amount,"DECIMAL(12,2)",NO,0.00
+24,order_items,line_total,"DECIMAL(12,2)",NO,0.00
+24,order_items,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+24,order_items,FOREIGN,KEY,YES,
+24,order_items,FOREIGN,KEY,YES,
+25,coupon_usages,id,BIGINT UNSIGNED,NO,
+25,coupon_usages,coupon_id,BIGINT UNSIGNED,NO,
+25,coupon_usages,user_id,BIGINT UNSIGNED,NO,
+25,coupon_usages,order_id,BIGINT UNSIGNED,NO,
+25,coupon_usages,discount_amount,"DECIMAL(12,2)",NO,0.00
+25,coupon_usages,used_at,DATETIME,NO,CURRENT_TIMESTAMP
+25,coupon_usages,FOREIGN,KEY,YES,
+25,coupon_usages,FOREIGN,KEY,YES,
+25,coupon_usages,FOREIGN,KEY,YES,
+26,order_status_history,id,BIGINT UNSIGNED,NO,
+26,order_status_history,order_id,BIGINT UNSIGNED,NO,
+26,order_status_history,status_type,VARCHAR(30),NO,
+26,order_status_history,old_status,VARCHAR(40),YES,
+26,order_status_history,new_status,VARCHAR(40),NO,
+26,order_status_history,remarks,VARCHAR(500),YES,
+26,order_status_history,changed_by,BIGINT UNSIGNED,YES,
+26,order_status_history,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+26,order_status_history,FOREIGN,KEY,YES,
+26,order_status_history,FOREIGN,KEY,YES,
+27,payments,id,BIGINT UNSIGNED,NO,
+27,payments,order_id,BIGINT UNSIGNED,NO,
+27,payments,gateway,VARCHAR(50),NO,
+27,payments,gateway_order_id,VARCHAR(150),YES,
+27,payments,amount,"DECIMAL(12,2)",NO,
+27,payments,currency,CHAR(3),NO,'INR'
+27,payments,status,VARCHAR(30),NO,'pending'
+27,payments,idempotency_key,VARCHAR(100),NO,
+27,payments,paid_at,DATETIME,YES,
+27,payments,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+27,payments,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+27,payments,FOREIGN,KEY,YES,
+28,payment_transactions,id,BIGINT UNSIGNED,NO,
+28,payment_transactions,payment_id,BIGINT UNSIGNED,NO,
+28,payment_transactions,transaction_type,VARCHAR(30),NO,
+28,payment_transactions,gateway_transaction_id,VARCHAR(150),YES,
+28,payment_transactions,gateway_status,VARCHAR(50),YES,
+28,payment_transactions,amount,"DECIMAL(12,2)",NO,
+28,payment_transactions,currency,CHAR(3),NO,'INR'
+28,payment_transactions,signature_verified,BOOLEAN,NO,FALSE
+28,payment_transactions,raw_response,JSON,YES,
+28,payment_transactions,processed_at,DATETIME,YES,
+28,payment_transactions,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+28,payment_transactions,FOREIGN,KEY,YES,
+29,shipments,id,BIGINT UNSIGNED,NO,
+29,shipments,order_id,BIGINT UNSIGNED,NO,
+29,shipments,shipment_number,VARCHAR(60),NO,
+29,shipments,courier,VARCHAR(100),YES,
+29,shipments,tracking_number,VARCHAR(150),YES,
+29,shipments,status,VARCHAR(40),NO,'pending'
+29,shipments,pickup_date,DATETIME,YES,
+29,shipments,dispatch_date,DATETIME,YES,
+29,shipments,expected_delivery,DATETIME,YES,
+29,shipments,delivered_at,DATETIME,YES,
+29,shipments,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+29,shipments,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+29,shipments,FOREIGN,KEY,YES,
+30,shipment_tracking_events,id,BIGINT UNSIGNED,NO,
+30,shipment_tracking_events,shipment_id,BIGINT UNSIGNED,NO,
+30,shipment_tracking_events,status,VARCHAR(50),NO,
+30,shipment_tracking_events,location,VARCHAR(200),YES,
+30,shipment_tracking_events,event_time,DATETIME,NO,
+30,shipment_tracking_events,description,VARCHAR(500),YES,
+30,shipment_tracking_events,raw_payload,JSON,YES,
+30,shipment_tracking_events,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+30,shipment_tracking_events,FOREIGN,KEY,YES,
+31,cms_pages,id,BIGINT UNSIGNED,NO,
+31,cms_pages,title,VARCHAR(200),NO,
+31,cms_pages,slug,VARCHAR(220),NO,
+31,cms_pages,page_type,VARCHAR(50),NO,
+31,cms_pages,meta_title,VARCHAR(255),YES,
+31,cms_pages,meta_description,VARCHAR(500),YES,
+31,cms_pages,status,VARCHAR(30),NO,'draft'
+31,cms_pages,published_at,DATETIME,YES,
+31,cms_pages,created_by,BIGINT UNSIGNED,YES,
+31,cms_pages,updated_by,BIGINT UNSIGNED,YES,
+31,cms_pages,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+31,cms_pages,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+31,cms_pages,FOREIGN,KEY,YES,
+31,cms_pages,FOREIGN,KEY,YES,
+32,cms_sections,id,BIGINT UNSIGNED,NO,
+32,cms_sections,page_id,BIGINT UNSIGNED,NO,
+32,cms_sections,section_type,VARCHAR(50),NO,
+32,cms_sections,title,VARCHAR(255),YES,
+32,cms_sections,subtitle,VARCHAR(500),YES,
+32,cms_sections,content,LONGTEXT,YES,
+32,cms_sections,media_id,BIGINT UNSIGNED,YES,
+32,cms_sections,sort_order,INT UNSIGNED,NO,0
+32,cms_sections,is_active,BOOLEAN,NO,TRUE
+32,cms_sections,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+32,cms_sections,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+32,cms_sections,FOREIGN,KEY,YES,
+32,cms_sections,FOREIGN,KEY,YES,
+33,reset_profiles,id,BIGINT UNSIGNED,NO,
+33,reset_profiles,user_id,BIGINT UNSIGNED,NO,
+33,reset_profiles,source_channel,VARCHAR(50),YES,
+33,reset_profiles,cohort,VARCHAR(100),YES,
+33,reset_profiles,product_batch_id,BIGINT UNSIGNED,YES,
+33,reset_profiles,current_reset_day,SMALLINT UNSIGNED,NO,0
+33,reset_profiles,status,VARCHAR(40),NO,'created'
+33,reset_profiles,actual_start_date,DATE,YES,
+33,reset_profiles,day0_completed_at,DATETIME,YES,
+33,reset_profiles,day30_completed_at,DATETIME,YES,
+33,reset_profiles,manual_review_required,BOOLEAN,NO,FALSE
+33,reset_profiles,safety_flag_active,BOOLEAN,NO,FALSE
+33,reset_profiles,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+33,reset_profiles,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+33,reset_profiles,FOREIGN,KEY,YES,
+33,reset_profiles,FOREIGN,KEY,YES,
+34,day0_baselines,id,BIGINT UNSIGNED,NO,
+34,day0_baselines,reset_profile_id,BIGINT UNSIGNED,NO,
+34,day0_baselines,success_expectation_primary,VARCHAR(100),YES,
+34,day0_baselines,success_expectation_open_text,VARCHAR(1000),YES,
+34,day0_baselines,regularity_frequency,VARCHAR(40),YES,
+34,day0_baselines,rescue_remedy_used,VARCHAR(50),YES,
+34,day0_baselines,rescue_remedy_detail,VARCHAR(255),YES,
+34,day0_baselines,recent_disruption_yes_no,BOOLEAN,YES,
+34,day0_baselines,recent_disruption_detail,VARCHAR(1000),YES,
+34,day0_baselines,safety_acknowledged,BOOLEAN,NO,FALSE
+34,day0_baselines,medical_disclaimer_acknowledged,BOOLEAN,NO,FALSE
+34,day0_baselines,whatsapp_opt_in,BOOLEAN,NO,FALSE
+34,day0_baselines,completed_at,DATETIME,YES,
+34,day0_baselines,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+34,day0_baselines,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+34,day0_baselines,FOREIGN,KEY,YES,
+35,day0_priority_areas,id,BIGINT UNSIGNED,NO,
+35,day0_priority_areas,day0_baseline_id,BIGINT UNSIGNED,NO,
+35,day0_priority_areas,priority_area,VARCHAR(100),NO,
+35,day0_priority_areas,custom_text,VARCHAR(255),YES,
+35,day0_priority_areas,priority_rank,TINYINT UNSIGNED,NO,
+35,day0_priority_areas,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+35,day0_priority_areas,FOREIGN,KEY,YES,
+36,day0_triggers,id,BIGINT UNSIGNED,NO,
+36,day0_triggers,day0_baseline_id,BIGINT UNSIGNED,NO,
+36,day0_triggers,trigger_name,VARCHAR(100),NO,
+36,day0_triggers,custom_text,VARCHAR(255),YES,
+36,day0_triggers,trigger_rank,TINYINT UNSIGNED,NO,
+36,day0_triggers,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+36,day0_triggers,FOREIGN,KEY,YES,
+37,gut_signal_checkpoints,id,BIGINT UNSIGNED,NO,
+37,gut_signal_checkpoints,reset_profile_id,BIGINT UNSIGNED,NO,
+37,gut_signal_checkpoints,checkpoint_day,TINYINT UNSIGNED,NO,
+37,gut_signal_checkpoints,bloating_score,TINYINT UNSIGNED,YES,
+37,gut_signal_checkpoints,gas_burping_score,TINYINT UNSIGNED,YES,
+37,gut_signal_checkpoints,heaviness_score,TINYINT UNSIGNED,YES,
+37,gut_signal_checkpoints,acidity_score,TINYINT UNSIGNED,YES,
+37,gut_signal_checkpoints,overall_comfort_score,TINYINT UNSIGNED,YES,
+37,gut_signal_checkpoints,recorded_via,VARCHAR(30),YES,
+37,gut_signal_checkpoints,recorded_at,DATETIME,NO,CURRENT_TIMESTAMP
+37,gut_signal_checkpoints,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+37,gut_signal_checkpoints,FOREIGN,KEY,YES,
+38,start_plans,id,BIGINT UNSIGNED,NO,
+38,start_plans,reset_profile_id,BIGINT UNSIGNED,NO,
+38,start_plans,selected_start_date,DATE,NO,
+38,start_plans,actual_start_date,DATE,YES,
+38,start_plans,capsule_timing,VARCHAR(80),YES,
+38,start_plans,custom_capsule_time,TIME,YES,
+38,start_plans,capsule_card_location,VARCHAR(100),YES,
+38,start_plans,custom_location,VARCHAR(255),YES,
+38,start_plans,reminder_style,VARCHAR(40),NO,'milestone_only'
+38,start_plans,reminder_time,TIME,YES,
+38,start_plans,daily_reminder_enabled,BOOLEAN,NO,FALSE
+38,start_plans,milestone_reminder_enabled,BOOLEAN,NO,TRUE
+38,start_plans,missed_day_rule_confirmed,BOOLEAN,NO,FALSE
+38,start_plans,unusual_day_rule_confirmed,BOOLEAN,NO,FALSE
+38,start_plans,positive_shift_rule_confirmed,BOOLEAN,NO,FALSE
+38,start_plans,completed_at,DATETIME,YES,
+38,start_plans,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+38,start_plans,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+38,start_plans,FOREIGN,KEY,YES,
+39,daily_adherence,id,BIGINT UNSIGNED,NO,
+39,daily_adherence,reset_profile_id,BIGINT UNSIGNED,NO,
+39,daily_adherence,reset_day,TINYINT UNSIGNED,NO,
+39,daily_adherence,calendar_date,DATE,NO,
+39,daily_adherence,reminder_sent,BOOLEAN,NO,FALSE
+39,daily_adherence,reminder_sent_at,DATETIME,YES,
+39,daily_adherence,response_status,VARCHAR(30),YES,
+39,daily_adherence,responded_at,DATETIME,YES,
+39,daily_adherence,followup_sent,BOOLEAN,NO,FALSE
+39,daily_adherence,followup_sent_at,DATETIME,YES,
+39,daily_adherence,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+39,daily_adherence,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+39,daily_adherence,FOREIGN,KEY,YES,
+40,reset_card_usage,id,BIGINT UNSIGNED,NO,
+40,reset_card_usage,reset_profile_id,BIGINT UNSIGNED,NO,
+40,reset_card_usage,reset_day,TINYINT UNSIGNED,NO,
+40,reset_card_usage,usage_date,DATE,NO,
+40,reset_card_usage,marked_yes_no,BOOLEAN,NO,
+40,reset_card_usage,tracking_method,VARCHAR(30),YES,
+40,reset_card_usage,notes,VARCHAR(500),YES,
+40,reset_card_usage,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+40,reset_card_usage,FOREIGN,KEY,YES,
+41,qr_codes,id,BIGINT UNSIGNED,NO,
+41,qr_codes,uuid,CHAR(36),NO,
+41,qr_codes,code,VARCHAR(100),NO,
+41,qr_codes,source_channel,VARCHAR(50),YES,
+41,qr_codes,qr_location,VARCHAR(50),YES,
+41,qr_codes,product_id,BIGINT UNSIGNED,YES,
+41,qr_codes,milestone_day,TINYINT UNSIGNED,YES,
+41,qr_codes,campaign_code,VARCHAR(100),YES,
+41,qr_codes,target_action,VARCHAR(50),NO,
+41,qr_codes,is_active,BOOLEAN,NO,TRUE
+41,qr_codes,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+41,qr_codes,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+41,qr_codes,FOREIGN,KEY,YES,
+42,qr_scan_events,id,BIGINT UNSIGNED,NO,
+42,qr_scan_events,qr_code_id,BIGINT UNSIGNED,NO,
+42,qr_scan_events,reset_profile_id,BIGINT UNSIGNED,YES,
+42,qr_scan_events,user_id,BIGINT UNSIGNED,YES,
+42,qr_scan_events,qr_source,VARCHAR(50),YES,
+42,qr_scan_events,qr_location,VARCHAR(50),YES,
+42,qr_scan_events,scan_timestamp,DATETIME,NO,CURRENT_TIMESTAMP
+42,qr_scan_events,source_channel,VARCHAR(50),YES,
+42,qr_scan_events,milestone_context,VARCHAR(50),YES,
+42,qr_scan_events,action_taken,VARCHAR(100),YES,
+42,qr_scan_events,new_user_or_existing,VARCHAR(20),YES,
+42,qr_scan_events,device_type,VARCHAR(30),YES,
+42,qr_scan_events,ip_hash,CHAR(64),YES,
+42,qr_scan_events,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+42,qr_scan_events,FOREIGN,KEY,YES,
+42,qr_scan_events,FOREIGN,KEY,YES,
+42,qr_scan_events,FOREIGN,KEY,YES,
+43,milestone_checkins,id,BIGINT UNSIGNED,NO,
+43,milestone_checkins,reset_profile_id,BIGINT UNSIGNED,NO,
+43,milestone_checkins,milestone_day,TINYINT UNSIGNED,NO,
+43,milestone_checkins,status,VARCHAR(30),NO,'pending'
+43,milestone_checkins,started_at,DATETIME,YES,
+43,milestone_checkins,completed_at,DATETIME,YES,
+43,milestone_checkins,completion_channel,VARCHAR(30),YES,
+43,milestone_checkins,summary_generated,BOOLEAN,NO,FALSE
+43,milestone_checkins,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+43,milestone_checkins,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+43,milestone_checkins,FOREIGN,KEY,YES,
+44,milestone_answers,id,BIGINT UNSIGNED,NO,
+44,milestone_answers,milestone_checkin_id,BIGINT UNSIGNED,NO,
+44,milestone_answers,question_code,VARCHAR(100),NO,
+44,milestone_answers,answer_type,VARCHAR(30),NO,
+44,milestone_answers,answer_text,TEXT,YES,
+44,milestone_answers,answer_number,"DECIMAL(10,2)",YES,
+44,milestone_answers,answer_boolean,BOOLEAN,YES,
+44,milestone_answers,answer_json,JSON,YES,
+44,milestone_answers,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+44,milestone_answers,FOREIGN,KEY,YES,
+45,positive_events,id,BIGINT UNSIGNED,NO,
+45,positive_events,reset_profile_id,BIGINT UNSIGNED,NO,
+45,positive_events,reset_day,TINYINT UNSIGNED,NO,
+45,positive_events,event_type,VARCHAR(100),NO,
+45,positive_events,context_type,VARCHAR(100),YES,
+45,positive_events,notes,VARCHAR(1000),YES,
+45,positive_events,recorded_via,VARCHAR(30),YES,
+45,positive_events,event_date,DATE,NO,
+45,positive_events,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+45,positive_events,FOREIGN,KEY,YES,
+46,unusual_events,id,BIGINT UNSIGNED,NO,
+46,unusual_events,reset_profile_id,BIGINT UNSIGNED,NO,
+46,unusual_events,reset_day,TINYINT UNSIGNED,NO,
+46,unusual_events,symptom_type,VARCHAR(100),NO,
+46,unusual_events,severity,VARCHAR(30),NO,
+46,unusual_events,description,VARCHAR(2000),YES,
+46,unusual_events,product_related_yes_no,BOOLEAN,YES,
+46,unusual_events,action_taken,VARCHAR(50),YES,
+46,unusual_events,recorded_via,VARCHAR(30),YES,
+46,unusual_events,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+46,unusual_events,FOREIGN,KEY,YES,
+47,safety_flags,id,BIGINT UNSIGNED,NO,
+47,safety_flags,reset_profile_id,BIGINT UNSIGNED,NO,
+47,safety_flags,unusual_event_id,BIGINT UNSIGNED,YES,
+47,safety_flags,flag_type,VARCHAR(50),NO,
+47,safety_flags,trigger_source,VARCHAR(50),YES,
+47,safety_flags,detected_keyword,VARCHAR(100),YES,
+47,safety_flags,severity,VARCHAR(30),NO,
+47,safety_flags,automation_paused,BOOLEAN,NO,TRUE
+47,safety_flags,manual_review_required,BOOLEAN,NO,TRUE
+47,safety_flags,reviewed_by,BIGINT UNSIGNED,YES,
+47,safety_flags,reviewed_at,DATETIME,YES,
+47,safety_flags,resolution,VARCHAR(1000),YES,
+47,safety_flags,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+47,safety_flags,FOREIGN,KEY,YES,
+47,safety_flags,FOREIGN,KEY,YES,
+47,safety_flags,FOREIGN,KEY,YES,
+48,dropoff_events,id,BIGINT UNSIGNED,NO,
+48,dropoff_events,reset_profile_id,BIGINT UNSIGNED,NO,
+48,dropoff_events,detected_day,TINYINT UNSIGNED,NO,
+48,dropoff_events,last_activity_at,DATETIME,YES,
+48,dropoff_events,dropoff_reason,VARCHAR(100),YES,
+48,dropoff_events,reminder_fatigue,BOOLEAN,NO,FALSE
+48,dropoff_events,product_discomfort,BOOLEAN,NO,FALSE
+48,dropoff_events,detected_automatically,BOOLEAN,NO,TRUE
+48,dropoff_events,reactivation_prompt_sent,BOOLEAN,NO,FALSE
+48,dropoff_events,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+48,dropoff_events,FOREIGN,KEY,YES,
+49,reactivation_events,id,BIGINT UNSIGNED,NO,
+49,reactivation_events,reset_profile_id,BIGINT UNSIGNED,NO,
+49,reactivation_events,dropoff_event_id,BIGINT UNSIGNED,NO,
+49,reactivation_events,prompt_sent_at,DATETIME,YES,
+49,reactivation_events,response,VARCHAR(50),YES,
+49,reactivation_events,response_at,DATETIME,YES,
+49,reactivation_events,new_status,VARCHAR(40),YES,
+49,reactivation_events,restart_requested,BOOLEAN,NO,FALSE
+49,reactivation_events,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+49,reactivation_events,FOREIGN,KEY,YES,
+49,reactivation_events,FOREIGN,KEY,YES,
+50,final_reviews,id,BIGINT UNSIGNED,NO,
+50,final_reviews,reset_profile_id,BIGINT UNSIGNED,NO,
+50,final_reviews,capsule_consistency,VARCHAR(50),YES,
+50,final_reviews,final_tracking_usage,VARCHAR(50),YES,
+50,final_reviews,product_comfort,VARCHAR(50),YES,
+50,final_reviews,areas_improved_count,TINYINT UNSIGNED,NO,0
+50,final_reviews,areas_unresolved_count,TINYINT UNSIGNED,NO,0
+50,final_reviews,trigger_pattern,VARCHAR(100),YES,
+50,final_reviews,user_verdict,VARCHAR(100),YES,
+50,final_reviews,continue_repeat_intent,VARCHAR(50),YES,
+50,final_reviews,recommendation_intent,VARCHAR(30),YES,
+50,final_reviews,completed_at,DATETIME,YES,
+50,final_reviews,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+50,final_reviews,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+50,final_reviews,FOREIGN,KEY,YES,
+51,gri_scores,id,BIGINT UNSIGNED,NO,
+51,gri_scores,reset_profile_id,BIGINT UNSIGNED,NO,
+51,gri_scores,capsules_taken,TINYINT UNSIGNED,NO,0
+51,gri_scores,day30_comfort_rating,TINYINT UNSIGNED,NO,
+51,gri_scores,gri_score,"DECIMAL(5,2)",NO,
+51,gri_scores,gri_band,VARCHAR(40),NO,
+51,gri_scores,formula_version,VARCHAR(20),NO,'v1'
+51,gri_scores,calculated_at,DATETIME,NO,CURRENT_TIMESTAMP
+51,gri_scores,FOREIGN,KEY,YES,
+52,grs_scores,id,BIGINT UNSIGNED,NO,
+52,grs_scores,reset_profile_id,BIGINT UNSIGNED,NO,
+52,grs_scores,day0_symptom_burden,"DECIMAL(6,2)",NO,
+52,grs_scores,day30_symptom_burden,"DECIMAL(6,2)",NO,
+52,grs_scores,grs_movement,"DECIMAL(6,2)",NO,
+52,grs_scores,day0_comfort,TINYINT UNSIGNED,NO,
+52,grs_scores,day30_comfort,TINYINT UNSIGNED,NO,
+52,grs_scores,comfort_delta,"DECIMAL(6,2)",NO,
+52,grs_scores,movement_classification,VARCHAR(50),NO,
+52,grs_scores,formula_version,VARCHAR(20),NO,'v1'
+52,grs_scores,calculated_at,DATETIME,NO,CURRENT_TIMESTAMP
+52,grs_scores,FOREIGN,KEY,YES,
+53,final_classifications,id,BIGINT UNSIGNED,NO,
+53,final_classifications,reset_profile_id,BIGINT UNSIGNED,NO,
+53,final_classifications,classification_code,VARCHAR(60),NO,
+53,final_classifications,gri_score_id,BIGINT UNSIGNED,YES,
+53,final_classifications,grs_score_id,BIGINT UNSIGNED,YES,
+53,final_classifications,adherence_assessment,VARCHAR(50),YES,
+53,final_classifications,product_comfort_assessment,VARCHAR(50),YES,
+53,final_classifications,priority_area_movement,VARCHAR(50),YES,
+53,final_classifications,user_verdict,VARCHAR(100),YES,
+53,final_classifications,trigger_pattern,VARCHAR(100),YES,
+53,final_classifications,safety_override,BOOLEAN,NO,FALSE
+53,final_classifications,rule_version,VARCHAR(20),NO,'v1'
+53,final_classifications,classified_at,DATETIME,NO,CURRENT_TIMESTAMP
+53,final_classifications,FOREIGN,KEY,YES,
+53,final_classifications,FOREIGN,KEY,YES,
+53,final_classifications,FOREIGN,KEY,YES,
+54,day30_decisions,id,BIGINT UNSIGNED,NO,
+54,day30_decisions,reset_profile_id,BIGINT UNSIGNED,NO,
+54,day30_decisions,classification_id,BIGINT UNSIGNED,NO,
+54,day30_decisions,user_recommendation,VARCHAR(1000),YES,
+54,day30_decisions,commercial_action,VARCHAR(500),YES,
+54,day30_decisions,next_step_code,VARCHAR(80),NO,
+54,day30_decisions,continuation_allowed,BOOLEAN,NO,FALSE
+54,day30_decisions,upsell_allowed,BOOLEAN,NO,FALSE
+54,day30_decisions,testimonial_request_allowed,BOOLEAN,NO,FALSE
+54,day30_decisions,restart_allowed,BOOLEAN,NO,FALSE
+54,day30_decisions,doctor_guidance_required,BOOLEAN,NO,FALSE
+54,day30_decisions,generated_at,DATETIME,NO,CURRENT_TIMESTAMP
+54,day30_decisions,FOREIGN,KEY,YES,
+54,day30_decisions,FOREIGN,KEY,YES,
+55,commercial_intents,id,BIGINT UNSIGNED,NO,
+55,commercial_intents,reset_profile_id,BIGINT UNSIGNED,NO,
+55,commercial_intents,paid_repeat_intent,VARCHAR(60),YES,
+55,commercial_intents,price_band,VARCHAR(60),YES,
+55,commercial_intents,recommendation_intent,VARCHAR(30),YES,
+55,commercial_intents,phase2_interest,BOOLEAN,YES,
+55,commercial_intents,continue_repeat_intent,VARCHAR(50),YES,
+55,commercial_intents,referral_intent,VARCHAR(30),YES,
+55,commercial_intents,captured_at,DATETIME,NO,CURRENT_TIMESTAMP
+55,commercial_intents,FOREIGN,KEY,YES,
+56,testimonials,id,BIGINT UNSIGNED,NO,
+56,testimonials,reset_profile_id,BIGINT UNSIGNED,NO,
+56,testimonials,consent,VARCHAR(30),NO,
+56,testimonials,display_name,VARCHAR(150),YES,
+56,testimonials,testimonial_text,TEXT,YES,
+56,testimonials,usage_permission,VARCHAR(30),YES,
+56,testimonials,moderation_status,VARCHAR(30),NO,'pending'
+56,testimonials,published_at,DATETIME,YES,
+56,testimonials,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+56,testimonials,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+56,testimonials,FOREIGN,KEY,YES,
+57,feedback,id,BIGINT UNSIGNED,NO,
+57,feedback,reset_profile_id,BIGINT UNSIGNED,NO,
+57,feedback,usefulness_rating,VARCHAR(30),YES,
+57,feedback,most_valuable_element_1,VARCHAR(80),YES,
+57,feedback,most_valuable_element_2,VARCHAR(80),YES,
+57,feedback,least_useful_element,VARCHAR(80),YES,
+57,feedback,final_feedback_text,TEXT,YES,
+57,feedback,submitted_at,DATETIME,YES,
+57,feedback,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+57,feedback,FOREIGN,KEY,YES,
+58,admin_notes,id,BIGINT UNSIGNED,NO,
+58,admin_notes,reset_profile_id,BIGINT UNSIGNED,NO,
+58,admin_notes,user_id,BIGINT UNSIGNED,NO,
+58,admin_notes,note_type,VARCHAR(50),NO,
+58,admin_notes,note_text,TEXT,NO,
+58,admin_notes,is_internal,BOOLEAN,NO,TRUE
+58,admin_notes,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+58,admin_notes,FOREIGN,KEY,YES,
+58,admin_notes,FOREIGN,KEY,YES,
+59,whatsapp_contacts,id,BIGINT UNSIGNED,NO,
+59,whatsapp_contacts,user_id,BIGINT UNSIGNED,NO,
+59,whatsapp_contacts,phone_number,VARCHAR(20),NO,
+59,whatsapp_contacts,whatsapp_contact_id,VARCHAR(150),YES,
+59,whatsapp_contacts,profile_name,VARCHAR(150),YES,
+59,whatsapp_contacts,opt_in,BOOLEAN,NO,FALSE
+59,whatsapp_contacts,opt_in_at,DATETIME,YES,
+59,whatsapp_contacts,status,VARCHAR(30),NO,'active'
+59,whatsapp_contacts,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+59,whatsapp_contacts,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+59,whatsapp_contacts,FOREIGN,KEY,YES,
+60,whatsapp_messages,id,BIGINT UNSIGNED,NO,
+60,whatsapp_messages,whatsapp_contact_id,BIGINT UNSIGNED,NO,
+60,whatsapp_messages,direction,VARCHAR(10),NO,
+60,whatsapp_messages,message_type,VARCHAR(40),NO,
+60,whatsapp_messages,template_name,VARCHAR(100),YES,
+60,whatsapp_messages,message_body,TEXT,YES,
+60,whatsapp_messages,provider_message_id,VARCHAR(150),YES,
+60,whatsapp_messages,status,VARCHAR(30),NO,'queued'
+60,whatsapp_messages,sent_at,DATETIME,YES,
+60,whatsapp_messages,delivered_at,DATETIME,YES,
+60,whatsapp_messages,read_at,DATETIME,YES,
+60,whatsapp_messages,failed_at,DATETIME,YES,
+60,whatsapp_messages,error_code,VARCHAR(50),YES,
+60,whatsapp_messages,raw_payload,JSON,YES,
+60,whatsapp_messages,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+60,whatsapp_messages,FOREIGN,KEY,YES,
+61,whatsapp_webhook_logs,id,BIGINT UNSIGNED,NO,
+61,whatsapp_webhook_logs,provider_event_id,VARCHAR(150),NO,
+61,whatsapp_webhook_logs,event_type,VARCHAR(100),NO,
+61,whatsapp_webhook_logs,phone_number,VARCHAR(20),YES,
+61,whatsapp_webhook_logs,payload,JSON,NO,
+61,whatsapp_webhook_logs,signature_verified,BOOLEAN,NO,FALSE
+61,whatsapp_webhook_logs,processing_status,VARCHAR(30),NO,'received'
+61,whatsapp_webhook_logs,processed_at,DATETIME,YES,
+61,whatsapp_webhook_logs,error_message,VARCHAR(1000),YES,
+61,whatsapp_webhook_logs,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+62,notifications,id,BIGINT UNSIGNED,NO,
+62,notifications,user_id,BIGINT UNSIGNED,NO,
+62,notifications,channel,VARCHAR(30),NO,
+62,notifications,notification_type,VARCHAR(60),NO,
+62,notifications,reference_type,VARCHAR(60),YES,
+62,notifications,reference_id,BIGINT UNSIGNED,YES,
+62,notifications,subject,VARCHAR(255),YES,
+62,notifications,body,TEXT,YES,
+62,notifications,status,VARCHAR(30),NO,'queued'
+62,notifications,scheduled_at,DATETIME,YES,
+62,notifications,sent_at,DATETIME,YES,
+62,notifications,failed_at,DATETIME,YES,
+62,notifications,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+62,notifications,FOREIGN,KEY,YES,
+63,audit_logs,id,BIGINT UNSIGNED,NO,
+63,audit_logs,user_id,BIGINT UNSIGNED,YES,
+63,audit_logs,action,VARCHAR(100),NO,
+63,audit_logs,auditable_type,VARCHAR(100),NO,
+63,audit_logs,auditable_id,BIGINT UNSIGNED,YES,
+63,audit_logs,old_values,JSON,YES,
+63,audit_logs,new_values,JSON,YES,
+63,audit_logs,ip_hash,CHAR(64),YES,
+63,audit_logs,user_agent,VARCHAR(500),YES,
+63,audit_logs,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+63,audit_logs,FOREIGN,KEY,YES,
+64,system_settings,id,BIGINT UNSIGNED,NO,
+64,system_settings,setting_group,VARCHAR(80),NO,
+64,system_settings,setting_key,VARCHAR(120),NO,
+64,system_settings,setting_value,TEXT,YES,
+64,system_settings,value_type,VARCHAR(20),NO,'string'
+64,system_settings,is_public,BOOLEAN,NO,FALSE
+64,system_settings,is_encrypted,BOOLEAN,NO,FALSE
+64,system_settings,description,VARCHAR(500),YES,
+64,system_settings,updated_by,BIGINT UNSIGNED,YES,
+64,system_settings,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+64,system_settings,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+64,system_settings,FOREIGN,KEY,YES,
+64,system_settings,ON,UPDATE,YES,
+65,whatsapp_templates,id,BIGINT UNSIGNED,NO,
+65,whatsapp_templates,name,VARCHAR(120),NO,
+65,whatsapp_templates,meta_template_name,VARCHAR(150),NO,
+65,whatsapp_templates,language_code,VARCHAR(20),NO,'en'
+65,whatsapp_templates,category,VARCHAR(50),NO,
+65,whatsapp_templates,body,TEXT,YES,
+65,whatsapp_templates,variables_json,JSON,YES,
+65,whatsapp_templates,status,VARCHAR(30),NO,'draft'
+65,whatsapp_templates,is_active,BOOLEAN,NO,TRUE
+65,whatsapp_templates,created_by,BIGINT UNSIGNED,YES,
+65,whatsapp_templates,updated_by,BIGINT UNSIGNED,YES,
+65,whatsapp_templates,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+65,whatsapp_templates,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+65,whatsapp_templates,FOREIGN,KEY,YES,
+65,whatsapp_templates,ON,UPDATE,YES,
+65,whatsapp_templates,FOREIGN,KEY,YES,
+65,whatsapp_templates,ON,UPDATE,YES,
+66,notification_templates,id,BIGINT UNSIGNED,NO,
+66,notification_templates,name,VARCHAR(120),NO,
+66,notification_templates,code,VARCHAR(80),NO,
+66,notification_templates,channel,VARCHAR(30),NO,
+66,notification_templates,subject,VARCHAR(255),YES,
+66,notification_templates,body,TEXT,NO,
+66,notification_templates,variables_json,JSON,YES,
+66,notification_templates,status,VARCHAR(30),NO,'draft'
+66,notification_templates,is_active,BOOLEAN,NO,TRUE
+66,notification_templates,created_by,BIGINT UNSIGNED,YES,
+66,notification_templates,updated_by,BIGINT UNSIGNED,YES,
+66,notification_templates,created_at,DATETIME,NO,CURRENT_TIMESTAMP
+66,notification_templates,updated_at,DATETIME,NO,CURRENT_TIMESTAMP
+66,notification_templates,FOREIGN,KEY,YES,
+66,notification_templates,ON,UPDATE,YES,
+66,notification_templates,FOREIGN,KEY,YES,
+66,notification_templates,ON,UPDATE,YES,

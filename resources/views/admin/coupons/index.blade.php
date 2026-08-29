@@ -1,0 +1,7 @@
+@extends('layouts.admin')
+@section('content')
+<div class="p-6 md:p-10"><span class="badge">Offers</span><h1 class="serif mt-3 text-4xl">Coupons & offers</h1>
+@if(session('success'))<div class="mt-5 rounded-xl bg-green-50 p-4 text-green-800">{{ session('success') }}</div>@endif
+<div class="mt-8 grid gap-6 lg:grid-cols-3"><div class="card"><h2 class="font-bold">Create coupon</h2><form method="POST" action="{{ route('admin.coupons.store') }}" class="mt-4 space-y-3">@csrf<input name="code" required placeholder="Code" class="w-full rounded-xl border p-3"><input name="name" required placeholder="Name" class="w-full rounded-xl border p-3"><select name="discount_type" class="w-full rounded-xl border p-3"><option value="percentage">Percentage</option><option value="fixed">Fixed</option></select><input name="discount_value" required placeholder="Discount value" class="w-full rounded-xl border p-3"><input name="minimum_cart_value" value="0" placeholder="Minimum cart value" class="w-full rounded-xl border p-3"><input name="maximum_discount" placeholder="Maximum discount" class="w-full rounded-xl border p-3"><button class="btn-primary w-full">Create</button></form></div>
+<div class="lg:col-span-2 card"><h2 class="font-bold">Existing coupons</h2><div class="mt-5 space-y-3">@foreach($coupons as $c)<div class="flex justify-between border-b pb-3"><div><b>{{ $c->code }}</b> · {{ $c->name }}</div><span>{{ $c->discount_type }} {{ $c->discount_value }}</span></div>@endforeach</div></div></div></div>
+@endsection
