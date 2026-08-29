@@ -1,0 +1,9 @@
+<?php $__env->startSection('content'); ?>
+<div class="p-6 md:p-10"><span class="badge">Ecommerce</span><h1 class="serif mt-3 text-4xl">Orders & fulfilment</h1>
+<?php if(session('success')): ?><div class="mt-5 rounded-xl bg-green-50 p-4 text-green-800"><?php echo e(session('success')); ?></div><?php endif; ?>
+<div class="mt-6 overflow-x-auto rounded-2xl border bg-white"><table class="w-full text-sm"><thead class="bg-stone-50 text-left"><tr><th class="p-4">Order</th><th>Customer</th><th>Total</th><th>Payment</th><th>Fulfilment</th><th></th></tr></thead><tbody>
+<?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $o): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><tr class="border-t"><td class="p-4"><b><?php echo e($o->order_number); ?></b><div class="text-xs text-stone-500"><?php echo e($o->created_at); ?></div></td><td><?php echo e($o->user->email ?? $o->user->mobile); ?></td><td>₹<?php echo e(number_format($o->grand_total,2)); ?></td><td><?php echo e($o->payment_status); ?></td><td><?php echo e($o->fulfilment_status); ?></td><td><a class="underline" href="<?php echo e(route('admin.orders.show',$o)); ?>">Open</a></td></tr><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</tbody></table></div><div class="mt-6"><?php echo e($orders->links()); ?></div></div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp83\htdocs\gutreset\resources\views\admin\orders\index.blade.php ENDPATH**/ ?>

@@ -1,0 +1,8 @@
+<?php $__env->startSection('content'); ?>
+<div class="p-6 md:p-10"><span class="badge">CMS</span><h1 class="serif mt-3 text-4xl">Media library</h1>
+<?php if(session('success')): ?><div class="mt-5 rounded-xl bg-green-50 p-4 text-green-800"><?php echo e(session('success')); ?></div><?php endif; ?>
+<div class="card mt-8"><form method="POST" action="<?php echo e(route('admin.media.store')); ?>" enctype="multipart/form-data" class="flex flex-wrap gap-4 items-end"><?php echo csrf_field(); ?><div><label class="text-sm">Image</label><input type="file" name="file" required class="mt-2"></div><div><label class="text-sm">Alt text</label><input name="alt_text" class="mt-2 rounded-xl border p-3"></div><button class="btn-primary">Upload</button></form></div>
+<div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"><?php $__currentLoopData = $media; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $m): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><div class="card p-3"><img src="<?php echo e($m->url); ?>" class="aspect-square w-full rounded-2xl object-cover"><div class="mt-3 text-sm font-semibold"><?php echo e($m->file_name); ?></div><div class="text-xs text-stone-500"><?php echo e($m->mime_type); ?></div></div><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?></div><div class="mt-6"><?php echo e($media->links()); ?></div></div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp83\htdocs\gutreset\resources\views\admin\media\index.blade.php ENDPATH**/ ?>
