@@ -149,8 +149,14 @@ class PaymentService
             );
 
             if ($status === 'captured') {
+                $wasPaid = $payment->order->payment_status === 'paid';
                 $payment->update(['status'=>'paid','paid_at'=>$payment->paid_at ?: now()]);
                 $payment->order->update(['payment_status'=>'paid']);
+                if (! $wasPaid) {
+                    foreach ($payment->order->orderItems as $item) {
+                        app(InventoryService::class)->consume($item->product_variant_id, $item->quantity, 'order', $payment->order->id);
+                    }
+                }
                 app(OrderAutomationService::class)->paymentCaptured($payment->order);
             } elseif ($status === 'failed') {
                 $payment->update(['status'=>'failed']);

@@ -3,7 +3,9 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Inventory;
 use App\Models\Product;
+use App\Models\ProductBatche;
 use App\Models\ProductPrice;
 use App\Models\ProductVariant;
 use Illuminate\Http\Request;
@@ -30,11 +32,12 @@ class ProductController extends Controller
             $imageFile = $data['image'] ?? null;
             $variantData = $data['variant'];
             $priceData = $data['price'];
-            $productData = Arr::except($data, ['variant', 'price', 'image']);
+            $productData = Arr::except($data, ['variant', 'price', 'image', 'inventory']);
             $productData['slug']=$productData['slug'] ?: Str::slug($productData['name']);
             $product=Product::create($productData);
             $variant=$product->variants()->create($variantData);
             $variant->prices()->create(array_merge($priceData,['effective_from'=>now(),'is_active'=>true]));
+            $this->ensureInventory($variant, (int) data_get($data, 'inventory.quantity_on_hand', 0));
             if ($imageFile instanceof UploadedFile) {
                 $this->attachImageToVariant($variant, $imageFile);
             }
@@ -54,7 +57,7 @@ class ProductController extends Controller
             $imageFile = $data['image'] ?? null;
             $variantData = $data['variant'];
             $priceData = $data['price'];
-            $productData = Arr::except($data, ['variant', 'price', 'image']);
+            $productData = Arr::except($data, ['variant', 'price', 'image', 'inventory']);
 
             $product->update($productData);
             $variant=$product->variants()->firstOrCreate(['sku'=>$variantData['sku']],$variantData);
@@ -65,6 +68,8 @@ class ProductController extends Controller
             } else {
                 $variant->prices()->create(array_merge($priceData,['effective_from'=>now(),'is_active'=>true]));
             }
+
+            $this->ensureInventory($variant);
 
             if ($imageFile instanceof UploadedFile) {
                 $this->attachImageToVariant($variant, $imageFile);
@@ -107,7 +112,21 @@ class ProductController extends Controller
             'price.selling_price'=>['required','numeric','min:0'],
             'price.tax_percentage'=>['nullable','numeric','min:0'],
             'price.customer_group'=>['nullable','string','max:50'],
+            'inventory.quantity_on_hand'=>['nullable','integer','min:0'],
         ]);
+    }
+
+    private function ensureInventory(ProductVariant $variant, int $quantityOnHand = 0): void
+    {
+        $batch = ProductBatche::firstOrCreate(
+            ['product_variant_id' => $variant->id, 'batch_number' => $variant->sku.'-OPENING'],
+            ['quantity_received' => $quantityOnHand, 'status' => 'active']
+        );
+
+        Inventory::firstOrCreate(
+            ['product_variant_id' => $variant->id, 'batch_id' => $batch->id, 'warehouse_code' => 'DEFAULT'],
+            ['quantity_on_hand' => $quantityOnHand, 'quantity_reserved' => 0, 'reorder_level' => 0, 'status' => 'active']
+        );
     }
 
     private function attachImageToVariant(ProductVariant $variant, UploadedFile $file): void

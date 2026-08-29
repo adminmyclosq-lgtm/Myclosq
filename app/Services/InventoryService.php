@@ -55,4 +55,23 @@ class InventoryService
             'created_at'=>now(),
         ]);
     }
+
+    public function consume(int $variantId, int $quantity, string $referenceType, int $referenceId): void
+    {
+        $inventory = Inventory::where('product_variant_id', $variantId)->lockForUpdate()->firstOrFail();
+        $inventory->quantity_reserved = max(0, $inventory->quantity_reserved - $quantity);
+        $inventory->quantity_on_hand -= $quantity;
+        $inventory->save();
+
+        $inventory->transactions()->create([
+            'transaction_type' => 'sale',
+            'quantity' => -$quantity,
+            'reference_type' => $referenceType,
+            'reference_id' => $referenceId,
+            'balance_after' => $inventory->quantity_on_hand - $inventory->quantity_reserved,
+            'remarks' => 'Order payment captured',
+            'created_by' => auth()->id(),
+            'created_at' => now(),
+        ]);
+    }
 }

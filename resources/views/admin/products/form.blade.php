@@ -34,6 +34,9 @@
 <div><label>Selling price</label><input type="number" step="0.01" name="price[selling_price]" value="{{ old('price.selling_price',$price->selling_price) }}" required class="mt-2 w-full rounded-xl border p-3"></div>
 <div><label>Tax %</label><input type="number" step="0.01" name="price[tax_percentage]" value="{{ old('price.tax_percentage',$price->tax_percentage) }}" class="mt-2 w-full rounded-xl border p-3"></div>
 </div></div>
+@if(! $product->exists)
+<div class="card"><h2 class="text-xl font-bold">Opening inventory</h2><div class="mt-5 max-w-sm"><label>Quantity on hand</label><input type="number" min="0" name="inventory[quantity_on_hand]" value="{{ old('inventory.quantity_on_hand',0) }}" required class="mt-2 w-full rounded-xl border p-3"></div></div>
+@endif
 <button class="btn-primary">{{ $product->exists?'Update product':'Create product' }}</button>
 </form>
 </div>
