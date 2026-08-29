@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'Gut Reset' }}</title>
+    <script>
+        window.AppRoutes = {
+            cartItems: @json(url('/api/v1/cart/items')),
+            login: @json(route('login')),
+        };
+    </script>
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body>
@@ -26,15 +32,16 @@
                 @php
                     $authUser = auth()->user();
                     $primaryRole = $authUser?->roles()->first();
+                    $accountRoute = $authUser?->hasRole('SUPER_ADMIN') ? 'admin.dashboard' : 'account';
                     $roleLabel = $primaryRole
                         ? ucwords(strtolower(str_replace('_', ' ', (string) $primaryRole->code)))
                         : 'User';
                 @endphp
-                <a href="{{ route('account') }}" class="hidden max-w-[14rem] rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight md:block">
+                <a href="{{ route($accountRoute) }}" class="hidden max-w-[14rem] rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight md:block">
                     <span class="block truncate font-semibold text-stone-800">{{ $authUser?->name ?? 'Account' }}</span>
                     <span class="block truncate text-xs text-stone-500">{{ $roleLabel }}</span>
                 </a>
-                <a href="{{ route('account') }}" class="inline-flex md:hidden">Account</a>
+                <a href="{{ route($accountRoute) }}" class="inline-flex md:hidden">Account</a>
             @else
                 <a href="{{ route('login') }}" class="hidden md:inline-flex">Account</a>
             @endauth

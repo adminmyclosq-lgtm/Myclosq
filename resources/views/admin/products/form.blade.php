@@ -4,7 +4,7 @@
 <a class="text-sm underline" href="{{ route('admin.products.index') }}">← Products</a>
 <h1 class="serif mt-4 text-4xl">{{ $product->exists?'Edit product':'Create product' }}</h1>
 @if($errors->any())<div class="mt-5 rounded-xl bg-red-50 p-4 text-red-700">@foreach($errors->all() as $e)<div>{{ $e }}</div>@endforeach</div>@endif
-<form method="POST" action="{{ $product->exists?route('admin.products.update',$product):route('admin.products.store') }}" class="mt-8 space-y-6">
+<form method="POST" action="{{ $product->exists?route('admin.products.update',$product):route('admin.products.store') }}" enctype="multipart/form-data" class="mt-8 space-y-6">
 @csrf @if($product->exists) @method('PUT') @endif
 <div class="card grid gap-5 md:grid-cols-2">
 <div><label>Name</label><input name="name" value="{{ old('name',$product->name) }}" required class="mt-2 w-full rounded-xl border p-3"></div>
@@ -23,6 +23,10 @@
 <div><label>Unit label</label><input name="variant[unit_label]" value="{{ old('variant.unit_label',$variant->unit_label) }}" class="mt-2 w-full rounded-xl border p-3"></div>
 <div><label>Weight grams</label><input name="variant[weight_grams]" value="{{ old('variant.weight_grams',$variant->weight_grams) }}" class="mt-2 w-full rounded-xl border p-3"></div>
 <div><label>Variant status</label><select name="variant[status]" class="mt-2 w-full rounded-xl border p-3"><option value="active">active</option><option value="inactive">inactive</option></select></div>
+<div class="md:col-span-3"><label>Product image</label><input type="file" name="image" accept="image/*" class="mt-2 w-full rounded-xl border p-3"></div>
+@if($product->exists && $product->productImages->first()?->media)
+<div class="md:col-span-3"><img src="{{ $product->productImages->first()->media->url }}" alt="Current product image" class="h-40 w-40 rounded-xl object-cover border"></div>
+@endif
 </div></div>
 <div class="card"><h2 class="text-xl font-bold">Price</h2><div class="mt-5 grid gap-5 md:grid-cols-3">
 @php($price=$variant->prices->first() ?? new \App\Models\ProductPrice())

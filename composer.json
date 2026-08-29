@@ -3,16 +3,11 @@
   "name": "gutreset/gutreset",
   "type": "project",
   "description": "Gut Reset — Laravel 13 ecommerce, guided 30-day reset and WhatsApp workflow platform.",
-  "keywords": [
-    "laravel",
-    "gut-reset",
-    "ecommerce",
-    "whatsapp"
-  ],
+  "keywords": ["laravel", "gut-reset", "ecommerce", "whatsapp"],
   "license": "proprietary",
   "require": {
     "php": "^8.3",
-    "laravel/framework": "^11.0",
+    "laravel/framework": "^13.0",
     "laravel/sanctum": "^4.0"
   },
   "require-dev": {
