@@ -30,7 +30,7 @@
             <span>Guided Wellness</span>
         </a>
         <nav class="hidden items-center gap-7 text-sm md:flex">
-            <a href="{{ route('shop') }}">Shop</a>
+            <a href="{{ route('home') }}">Home</a>
             <a href="{{ url('/#how-it-works') }}">How It Works</a>
             <a href="{{ url('/#standards') }}">Our Standards</a>
             <a href="{{ url('/#learn') }}">Learn</a>
@@ -76,10 +76,22 @@
                         ? ucwords(strtolower(str_replace('_', ' ', (string) $primaryRole->code)))
                         : 'User';
                 @endphp
-                <a href="{{ route($accountRoute) }}" class="hidden max-w-[14rem] rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight md:block">
-                    <span class="block truncate font-semibold text-stone-800">{{ $authUser?->name ?? 'Account' }}</span>
-                    <span class="block truncate text-xs text-stone-500">{{ $roleLabel }}</span>
-                </a>
+                <details class="group relative hidden md:block">
+                    <summary class="flex max-w-[14rem] cursor-pointer list-none items-center gap-2 rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight [&::-webkit-details-marker]:hidden">
+                        <span class="min-w-0 flex-1">
+                            <span class="block truncate font-semibold text-stone-800">{{ $authUser?->name ?? 'Account' }}</span>
+                            <span class="block truncate text-xs text-stone-500">{{ $roleLabel }}</span>
+                        </span>
+                        <svg class="h-4 w-4 shrink-0 text-stone-500 transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
+                    </summary>
+                    <div class="absolute right-0 z-50 mt-2 w-48 rounded-lg border border-stone-200 bg-white p-2 shadow-lg">
+                        <a href="{{ route($accountRoute) }}" class="block rounded-md px-3 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50">Account</a>
+                        <form method="POST" action="{{ route('logout') }}" class="border-t border-stone-100 pt-2">
+                            @csrf
+                            <button type="submit" class="w-full rounded-md px-3 py-2 text-left text-sm font-semibold text-red-700 transition hover:bg-red-50">Sign out</button>
+                        </form>
+                    </div>
+                </details>
                 <a href="{{ route($accountRoute) }}" class="inline-flex md:hidden">Account</a>
             @else
                 <a href="{{ route('login') }}" class="hidden md:inline-flex">Account</a>
