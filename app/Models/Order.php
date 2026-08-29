@@ -21,5 +21,5 @@ class Order extends Model
     public function orderItems() { return $this->hasMany(OrderItem::class); }
     public function payments() { return $this->hasMany(Payment::class); }
     public function shipments() { return $this->hasMany(Shipment::class); }
-    public function statusHistory() { return $this->hasMany(OrderStatusHistory::class); }
+    public function statusHistory() { return $this->hasMany(OrderStatuHistory::class); }
 }

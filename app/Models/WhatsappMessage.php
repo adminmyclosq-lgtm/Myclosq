@@ -9,6 +9,7 @@ class WhatsappMessage extends Model
 {
     use HasFactory;
     protected $table = 'whatsapp_messages';
+    const UPDATED_AT = null;
     protected $guarded = [];
 
     protected function casts(): array

@@ -16,7 +16,14 @@ document.addEventListener('click', (event) => {
     axios.post(cartItemsUrl, {
         product_variant_id: Number(variantId),
         quantity: 1,
-    }).then(() => {
+    }).then((response) => {
+        const cartCount = response.data?.cart_items?.reduce((total, item) => total + Number(item.quantity), 0);
+        if (Number.isFinite(cartCount)) {
+            document.querySelectorAll('[data-cart-count]').forEach((count) => {
+                count.textContent = cartCount;
+            });
+        }
+
         button.textContent = 'Added';
         button.disabled = true;
         setTimeout(() => {
@@ -31,4 +38,42 @@ document.addEventListener('click', (event) => {
 
         alert('Unable to add item to cart right now. Please try again.');
     });
+});
+
+document.addEventListener('click', async (event) => {
+    const quantityButton = event.target.closest('[data-cart-quantity]');
+    const removeButton = event.target.closest('[data-cart-remove]');
+    if (!quantityButton && !removeButton) return;
+
+    const cartItem = event.target.closest('[data-cart-item]');
+    if (!cartItem) return;
+
+    const itemUrl = `${window.AppRoutes?.cartItemBase || '/api/v1/cart/items'}/${cartItem.dataset.cartItem}`;
+    const quantityOutput = cartItem.querySelector('[data-cart-quantity-value]');
+
+    try {
+        cartItem.querySelectorAll('button').forEach((button) => {
+            button.disabled = true;
+        });
+
+        if (removeButton) {
+            await axios.delete(itemUrl);
+        } else {
+            const currentQuantity = Number(quantityOutput.textContent);
+            const quantity = currentQuantity + (quantityButton.dataset.cartQuantity === 'increase' ? 1 : -1);
+            await axios.patch(itemUrl, { quantity });
+        }
+
+        window.location.reload();
+    } catch (error) {
+        if (error?.response?.status === 401 || error?.response?.status === 419) {
+            window.location.href = window.AppRoutes?.login || '/login';
+            return;
+        }
+
+        cartItem.querySelectorAll('button').forEach((button) => {
+            button.disabled = false;
+        });
+        alert('Unable to update your cart right now. Please try again.');
+    }
 });

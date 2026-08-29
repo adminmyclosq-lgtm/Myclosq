@@ -21,6 +21,14 @@ body {
         #fff;
 }
 
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
 .display-serif {
     font-family: Georgia, "Times New Roman", serif;
     letter-spacing: -0.03em;

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\ShipmentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,13 +19,19 @@ class OrderController extends Controller
         return view('admin.orders.show',compact('order'));
     }
 
-    public function update(Request $request, Order $order) {
+    public function update(Request $request, Order $order, ShipmentService $shipments) {
         $data=$request->validate([
             'payment_status'=>['required','string','max:30'],
             'fulfilment_status'=>['required','string','max:30'],
             'shipment_status'=>['required','string','max:30'],
         ]);
-        DB::transaction(function() use($order,$data) {
+        $requiresShipment = in_array($data['shipment_status'], ['packed','dispatched','in_transit','out_for_delivery','delivered'], true);
+
+        if ($requiresShipment && $data['payment_status'] !== 'paid') {
+            return back()->withErrors(['payment_status' => 'Only paid orders can be sent to fulfilment or dispatched.']);
+        }
+
+        DB::transaction(function() use($order,$data,$requiresShipment,$shipments) {
             $old=$order->only(array_keys($data));
             $order->update($data);
             foreach($data as $key=>$new) {
@@ -36,6 +43,18 @@ class OrderController extends Controller
                         'changed_by'=>auth()->id(),
                         'remarks'=>'Admin status update',
                         'created_at'=>now(),
+                    ]);
+                }
+            }
+
+            if ($data['payment_status'] === 'paid' && ($requiresShipment || ! $order->shipments()->exists())) {
+                $shipment = $shipments->createForOrder($order);
+
+                if ($requiresShipment) {
+                    $shipments->recordTracking($shipment, [
+                        'status' => $data['shipment_status'],
+                        'description' => 'Status updated from the order dashboard',
+                        'event_time' => now(),
                     ]);
                 }
             }

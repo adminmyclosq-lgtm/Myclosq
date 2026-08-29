@@ -13,6 +13,21 @@ class FulfilmentController extends Controller
 {
     public function index(Request $request, Phase2DAnalyticsService $analytics)
     {
+        $shipments = app(ShipmentService::class);
+
+        Order::where('payment_status', 'paid')
+            ->whereIn('shipment_status', ['packed', 'dispatched', 'in_transit', 'out_for_delivery', 'delivered'])
+            ->whereDoesntHave('shipments')
+            ->each(function (Order $order) use ($shipments): void {
+                $status = $order->shipment_status;
+                $shipment = $shipments->createForOrder($order);
+                $shipments->recordTracking($shipment, [
+                    'status' => $status,
+                    'description' => 'Shipment backfilled from order status',
+                    'event_time' => now(),
+                ]);
+            });
+
         $data=$analytics->fulfilmentDashboard($request->only('status','courier'));
         return view('admin.fulfilment.index',$data);
     }

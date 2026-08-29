@@ -16,6 +16,7 @@ class PlaceOrderRequest extends FormRequest {
             'billing_address'=>['nullable','array'],
             'shipping_method_id'=>['nullable','integer','exists:shipping_methods,id'],
             'coupon_code'=>['nullable','string','max:80'],
+            'payment_method'=>['required','in:online,cod'],
         ];
     }
 }

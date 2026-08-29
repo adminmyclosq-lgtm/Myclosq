@@ -9,6 +9,7 @@ class ShipmentTrackingEvent extends Model
 {
     use HasFactory;
     protected $table = 'shipment_tracking_events';
+    const UPDATED_AT = null;
     protected $guarded = [];
     protected $casts = ['raw_payload'=>'array','event_time'=>'datetime'];
     public function shipment() { return $this->belongsTo(Shipment::class); }

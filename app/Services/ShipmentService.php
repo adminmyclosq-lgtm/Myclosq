@@ -59,7 +59,14 @@ class ShipmentService
 
             $shipment->order->update([
                 'shipment_status'=>$status,
-                'fulfilment_status'=>$status==='delivered'?'completed':$shipment->order->fulfilment_status,
+                'fulfilment_status'=>match ($status) {
+                    'created' => 'processing',
+                    'packed' => 'packed',
+                    'dispatched', 'in_transit' => 'dispatched',
+                    'out_for_delivery' => 'out_for_delivery',
+                    'delivered' => 'completed',
+                    default => $shipment->order->fulfilment_status,
+                },
             ]);
 
             app(OrderAutomationService::class)->shipmentStatusChanged($shipment->fresh('order'));
