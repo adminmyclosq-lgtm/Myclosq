@@ -10,6 +10,17 @@ class Media extends Model
     use HasFactory;
     protected $table = 'media';
     protected $guarded = [];
+    public const UPDATED_AT = null;
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (empty($model->uuid)) {
+                $model->uuid = (string) \Illuminate\Support\Str::uuid();
+            }
+        });
+    }
 
     protected $casts = ['file_size'=>'integer','width'=>'integer','height'=>'integer'];
 

@@ -1,6 +1,44 @@
 @extends('layouts.admin')
 @section('content')
-<div class="p-6 md:p-10"><span class="badge">Content</span><h1 class="serif mt-3 text-4xl">Homepage & CMS</h1>
-@if(session('success'))<div class="mt-5 rounded-xl bg-green-50 p-4 text-green-800">{{ session('success') }}</div>@endif
-<div class="mt-8 space-y-5">@foreach($pages as $page)<div class="card"><form method="POST" action="{{ route('admin.cms.update',$page) }}">@csrf @method('PUT')<div class="grid gap-4 md:grid-cols-2"><div><label>Title</label><input name="title" value="{{ $page->title }}" class="mt-2 w-full rounded-xl border p-3"></div><div><label>Status</label><select name="status" class="mt-2 w-full rounded-xl border p-3"><option value="draft" @selected($page->status==='draft')>draft</option><option value="published" @selected($page->status==='published')>published</option></select></div><div><label>Meta title</label><input name="meta_title" value="{{ $page->meta_title }}" class="mt-2 w-full rounded-xl border p-3"></div><div><label>Published at</label><input type="datetime-local" name="published_at" value="{{ optional($page->published_at)->format('Y-m-d\TH:i') }}" class="mt-2 w-full rounded-xl border p-3"></div></div><button class="btn-primary mt-5">Save page</button></form><div class="mt-5 border-t pt-5"><div class="text-sm font-semibold">Sections</div><div class="mt-3 grid gap-3 md:grid-cols-2">@foreach($page->sections as $section)<div class="rounded-xl bg-stone-50 p-4"><b>{{ $section->title }}</b><div class="text-xs text-stone-500">{{ $section->section_type }}</div></div>@endforeach</div></div></div>@endforeach</div><div class="mt-6">{{ $pages->links() }}</div></div>
+<div class="p-6 md:p-10">
+    <h1 class="serif text-4xl">CMS & Pages</h1>
+    @if(session('success'))
+        <div class="mt-5 rounded-xl bg-green-50 p-4 text-green-800">{{ session('success') }}</div>
+    @endif
+    
+    <div class="mt-8 overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm">
+        <table class="w-full text-left text-sm text-stone-600">
+            <thead class="bg-stone-50 text-stone-900 border-b border-stone-200">
+                <tr>
+                    <th class="px-6 py-4 font-semibold">S.No.</th>
+                    <th class="px-6 py-4 font-semibold">Page Title</th>
+                    <th class="px-6 py-4 font-semibold">Meta Title</th>
+                    <th class="px-6 py-4 font-semibold">URL</th>
+                    <th class="px-6 py-4 font-semibold text-right">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-200">
+                @foreach($pages as $index => $page)
+                    <tr class="hover:bg-stone-50">
+                        <td class="px-6 py-4">{{ $index + 1 }}</td>
+                        <td class="px-6 py-4 font-medium text-stone-900">{{ $page->title }}</td>
+                        <td class="px-6 py-4">{{ $page->meta_title ?? '-' }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ url($page->slug == 'home' ? '/' : $page->slug) }}" target="_blank" class="text-stone-500 hover:text-stone-900 underline decoration-stone-300 underline-offset-4">
+                                {{ url($page->slug == 'home' ? '/' : $page->slug) }}
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <a href="{{ route('admin.cms.sections', $page) }}" class="inline-flex items-center rounded-lg bg-stone-900 px-4 py-2 text-xs font-semibold text-white hover:bg-stone-800 transition">
+                                Manage
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="mt-6">{{ $pages->links() }}</div>
+</div>
 @endsection
