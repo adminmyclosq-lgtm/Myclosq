@@ -2611,3 +2611,12 @@ A daily gut-support capsule paired with a lightly guided 30-day course. One caps
 [stacktrace]
 #0 {main}
 "} 
+[2026-08-29 17:36:37] local.ERROR: Command "tinker" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"tinker\" is not defined. at C:/xampp83/htdocs/gutreset/vendor/symfony/console/Application.php:759)
+[stacktrace]
+#0 C:/xampp83/htdocs/gutreset/vendor/symfony/console/Application.php(298): Symfony/Component/Console/Application->find()
+#1 C:/xampp83/htdocs/gutreset/vendor/symfony/console/Application.php(195): Symfony/Component/Console/Application->doRun()
+#2 C:/xampp83/htdocs/gutreset/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony/Component/Console/Application->run()
+#3 C:/xampp83/htdocs/gutreset/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1242): Illuminate/Foundation/Console/Kernel->handle()
+#4 C:/xampp83/htdocs/gutreset/artisan(10): Illuminate/Foundation/Application->handleCommand()
+#5 {main}
+"} 
