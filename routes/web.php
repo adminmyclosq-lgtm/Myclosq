@@ -71,6 +71,12 @@ Route::middleware('auth')->group(function() {
 
         Route::get('/cms',[AdminCmsController::class,'index'])->name('cms.index');
         Route::put('/cms/{page}',[AdminCmsController::class,'update'])->name('cms.update');
+        Route::get('/cms/{page}/sections',[AdminCmsController::class,'sections'])->name('cms.sections');
+        Route::post('/cms/{page}/sections',[AdminCmsController::class,'storeSection'])->name('cms.sections.store');
+        Route::post('/cms/{page}/sections/reorder',[AdminCmsController::class,'reorderSections'])->name('cms.sections.reorder');
+        Route::put('/cms/sections/{section}',[AdminCmsController::class,'updateSection'])->name('cms.sections.update');
+        Route::post('/cms/sections/{section}/duplicate',[AdminCmsController::class,'duplicateSection'])->name('cms.sections.duplicate');
+        Route::delete('/cms/sections/{section}',[AdminCmsController::class,'destroySection'])->name('cms.sections.destroy');
 
         Route::get('/inventory',[AdminInventoryController::class,'index'])->name('inventory.index');
         Route::post('/inventory/{inventory}/adjust',[AdminInventoryController::class,'adjust'])->name('inventory.adjust');

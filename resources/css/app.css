@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@theme {
+    --color-gut-green: #1e402b;
+}
 :root {
     --ink: #18352c;
     --sage: #7d9a87;

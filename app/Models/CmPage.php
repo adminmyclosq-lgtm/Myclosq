@@ -24,4 +24,8 @@ class CmPage extends Model
 
     public function updatedby() { return $this->belongsTo(User::class, 'updated_by'); }
 
+    public function sections()
+    {
+        return $this->hasMany(CmsSection::class, 'page_id')->orderBy('sort_order', 'asc');
+    }
 }

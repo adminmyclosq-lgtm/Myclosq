@@ -20,6 +20,16 @@ class AuthController extends Controller
         $result=$this->auth->login($request->string('identifier')->toString(),$request->string('password')->toString());
         Auth::login($result['user'], false);
         $request->session()->regenerate();
+
+        $isAdmin = $result['user']->roles()->whereIn('code', [
+            'SUPER_ADMIN','CONTENT_ADMIN','PRODUCT_ADMIN','ORDER_ADMIN','FULFILMENT_ADMIN',
+            'CUSTOMER_SUPPORT','MARKETING_ADMIN','RESET_ADMIN','ANALYST'
+        ])->exists();
+
+        if ($isAdmin) {
+            return redirect()->intended(route('admin.dashboard'))->with('success','Welcome back.');
+        }
+
         return redirect()->intended(route('account'))->with('success','Welcome back.');
     }
 
