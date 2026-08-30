@@ -7,36 +7,39 @@
 </head>
 <body class="bg-stone-50 flex flex-col h-screen overflow-hidden">
 <!-- Top Navbar -->
-<header class="h-10 w-full bg-stone-900 border-b border-stone-950 text-stone-300 flex items-center justify-between px-4 text-xs select-none relative z-50 shrink-0">
+<header class="w-full border-b border-stone-200 bg-white text-stone-600 flex items-center justify-between px-5 py-3 text-sm select-none relative z-50 shrink-0 md:px-8">
     <div class="flex items-center gap-4">
-        <div class="font-semibold text-white tracking-wider flex items-center gap-2 opacity-90">
-            Gut Reset Admin
-        </div>
+        <a href="{{ route('home') }}" class="flex items-center gap-3 font-semibold tracking-tight text-[var(--ink)]">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ink)] text-xs font-bold text-white">GW</span>
+            <span>Guided Wellness</span>
+        </a>
+        <a href="{{ route('home') }}" class="hidden font-medium text-stone-600 transition hover:text-[var(--ink)] md:inline-flex">Home</a>
+        <span class="hidden border-l border-stone-200 pl-4 text-xs font-medium uppercase tracking-[.14em] text-stone-500 lg:inline">Admin</span>
         <!-- Search Bar -->
-        <div class="relative hidden md:block ml-4">
-            <svg class="absolute left-2 top-1.5 w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            <input type="text" placeholder="Search..." class="bg-stone-800 border border-stone-700 text-stone-200 rounded px-2 py-0.5 pl-7 w-64 focus:outline-none focus:border-stone-500 placeholder-stone-500 transition-colors">
+        <div class="relative hidden md:block">
+            <svg class="absolute left-3 top-2.5 h-3.5 w-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input type="text" placeholder="Search..." class="w-64 rounded-md border border-stone-300 bg-white py-1.5 pl-8 pr-3 text-sm text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-[var(--ink)] focus:ring-2 focus:ring-[var(--sage)]/30">
         </div>
     </div>
     
     <!-- Account Menu (CSS Hover) -->
     <div class="relative group h-full flex items-center cursor-default">
-        <div class="flex items-center gap-2 hover:text-white transition-colors h-full px-2">
+        <div class="flex items-center gap-2 transition-colors hover:text-[var(--ink)] h-full px-2">
             <span>{{ Auth::user()->name ?? 'Administrator' }}</span>
             <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </div>
         
         <!-- Dropdown -->
-        <div class="absolute right-0 top-10 mt-0 w-56 bg-stone-800 border border-stone-700 rounded-bl shadow-xl py-1 z-50 hidden group-hover:block">
-            <div class="px-4 py-3 border-b border-stone-700 mb-1">
-                <div class="text-white font-medium truncate text-sm">{{ Auth::user()->name ?? 'Administrator' }}</div>
+        <div class="absolute right-0 top-full mt-3 w-56 rounded-md border border-stone-200 bg-white py-1 shadow-xl z-50 hidden group-hover:block">
+            <div class="mb-1 border-b border-stone-100 px-4 py-3">
+                <div class="truncate text-sm font-medium text-stone-900">{{ Auth::user()->name ?? 'Administrator' }}</div>
                 <div class="text-[10px] text-stone-400 mt-1 truncate uppercase tracking-widest font-semibold">
                     {{ Auth::user()->roles->first()->name ?? 'Admin Role' }}
                 </div>
             </div>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-stone-700 text-stone-200 hover:text-white transition-colors">Sign Out</button>
+                <button type="submit" class="w-full px-4 py-2 text-left text-stone-700 transition-colors hover:bg-stone-50 hover:text-[var(--ink)]">Sign Out</button>
             </form>
         </div>
     </div>

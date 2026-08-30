@@ -30,7 +30,7 @@ class AuthController extends Controller
             return redirect()->intended(route('admin.dashboard'))->with('success','Welcome back.');
         }
 
-        return redirect()->intended(route('account'))->with('success','Welcome back.');
+        return redirect()->intended(route('home'))->with('success','Welcome back.');
     }
 
     public function register(RegisterRequest $request)
