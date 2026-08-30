@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductBatche;
 use App\Models\ProductPrice;
 use App\Models\ProductVariant;
+use App\Services\AdminExcelExportService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -20,6 +21,13 @@ class ProductController extends Controller
     public function index(Request $request) {
         $products=Product::with(['category','variants.currentPrice'])->when($request->search,fn($q,$v)=>$q->where('name','like',"%{$v}%"))->latest('id')->paginate(20);
         return view('admin.products.index',compact('products'));
+    }
+
+    public function export(Request $request, AdminExcelExportService $exporter) {
+        $products=Product::with(['category','variants.currentPrice'])->when($request->search,fn($q,$v)=>$q->where('name','like',"%{$v}%"))->latest('id')->get();
+        return $exporter->download('products-'.now()->format('Y-m-d'), ['Product', 'Category', 'SKU', 'Price', 'Status'], $products->map(fn(Product $product)=>[
+            $product->name, $product->category?->name, $product->base_sku, $product->variants->first()?->currentPrice?->selling_price, $product->status,
+        ]));
     }
 
     public function create() {

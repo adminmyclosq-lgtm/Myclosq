@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Shipment;
 use App\Services\Phase2DAnalyticsService;
+use App\Services\AdminExcelExportService;
 use App\Services\ShipmentService;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,14 @@ class FulfilmentController extends Controller
 
         $data=$analytics->fulfilmentDashboard($request->only('status','courier'));
         return view('admin.fulfilment.index',$data);
+    }
+
+    public function export(Request $request, AdminExcelExportService $exporter)
+    {
+        $shipments=Shipment::with('order.user')->latest('id')->when($request->status,fn($q,$v)=>$q->where('status',$v))->when($request->courier,fn($q,$v)=>$q->where('courier',$v))->get();
+        return $exporter->download('fulfilment-'.now()->format('Y-m-d'), ['Shipment', 'Order', 'Customer', 'Courier', 'Tracking', 'Status', 'Expected delivery'], $shipments->map(fn(Shipment $shipment)=>[
+            $shipment->shipment_number, $shipment->order?->order_number, $shipment->order?->user?->name ?: $shipment->order?->user?->email, $shipment->courier, $shipment->tracking_number, $shipment->status, $shipment->expected_delivery,
+        ]));
     }
 
     public function create(Order $order, ShipmentService $shipments)

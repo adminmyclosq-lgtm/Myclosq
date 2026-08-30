@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\AdminExcelExportService;
 use App\Services\ShipmentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,13 @@ class OrderController extends Controller
     public function index(Request $request) {
         $orders=Order::with('user')->when($request->status,fn($q,$v)=>$q->where('fulfilment_status',$v))->latest('id')->paginate(25);
         return view('admin.orders.index',compact('orders'));
+    }
+
+    public function export(Request $request, AdminExcelExportService $exporter) {
+        $orders=Order::with('user')->when($request->status,fn($q,$v)=>$q->where('fulfilment_status',$v))->latest('id')->get();
+        return $exporter->download('orders-'.now()->format('Y-m-d'), ['Order', 'Customer', 'Total', 'Payment status', 'Fulfilment status', 'Created'], $orders->map(fn(Order $order)=>[
+            $order->order_number, $order->user?->email ?? $order->user?->mobile, $order->grand_total, $order->payment_status, $order->fulfilment_status, $order->created_at,
+        ]));
     }
 
     public function show(Order $order) {

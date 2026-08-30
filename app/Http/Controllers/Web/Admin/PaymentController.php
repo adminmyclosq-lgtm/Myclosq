@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Services\Phase2DAnalyticsService;
+use App\Services\AdminExcelExportService;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,18 @@ class PaymentController extends Controller
     {
         $data=$analytics->paymentDashboard($request->only('status','gateway','from','to'));
         return view('admin.payments.index',$data);
+    }
+
+    public function export(Request $request, AdminExcelExportService $exporter)
+    {
+        $payments=\App\Models\Payment::with('order.user')->latest('id');
+        if ($request->status) $payments->where('status', $request->status);
+        if ($request->gateway) $payments->where('gateway', $request->gateway);
+        if ($request->from) $payments->whereDate('created_at', '>=', $request->from);
+        if ($request->to) $payments->whereDate('created_at', '<=', $request->to);
+        return $exporter->download('payments-'.now()->format('Y-m-d'), ['Payment', 'Order', 'Customer', 'Gateway', 'Amount', 'Status', 'Created'], $payments->get()->map(fn(\App\Models\Payment $payment)=>[
+            $payment->id, $payment->order?->order_number, $payment->order?->user?->name ?: $payment->order?->user?->email, $payment->gateway, $payment->amount, $payment->status, $payment->created_at,
+        ]));
     }
 
     public function show(Payment $payment)

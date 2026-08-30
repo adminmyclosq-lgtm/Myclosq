@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function() {
         Route::get('/', [AdminDashboardController::class,'index'])->name('dashboard');
 
         Route::get('/products',[AdminProductController::class,'index'])->name('products.index');
+        Route::get('/products/export',[AdminProductController::class,'export'])->name('products.export');
         Route::get('/products/create',[AdminProductController::class,'create'])->name('products.create');
         Route::post('/products',[AdminProductController::class,'store'])->name('products.store');
         Route::get('/products/{product}/edit',[AdminProductController::class,'edit'])->name('products.edit');
@@ -62,10 +63,12 @@ Route::middleware('auth')->group(function() {
         Route::delete('/products/{product}',[AdminProductController::class,'destroy'])->name('products.destroy');
 
         Route::get('/orders',[AdminOrderController::class,'index'])->name('orders.index');
+        Route::get('/orders/export',[AdminOrderController::class,'export'])->name('orders.export');
         Route::get('/orders/{order}',[AdminOrderController::class,'show'])->name('orders.show');
         Route::put('/orders/{order}',[AdminOrderController::class,'update'])->name('orders.update');
 
         Route::get('/customers',[AdminCustomerController::class,'index'])->name('customers.index');
+        Route::get('/customers/export',[AdminCustomerController::class,'export'])->name('customers.export');
         Route::get('/customers/{user}',[AdminCustomerController::class,'show'])->name('customers.show');
 
         Route::get('/shipping',[AdminShippingController::class,'index'])->name('shipping.index');
@@ -88,12 +91,15 @@ Route::middleware('auth')->group(function() {
         Route::delete('/cms/sections/{section}',[AdminCmsController::class,'destroySection'])->name('cms.sections.destroy');
 
         Route::get('/inventory',[AdminInventoryController::class,'index'])->name('inventory.index');
+        Route::get('/inventory/export',[AdminInventoryController::class,'export'])->name('inventory.export');
         Route::post('/inventory/{inventory}/adjust',[AdminInventoryController::class,'adjust'])->name('inventory.adjust');
         Route::get('/whatsapp/templates',[AdminWhatsAppTemplateController::class,'index'])->name('whatsapp.templates');
         Route::get('/payments',[AdminPaymentController::class,'index'])->name('payments.index');
+        Route::get('/payments/export',[AdminPaymentController::class,'export'])->name('payments.export');
         Route::get('/payments/{payment}',[AdminPaymentController::class,'show'])->name('payments.show');
         Route::post('/payments/{payment}/reconcile',[AdminPaymentController::class,'reconcile'])->name('payments.reconcile');
         Route::get('/fulfilment',[AdminFulfilmentController::class,'index'])->name('fulfilment.index');
+        Route::get('/fulfilment/export',[AdminFulfilmentController::class,'export'])->name('fulfilment.export');
         Route::put('/fulfilment/{shipment}',[AdminFulfilmentController::class,'update'])->name('fulfilment.update');
         Route::post('/orders/{order}/create-shipment',[AdminFulfilmentController::class,'create'])->name('orders.create-shipment');
         Route::get('/whatsapp',[WhatsAppDashboardController::class,'index'])->name('whatsapp.dashboard');
