@@ -14,10 +14,31 @@
     </main>
 
     <footer class="bg-[var(--ink)] text-white">
-        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 px-5 py-6 text-[12px] text-white/75 sm:flex-row sm:items-center md:px-8">
-            <div><div class="display-serif text-base text-white">Guided Wellness</div><div class="mt-1">© 2026 Kurate Wellness Private Limited</div></div>
-            <div class="flex items-center gap-6"><a href="{{ url('/#faq') }}" class="hover:text-white">Privacy Policy</a><a href="{{ url('/#faq') }}" class="hover:text-white">Terms of Use</a><a href="{{ url('/#faq') }}" class="hover:text-white">Support</a></div>
+        <div class="section grid gap-10 md:grid-cols-[1.6fr_2.4fr]">
+            <div>
+                <div class="display-serif text-2xl leading-tight">Guided Wellness</div>
+                <p class="mt-3 max-w-sm text-[13px] leading-6 text-white/70">Redefining the supplement experience through transparency, guidance, and respect for biological complexity.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
+                <div>
+                    <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Shop</div>
+                    <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('shop') }}">30-Day Gut Reset</a>
+                    <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ route('how-it-works') }}">How It Works</a>
+                </div>
+                <div>
+                    <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Learn</div>
+                    <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#learn') }}">Guides</a>
+                    <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#standards') }}">Standards</a>
+                    <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#faq') }}">About</a>
+                </div>
+                <div>
+                    <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Support</div>
+                    <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('account') }}">Account</a>
+                    <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#faq') }}">Help Centre</a>
+                </div>
+            </div>
         </div>
+        <div class="border-t border-white/15 py-5 text-center text-[11px] text-white/60">© 2026 Kurate Wellness Private Limited. All rights reserved.</div>
     </footer>
 </body>
 </html>

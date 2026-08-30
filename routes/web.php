@@ -26,6 +26,7 @@ use App\Http\Controllers\Web\Admin\ResetOperationsController;
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/shop', [ShopController::class,'index'])->name('shop');
+Route::get('/how-it-works', [HomeController::class,'howItWorks'])->name('how-it-works');
 Route::get('/product/{product:slug}', [ShopController::class,'show'])->name('product.show');
 Route::get('/login', [AuthController::class,'showLogin'])->name('login');
 Route::post('/login', [AuthController::class,'login'])->middleware('guest')->name('login.post');
