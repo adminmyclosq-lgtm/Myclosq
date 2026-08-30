@@ -18,6 +18,7 @@ class HowItWorksPageSeeder extends Seeder
             ['slug' => 'how-it-works'],
             [
                 'title' => 'How It Works',
+                'page_type' => 'standard',
                 'status' => 'published',
             ]
         );

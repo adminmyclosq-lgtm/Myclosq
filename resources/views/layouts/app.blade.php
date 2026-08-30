@@ -43,8 +43,8 @@
             @endauth
             <a href="{{ route('home') }}">Home</a>
             <a href="{{ route('how-it-works') }}">How It Works</a>
-            <a href="{{ url('/#standards') }}">Our Standards</a>
-            <a href="{{ url('/#learn') }}">Learn</a>
+            <a href="{{ route('our-standards') }}">Our Standards</a>
+            <a href="{{ route('learn') }}">Learn</a>
             <a href="{{ url('/#faq') }}">Support</a>
             <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Gut Reset</a>
         </nav>
@@ -131,8 +131,8 @@
             </div>
             <div>
                 <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Learn</div>
-                <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#learn') }}">Guides</a>
-                <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#standards') }}">Standards</a>
+                <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('learn') }}">Guides</a>
+                <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ route('our-standards') }}">Standards</a>
                 <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#faq') }}">About</a>
             </div>
             <div>
