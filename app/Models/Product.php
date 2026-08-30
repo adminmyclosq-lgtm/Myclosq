@@ -16,7 +16,7 @@ class Product extends Model
 
     public function category() { return $this->belongsTo(Category::class); }
     public function variants() { return $this->hasMany(ProductVariant::class); }
-    public function productImages() { return $this->hasManyThrough(ProductImage::class, ProductVariant::class, 'product_id', 'product_variant_id'); }
+    public function productImages() { return $this->hasManyThrough(ProductImage::class, ProductVariant::class, 'product_id', 'product_variant_id')->orderByDesc('is_primary')->orderBy('sort_order'); }
     public function prices() { return $this->hasManyThrough(ProductPrice::class, ProductVariant::class, 'product_id', 'product_variant_id'); }
     public function coupons() { return $this->belongsToMany(Coupon::class, 'coupon_products', 'product_id', 'coupon_id'); }
 }

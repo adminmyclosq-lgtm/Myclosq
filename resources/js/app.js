@@ -4,6 +4,20 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 document.addEventListener('click', (event) => {
+    const galleryThumbnail = event.target.closest('[data-product-image-src]');
+    if (galleryThumbnail) {
+        const mainImage = document.getElementById('product-main-image');
+        if (mainImage) {
+            mainImage.src = galleryThumbnail.dataset.productImageSrc;
+            mainImage.alt = galleryThumbnail.dataset.productImageAlt;
+            document.querySelectorAll('[data-product-image-src]').forEach((thumbnail) => {
+                thumbnail.classList.remove('ring-1', 'ring-[var(--ink)]');
+            });
+            galleryThumbnail.classList.add('ring-1', 'ring-[var(--ink)]');
+        }
+        return;
+    }
+
     const button = event.target.closest('[data-add-cart]');
     if (!button) return;
 
@@ -22,6 +36,11 @@ document.addEventListener('click', (event) => {
             document.querySelectorAll('[data-cart-count]').forEach((count) => {
                 count.textContent = cartCount;
             });
+        }
+
+        if (button.hasAttribute('data-product-add')) {
+            window.location.reload();
+            return;
         }
 
         button.textContent = 'Added';

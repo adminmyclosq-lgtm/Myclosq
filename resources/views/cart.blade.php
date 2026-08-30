@@ -27,8 +27,7 @@
                 @endforeach
             </div>
             <div class="mt-8 flex flex-wrap justify-end gap-3 border-t border-stone-200 pt-6">
-                <a href="{{ route('checkout') }}" class="btn-primary">Pay online</a>
-                <a href="{{ route('checkout', ['payment_method' => 'cod']) }}" class="btn-secondary">Cash on delivery</a>
+                <a href="{{ route('checkout') }}" class="btn-primary">Buy Now</a>
             </div>
         @endif
     @endguest

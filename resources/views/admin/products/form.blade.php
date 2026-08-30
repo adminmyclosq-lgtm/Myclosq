@@ -23,10 +23,11 @@
 <div><label>Unit label</label><input name="variant[unit_label]" value="{{ old('variant.unit_label',$variant->unit_label) }}" class="mt-2 w-full rounded-xl border p-3"></div>
 <div><label>Weight grams</label><input name="variant[weight_grams]" value="{{ old('variant.weight_grams',$variant->weight_grams) }}" class="mt-2 w-full rounded-xl border p-3"></div>
 <div><label>Variant status</label><select name="variant[status]" class="mt-2 w-full rounded-xl border p-3"><option value="active">active</option><option value="inactive">inactive</option></select></div>
-<div class="md:col-span-3"><label>Product image</label><input type="file" name="image" accept="image/*" class="mt-2 w-full rounded-xl border p-3"></div>
-@if($product->exists && $product->productImages->first()?->media)
-<div class="md:col-span-3"><img src="{{ $product->productImages->first()->media->url }}" alt="Current product image" class="h-40 w-40 rounded-xl object-cover border"></div>
-@endif
+<div class="md:col-span-3"><label class="font-semibold">Product images</label><p class="mt-1 text-sm text-stone-500">Upload one main image for shop cards and the primary product image, plus up to three gallery images for the product page.</p></div>
+<div><label>Main image</label><input type="file" name="main_image" accept="image/jpeg,image/png,image/webp" class="mt-2 w-full rounded-xl border p-3">@if($product->productImages->firstWhere('is_primary', true)?->media)<img src="{{ $product->productImages->firstWhere('is_primary', true)->media->url }}" alt="Current main product image" class="mt-3 aspect-square w-full rounded-xl border object-cover">@elseif($product->productImages->first()?->media)<img src="{{ $product->productImages->first()->media->url }}" alt="Current main product image" class="mt-3 aspect-square w-full rounded-xl border object-cover">@endif</div>
+@for($slot = 0; $slot < 3; $slot++)
+	<div><label>Gallery image {{ $slot + 1 }}</label><input type="file" name="gallery_images[{{ $slot }}]" accept="image/jpeg,image/png,image/webp" class="mt-2 w-full rounded-xl border p-3">@if($product->productImages->where('is_primary', false)->sortBy('sort_order')->values()->get($slot)?->media)<img src="{{ $product->productImages->where('is_primary', false)->sortBy('sort_order')->values()->get($slot)->media->url }}" alt="Current gallery image {{ $slot + 1 }}" class="mt-3 aspect-square w-full rounded-xl border object-cover">@endif</div>
+@endfor
 </div></div>
 <div class="card"><h2 class="text-xl font-bold">Price</h2><div class="mt-5 grid gap-5 md:grid-cols-3">
 @php($price=$variant->prices->first() ?? new \App\Models\ProductPrice())

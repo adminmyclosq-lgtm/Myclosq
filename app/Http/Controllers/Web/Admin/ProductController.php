@@ -29,35 +29,35 @@ class ProductController extends Controller
     public function store(Request $request) {
         $data=$this->validated($request);
         $product=DB::transaction(function() use($data) {
-            $imageFile = $data['image'] ?? null;
+            $mainImageFile = $data['main_image'] ?? $data['image'] ?? null;
+            $galleryImageFiles = $data['gallery_images'] ?? [];
             $variantData = $data['variant'];
             $priceData = $data['price'];
-            $productData = Arr::except($data, ['variant', 'price', 'image', 'inventory']);
+            $productData = Arr::except($data, ['variant', 'price', 'main_image', 'gallery_images', 'image', 'inventory']);
             $productData['slug']=$productData['slug'] ?: Str::slug($productData['name']);
             $product=Product::create($productData);
             $variant=$product->variants()->create($variantData);
             $variant->prices()->create(array_merge($priceData,['effective_from'=>now(),'is_active'=>true]));
             $this->ensureInventory($variant, (int) data_get($data, 'inventory.quantity_on_hand', 0));
-            if ($imageFile instanceof UploadedFile) {
-                $this->attachImageToVariant($variant, $imageFile);
-            }
+            $this->syncVariantImages($variant, $mainImageFile, $galleryImageFiles);
             return $product;
         });
         return redirect()->route('admin.products.index')->with('success',"Product {$product->name} created.");
     }
 
     public function edit(Product $product) {
-        $product->load('variants.prices');
+        $product->load(['variants.prices', 'productImages.media']);
         return view('admin.products.form',['product'=>$product,'categories'=>Category::where('is_active',true)->orderBy('name')->get()]);
     }
 
     public function update(Request $request, Product $product) {
         $data=$this->validated($request);
         DB::transaction(function() use($data, $product) {
-            $imageFile = $data['image'] ?? null;
+            $mainImageFile = $data['main_image'] ?? $data['image'] ?? null;
+            $galleryImageFiles = $data['gallery_images'] ?? [];
             $variantData = $data['variant'];
             $priceData = $data['price'];
-            $productData = Arr::except($data, ['variant', 'price', 'image', 'inventory']);
+            $productData = Arr::except($data, ['variant', 'price', 'main_image', 'gallery_images', 'image', 'inventory']);
 
             $product->update($productData);
             $variant=$product->variants()->firstOrCreate(['sku'=>$variantData['sku']],$variantData);
@@ -71,9 +71,7 @@ class ProductController extends Controller
 
             $this->ensureInventory($variant);
 
-            if ($imageFile instanceof UploadedFile) {
-                $this->attachImageToVariant($variant, $imageFile);
-            }
+            $this->syncVariantImages($variant, $mainImageFile, $galleryImageFiles);
         });
 
         return redirect()->route('admin.products.index')->with('success','Product updated.');
@@ -100,7 +98,10 @@ class ProductController extends Controller
             'is_featured'=>['boolean'],
             'seo_title'=>['nullable','string','max:255'],
             'seo_description'=>['nullable','string','max:500'],
-            'image'=>['nullable','file','mimes:jpg,jpeg,png,webp,svg','max:5120'],
+            'main_image'=>['nullable','file','mimes:jpg,jpeg,png,webp','max:5120'],
+            'gallery_images'=>['nullable','array','max:3'],
+            'gallery_images.*'=>['nullable','file','mimes:jpg,jpeg,png,webp','max:5120'],
+            'image'=>['nullable','file','mimes:jpg,jpeg,png,webp','max:5120'],
             'variant.name'=>['required','string','max:255'],
             'variant.sku'=>['required','string','max:100'],
             'variant.barcode'=>['nullable','string','max:100'],
@@ -136,28 +137,29 @@ class ProductController extends Controller
         );
     }
 
-    private function attachImageToVariant(ProductVariant $variant, UploadedFile $file): void
+    private function syncVariantImages(ProductVariant $variant, ?UploadedFile $mainImageFile, array $galleryImageFiles): void
     {
-        $existing = $variant->images()->with('media')->get();
-        $mediaCandidates = [];
-
-        foreach ($existing as $image) {
-            if ($image->media) {
-                $mediaCandidates[$image->media->id] = $image->media->storage_path;
-            }
-            $image->delete();
+        if ($mainImageFile instanceof UploadedFile) {
+            $this->replaceImageSlot($variant, $mainImageFile, true, 0);
         }
 
-        foreach ($mediaCandidates as $mediaId => $storagePath) {
-            $stillLinked = DB::table('product_images')->where('media_id', $mediaId)->exists();
-            if ($stillLinked) {
-                continue;
+        foreach ($galleryImageFiles as $slot => $file) {
+            if ($file instanceof UploadedFile && $slot < 3) {
+                $this->replaceImageSlot($variant, $file, false, $slot + 1);
             }
+        }
+    }
 
-            DB::table('media')->where('id', $mediaId)->delete();
-            if ($storagePath) {
-                Storage::disk('public')->delete($storagePath);
-            }
+    private function replaceImageSlot(ProductVariant $variant, UploadedFile $file, bool $isPrimary, int $sortOrder): void
+    {
+        $existingImages = $variant->images()
+            ->with('media')
+            ->when($isPrimary, fn ($query) => $query->where('is_primary', true))
+            ->unless($isPrimary, fn ($query) => $query->where('is_primary', false)->where('sort_order', $sortOrder))
+            ->get();
+
+        foreach ($existingImages as $image) {
+            $this->deleteImageAndUnusedMedia($image);
         }
 
         $path = $file->storePublicly('products', ['disk' => 'public']);
@@ -176,10 +178,24 @@ class ProductController extends Controller
 
         $variant->images()->create([
             'media_id' => $mediaId,
-            'image_type' => 'gallery',
-            'sort_order' => 0,
+            'image_type' => $isPrimary ? 'primary' : 'gallery',
+            'sort_order' => $sortOrder,
             'alt_text' => $variant->product->name,
-            'is_primary' => true,
+            'is_primary' => $isPrimary,
         ]);
+    }
+
+    private function deleteImageAndUnusedMedia($image): void
+    {
+        $mediaId = $image->media_id;
+        $storagePath = $image->media?->storage_path;
+        $image->delete();
+
+        if (!DB::table('product_images')->where('media_id', $mediaId)->exists()) {
+            DB::table('media')->where('id', $mediaId)->delete();
+            if ($storagePath) {
+                Storage::disk('public')->delete($storagePath);
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,13 @@ class ShopController extends Controller
     {
         abort_unless($product->status === 'active', 404);
         $product->load(['productImages.media','variants.prices','category']);
-        return view('shop.show', compact('product'));
+        $variant = $product->variants->first();
+        $cartItem = auth()->check() && $variant
+            ? CartItem::where('product_variant_id', $variant->id)
+                ->whereHas('cart', fn ($query) => $query->where('user_id', auth()->id())->where('status', 'active'))
+                ->first()
+            : null;
+
+        return view('shop.show', compact('product', 'cartItem'));
     }
 }

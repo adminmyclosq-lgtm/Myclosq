@@ -17,12 +17,6 @@
                 <div class="text-xs uppercase tracking-widest text-stone-500">{{ $product->category->name ?? 'Gut Reset' }}</div>
                 <h2 class="mt-2 text-xl font-bold">{{ $product->name }}</h2>
                 <p class="mt-2 text-sm text-stone-600">{{ $product->short_description }}</p>
-                <div class="mt-5 flex items-center justify-between">
-                    <a href="{{ route('product.show',$product) }}" class="font-semibold">View details →</a>
-                    @if($product->variants->first())
-                    <button data-add-cart="{{ $product->variants->first()->id }}" class="btn-primary px-4 py-2 text-sm">Add to cart</button>
-                    @endif
-                </div>
             </div>
         </article>
         @endforeach

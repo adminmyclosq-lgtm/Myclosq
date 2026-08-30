@@ -35,8 +35,10 @@
             <a href="{{ url('/#standards') }}">Our Standards</a>
             <a href="{{ url('/#learn') }}">Learn</a>
             <a href="{{ url('/#faq') }}">Support</a>
+            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Gut Reset</a>
         </nav>
         <div class="flex items-center gap-3 text-sm">
+            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 md:hidden" style="background-color: #587762;">Shop Gut Reset</a>
             <div class="group relative">
                 <a href="{{ route('cart') }}" class="inline-flex items-center gap-1.5 font-semibold text-[var(--ink)]" aria-label="Cart, {{ $headerCartItemCount }} item{{ $headerCartItemCount === 1 ? '' : 's' }}">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-1.1 2.2A1 1 0 0 0 6.8 17H19M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" /></svg>
@@ -94,9 +96,8 @@
                 </details>
                 <a href="{{ route($accountRoute) }}" class="inline-flex md:hidden">Account</a>
             @else
-                <a href="{{ route('login') }}" class="hidden md:inline-flex">Account</a>
+                <a href="{{ route('login') }}" class="hidden items-center gap-1.5 font-semibold text-[var(--ink)] md:inline-flex"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path stroke-linecap="round" d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg>Login</a>
             @endauth
-            <a href="{{ route('shop') }}" class="btn-primary !px-5 !py-2.5">Shop Gut Reset</a>
         </div>
     </div>
 </header>
@@ -105,30 +106,32 @@
     @yield('content')
 </main>
 
-<footer class="border-t border-stone-200 bg-[var(--cream)]">
-    <div class="section grid gap-10 md:grid-cols-4">
+<footer class="bg-[var(--ink)] text-white">
+    <div class="section grid gap-10 md:grid-cols-[1.6fr_2.4fr]">
         <div>
-            <div class="text-lg font-semibold">Guided Wellness</div>
-            <p class="mt-3 max-w-sm text-sm leading-7 text-stone-600">Redefining the supplement experience through transparency, guidance, and respect for biological complexity.</p>
+            <div class="display-serif text-2xl leading-tight">Guided Wellness</div>
+            <p class="mt-3 max-w-sm text-[13px] leading-6 text-white/70">Redefining the supplement experience through transparency, guidance, and respect for biological complexity.</p>
         </div>
-        <div>
-            <div class="font-semibold">Shop</div>
-            <a class="mt-3 block text-sm text-stone-600" href="{{ route('shop') }}">30-Day Gut Reset</a>
-            <a class="mt-2 block text-sm text-stone-600" href="{{ url('/#how-it-works') }}">How It Works</a>
-        </div>
-        <div>
-            <div class="font-semibold">Learn</div>
-            <a class="mt-3 block text-sm text-stone-600" href="{{ url('/#learn') }}">Guides</a>
-            <a class="mt-2 block text-sm text-stone-600" href="{{ url('/#standards') }}">Standards</a>
-            <a class="mt-2 block text-sm text-stone-600" href="{{ url('/#faq') }}">About</a>
-        </div>
-        <div>
-            <div class="font-semibold">Support</div>
-            <a class="mt-3 block text-sm text-stone-600" href="{{ route('account') }}">Account</a>
-            <a class="mt-2 block text-sm text-stone-600" href="{{ url('/#faq') }}">Help Centre</a>
+        <div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
+            <div>
+                <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Shop</div>
+                <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('shop') }}">30-Day Gut Reset</a>
+                <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#how-it-works') }}">How It Works</a>
+            </div>
+            <div>
+                <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Learn</div>
+                <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#learn') }}">Guides</a>
+                <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#standards') }}">Standards</a>
+                <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#faq') }}">About</a>
+            </div>
+            <div>
+                <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Support</div>
+                <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('account') }}">Account</a>
+                <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ url('/#faq') }}">Help Centre</a>
+            </div>
         </div>
     </div>
-    <div class="border-t border-stone-200 py-6 text-center text-sm text-stone-500">© 2026 Kurate Wellness Private Limited. All rights reserved.</div>
+    <div class="border-t border-white/15 py-5 text-center text-[11px] text-white/60">© 2026 Kurate Wellness Private Limited. All rights reserved.</div>
 </footer>
 </body>
 </html>
