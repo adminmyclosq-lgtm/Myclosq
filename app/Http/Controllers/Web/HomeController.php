@@ -22,4 +22,10 @@ class HomeController extends Controller
 
         return view('home', compact('page', 'products', 'headerLogo'));
     }
+
+    public function howItWorks()
+    {
+        $page = CmsPage::with('sections')->where('slug', 'how-it-works')->first();
+        return view('how-it-works', compact('page'));
+    }
 }

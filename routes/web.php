@@ -28,8 +28,8 @@ use App\Http\Controllers\Web\Admin\ResetOperationsController;
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/shop', [ShopController::class,'index'])->name('shop');
+Route::get('/how-it-works', [HomeController::class,'howItWorks'])->name('how-it-works');
 Route::get('/product/{product:slug}', [ShopController::class,'show'])->name('product.show');
-Route::view('/how-it-works', 'how-it-works')->name('how-it-works');
 Route::get('/mybrief', [MyBriefController::class, 'show'])->middleware('auth')->name('my-brief');
 Route::get('/my-plan', [MyPlanController::class, 'show'])->middleware('auth')->name('my-plan');
 Route::post('/my-plan', [MyPlanController::class, 'store'])->middleware('auth')->name('my-plan.store');
