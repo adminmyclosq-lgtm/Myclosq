@@ -12,19 +12,32 @@
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="section" style="{{ $topStyle }} {{ $bottomStyle }}">
-    <div class="grid gap-12 md:grid-cols-2 md:items-start">
-        <div>
-            <span class="badge">{{ $badge }}</span>
-            <h2 class="display-serif mt-4 text-4xl leading-tight">{!! $section->title ?? 'Most gut resets leave you guessing.' !!}</h2>
+<section class="border-t border-border/60 bg-background">
+    <div class="section grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:items-center">
+        <div class="overflow-hidden rounded-2xl bg-cream">
+            @if($section->media)
+                <img src="{{ $section->media->storage_path ? asset('storage/'.$section->media->storage_path) : $section->media->url }}" alt="{{ $section->title }}" class="h-full w-full object-cover">
+            @else
+                <div class="flex aspect-square md:aspect-auto w-full md:h-full min-h-[400px] items-center justify-center border-2 border-dashed border-stone-300 bg-[var(--panel)] text-stone-400 backdrop-blur text-sm">
+                    Image pending uploading from CMS
+                </div>
+            @endif
         </div>
-        <div class="space-y-4 leading-7 text-stone-600">
-            <p>{{ $section->subtitle ?? 'A good day feels encouraging. A bad day feels like the capsule is not working. Without a fair 30-day trial, most decisions are made on impression.' }}</p>
-            <div class="grid gap-3 sm:grid-cols-3">
+        <div>
+            <div class="badge mb-4">{{ $badge }}</div>
+            <h2 class="font-serif text-4xl leading-[1.1] text-foreground md:text-5xl">{!! $section->title ?? 'Most gut resets leave you guessing.' !!}</h2>
+            <p class="mt-6 max-w-md text-[15px] leading-relaxed text-foreground/70">{{ $section->subtitle }}</p>
+            
+            @if(!empty($cards))
+            <ul class="mt-8 space-y-4 text-[14px] text-foreground/75">
                 @foreach($cards as $card)
-                    <div class="card text-sm">{{ is_array($card) ? ($card['title'] ?? '') : $card }}</div>
+                    <li class="flex gap-3">
+                        <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary"></span> 
+                        <span>{{ is_array($card) ? ($card['title'] ?? '') : $card }}</span>
+                    </li>
                 @endforeach
-            </div>
+            </ul>
+            @endif
         </div>
     </div>
 </section>
