@@ -10,14 +10,14 @@
             login: @json(route('login')),
         };
     </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" data-precedence="default" />
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
-<body>
-<header class="sticky top-0 z-40 border-b border-stone-200 bg-white/85 backdrop-blur-xl">
-    <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 md:px-8">
-        <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold tracking-tight text-[var(--ink)]">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--ink)] text-sm font-bold text-white">GW</span>
-            <span>Guided Wellness</span>
+<body class="min-h-screen bg-background text-foreground">
+<header class="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
+    <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 flex h-16 items-center justify-between gap-6">
+        <a href="{{ route('home') }}" class="font-serif text-lg leading-tight tracking-tight text-foreground">
+            Guided<br class="hidden sm:inline"/><span class="hidden sm:inline">Wellness</span><span class="sm:hidden"> Wellness</span>
         </a>
         <nav class="hidden items-center gap-7 text-sm md:flex">
             <a href="{{ route('shop') }}">Shop</a>
