@@ -1,6 +1,7 @@
 @php
     $contentData = json_decode($section->content, true);
     if (!is_array($contentData)) $contentData = [];
+    $headerLogo = !empty($contentData['header_logo_media_id'] ?? null) ? \App\Models\Media::find($contentData['header_logo_media_id']) : null;
 @endphp
 <dialog id="modal-content-{{$section->id}}" class="backdrop:bg-stone-900/50 p-0 rounded-xl shadow-2xl w-full max-w-2xl bg-white border-0 open:animate-[fadeIn_0.2s_ease-out]">
     <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50 rounded-t-xl">
@@ -45,6 +46,16 @@
                     <div>
                         <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button URL</label>
                         <input name="content[secondary_button_url]" value="{{ $contentData['secondary_button_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                    </div>
+                </div>
+                <div class="border-t border-stone-100 pt-5">
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Header Logo</label>
+                    <p class="mb-3 text-[11px] text-stone-400">Shown in the homepage menu bar. Upload a square PNG, JPG, or WebP logo.</p>
+                    <div class="flex items-center gap-4">
+                        @if($headerLogo)
+                            <img src="{{ $headerLogo->url }}" alt="Current header logo" class="h-12 w-12 rounded-full border border-stone-200 object-cover">
+                        @endif
+                        <input type="file" name="header_logo" accept="image/png,image/jpeg,image/webp" class="text-sm">
                     </div>
                 </div>
                 @endif

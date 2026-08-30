@@ -16,6 +16,7 @@ class ResetProfile extends Model
         return [
             'manual_review_required' => 'boolean',
             'safety_flag_active' => 'boolean',
+            'actual_start_date' => 'date',
             'day0_completed_at' => 'datetime',
             'day30_completed_at' => 'datetime',
             'created_at' => 'datetime',
@@ -26,5 +27,13 @@ class ResetProfile extends Model
     public function user() { return $this->belongsTo(User::class, 'user_id'); }
 
     public function productBatch() { return $this->belongsTo(ProductBatch::class, 'product_batch_id'); }
+
+    public function day0Baseline() { return $this->hasOne(Day0Baseline::class, 'reset_profile_id'); }
+
+    public function dailyAdherence() { return $this->hasMany(DailyAdherence::class, 'reset_profile_id'); }
+
+    public function gutSignalCheckpoints() { return $this->hasMany(GutSignalCheckpoint::class, 'reset_profile_id'); }
+
+    public function day30Decision() { return $this->hasOne(Day30Decision::class, 'reset_profile_id'); }
 
 }

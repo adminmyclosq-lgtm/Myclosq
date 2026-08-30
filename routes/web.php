@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\MyBriefController;
+use App\Http\Controllers\Web\MyPlanController;
 use App\Http\Controllers\Web\ShopController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\AccountController;
@@ -28,6 +30,9 @@ Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/shop', [ShopController::class,'index'])->name('shop');
 Route::get('/how-it-works', [HomeController::class,'howItWorks'])->name('how-it-works');
 Route::get('/product/{product:slug}', [ShopController::class,'show'])->name('product.show');
+Route::get('/mybrief', [MyBriefController::class, 'show'])->middleware('auth')->name('my-brief');
+Route::get('/my-plan', [MyPlanController::class, 'show'])->middleware('auth')->name('my-plan');
+Route::post('/my-plan', [MyPlanController::class, 'store'])->middleware('auth')->name('my-plan.store');
 Route::get('/login', [AuthController::class,'showLogin'])->name('login');
 Route::post('/login', [AuthController::class,'login'])->middleware('guest')->name('login.post');
 Route::get('/register', [AuthController::class,'showRegister'])->name('register');
