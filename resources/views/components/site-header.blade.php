@@ -8,14 +8,18 @@
     $headerCartItemCount = (int) ($headerCart?->cartItems->sum('quantity') ?? 0);
 @endphp
 <header class="sticky top-0 z-40 border-b border-stone-200 bg-white/85 backdrop-blur-xl">
-    <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 py-4 md:px-8">
-        <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold tracking-tight text-[var(--ink)]">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--ink)] text-sm font-bold text-white">GW</span>
-            <span>Guided Wellness</span>
+    <div class="mx-auto flex h-16 w-full max-w-[1200px] items-center justify-between gap-6 px-5 sm:px-8">
+        <a href="{{ route('home') }}" class="display-serif text-lg leading-tight text-[var(--ink)]">
+            Guided<br class="hidden sm:inline"><span class="hidden sm:inline">Wellness</span><span class="sm:hidden"> Wellness</span>
         </a>
         <nav class="hidden items-center gap-7 text-sm md:flex">
+            @auth
+                @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
+                    <a href="{{ route('my-brief') }}">My Brief</a>
+                @endunless
+            @endauth
             <a href="{{ route('home') }}">Home</a>
-            <a href="{{ url('/#how-it-works') }}">How It Works</a>
+            <a href="{{ route('how-it-works') }}">How It Works</a>
             <a href="{{ url('/#standards') }}">Our Standards</a>
             <a href="{{ url('/#learn') }}">Learn</a>
             <a href="{{ url('/#faq') }}">Support</a>

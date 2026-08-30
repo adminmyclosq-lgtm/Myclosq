@@ -26,4 +26,6 @@ class Day0Baseline extends Model
 
     public function resetprofile() { return $this->belongsTo(ResetProfile::class, 'reset_profile_id'); }
 
+    public function priorityAreas() { return $this->hasMany(Day0PriorityArea::class, 'day0_baseline_id')->orderBy('priority_rank'); }
+
 }

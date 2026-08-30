@@ -26,12 +26,23 @@
 @endphp
 <header class="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
     <div class="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-5 h-16 sm:px-8">
-        <a href="{{ route('home') }}" class="font-serif text-lg leading-tight tracking-tight text-foreground">
-            Guided<br class="hidden sm:inline"/><span class="hidden sm:inline">Wellness</span><span class="sm:hidden"> Wellness</span>
+        <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold tracking-tight text-foreground">
+            @if(!empty($headerLogo))
+                <img src="{{ $headerLogo->url }}" alt="Guided Wellness" class="h-10 w-10 rounded-full object-cover">
+                <span>Guided Wellness</span>
+            @else
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--ink)] text-sm font-bold text-white">GW</span>
+                <span>Guided Wellness</span>
+            @endif
         </a>
         <nav class="hidden items-center gap-7 text-sm md:flex">
+            @auth
+                @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
+                    <a href="{{ route('my-brief') }}">My Brief</a>
+                @endunless
+            @endauth
             <a href="{{ route('home') }}">Home</a>
-            <a href="{{ url('/#how-it-works') }}">How It Works</a>
+            <a href="{{ route('how-it-works') }}">How It Works</a>
             <a href="{{ url('/#standards') }}">Our Standards</a>
             <a href="{{ url('/#learn') }}">Learn</a>
             <a href="{{ url('/#faq') }}">Support</a>

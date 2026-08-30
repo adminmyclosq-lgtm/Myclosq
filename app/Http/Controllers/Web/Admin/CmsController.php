@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CmsPage;
+use App\Models\Media;
 use Illuminate\Http\Request;
 class CmsController extends Controller {
     public function index() { $pages=CmsPage::with('sections')->latest('id')->paginate(25); return view('admin.cms.index',compact('pages')); }
@@ -21,7 +22,8 @@ class CmsController extends Controller {
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:500',
             'sort_order' => 'required|integer',
-            'image' => 'nullable|image|max:5120'
+            'image' => 'nullable|image|max:5120',
+            'header_logo' => 'nullable|image|max:2048'
         ];
         $data = $request->validate($rules);
         
@@ -44,7 +46,14 @@ class CmsController extends Controller {
             $data['media_id'] = $media->id;
         }
 
-        unset($data['image']);
+        if ($request->hasFile('header_logo')) {
+            $contentData = is_string($data['content'] ?? null) ? json_decode($data['content'], true) : [];
+            $contentData = is_array($contentData) ? $contentData : [];
+            $contentData['header_logo_media_id'] = $this->storeMedia($request->file('header_logo'))->id;
+            $data['content'] = json_encode($contentData);
+        }
+
+        unset($data['image'], $data['header_logo']);
         $page->sections()->create($data);
         return back()->with('success', 'Section added successfully.');
     }
@@ -54,7 +63,8 @@ class CmsController extends Controller {
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:500',
             'sort_order' => 'required|integer',
-            'image' => 'nullable|image|max:5120'
+            'image' => 'nullable|image|max:5120',
+            'header_logo' => 'nullable|image|max:2048'
         ];
         $data = $request->validate($rules);
         
@@ -77,7 +87,14 @@ class CmsController extends Controller {
             $data['media_id'] = $media->id;
         }
 
-        unset($data['image']);
+        if ($request->hasFile('header_logo')) {
+            $contentData = is_string($data['content'] ?? null) ? json_decode($data['content'], true) : [];
+            $contentData = is_array($contentData) ? $contentData : [];
+            $contentData['header_logo_media_id'] = $this->storeMedia($request->file('header_logo'))->id;
+            $data['content'] = json_encode($contentData);
+        }
+
+        unset($data['image'], $data['header_logo']);
         $section->update($data);
         return back()->with('success', 'Section updated successfully.');
     }
@@ -105,5 +122,18 @@ class CmsController extends Controller {
     public function destroySection(\App\Models\CmsSection $section) {
         $section->delete();
         return back()->with('success', 'Section deleted successfully.');
+    }
+
+    private function storeMedia($file): Media
+    {
+        $path = $file->store('cms', 'public');
+
+        return Media::create([
+            'file_name' => $file->getClientOriginalName(),
+            'storage_path' => $path,
+            'mime_type' => $file->getMimeType(),
+            'file_size' => $file->getSize(),
+            'uploaded_by' => auth()->id(),
+        ]);
     }
 }
