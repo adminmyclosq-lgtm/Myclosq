@@ -14,7 +14,12 @@ class CheckoutController extends Controller
     {
         $cart=app(\App\Services\CartService::class)->currentCart($request->user()->id)->load('cartItems.productVariant.product');
         $methods=\App\Models\ShippingMethod::with('rates')->where('is_active',true)->orderBy('sort_order')->get();
-        return view('checkout',compact('cart','methods'));
+        $shippingAddress = $request->user()->addresses()
+            ->orderByDesc('is_default')
+            ->latest()
+            ->first();
+
+        return view('checkout',compact('cart','methods','shippingAddress'));
     }
 
     public function store(PlaceOrderRequest $request, CheckoutService $checkout)

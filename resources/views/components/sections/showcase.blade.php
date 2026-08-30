@@ -37,9 +37,6 @@
                 <div class="overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
                     <img src="https://guided-gut-reset-lovable-app.lovable.app/assets/course-kit-DtVPc2tT.jpg" alt="Open 30-day course kit" class="h-full w-full object-cover">
                 </div>
-                <div class="overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
-                    <img src="https://guided-gut-reset-lovable-app.lovable.app/assets/hero-product-CftTmpl1.jpg" alt="A person taking their capsule" class="h-full w-full object-cover">
-                </div>
             @endif
         </div>
     </div>

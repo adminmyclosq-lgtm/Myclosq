@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Cart;
+use App\Models\CustomerAddress;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -78,6 +79,31 @@ class CheckoutService
                 'customer_note'=>null,
                 'placed_at'=>now(),
             ]);
+
+            $addressData = [
+                'address_type' => 'shipping',
+                'recipient_name' => $shippingAddress['recipient_name'],
+                'phone' => $shippingAddress['phone'],
+                'address_line1' => $shippingAddress['address_line1'],
+                'address_line2' => $shippingAddress['address_line2'] ?? null,
+                'city' => $shippingAddress['city'],
+                'state' => $shippingAddress['state'],
+                'postal_code' => $shippingAddress['postal_code'],
+                'country' => $shippingAddress['country'] ?? 'India',
+            ];
+
+            $defaultAddress = CustomerAddress::where('user_id', $userId)
+                ->where('is_default', true)
+                ->first();
+
+            if ($defaultAddress) {
+                $defaultAddress->update($addressData);
+            } else {
+                CustomerAddress::create($addressData + [
+                    'user_id' => $userId,
+                    'is_default' => true,
+                ]);
+            }
 
             foreach($items as $item) {
                 $order->orderItems()->create([

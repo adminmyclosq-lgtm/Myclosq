@@ -7,12 +7,12 @@
         @csrf
         <div class="lg:col-span-2 card space-y-5">
             <h2 class="text-xl font-bold">Delivery address</h2>
-            <input name="shipping_address[recipient_name]" required placeholder="Recipient name" class="w-full rounded-xl border p-3">
-            <input name="shipping_address[phone]" required placeholder="Phone" class="w-full rounded-xl border p-3">
-            <input name="shipping_address[address_line1]" required placeholder="Address line 1" class="w-full rounded-xl border p-3">
-            <input name="shipping_address[address_line2]" placeholder="Address line 2" class="w-full rounded-xl border p-3">
-            <div class="grid gap-4 md:grid-cols-3"><input name="shipping_address[city]" required placeholder="City" class="rounded-xl border p-3"><input name="shipping_address[state]" required placeholder="State" class="rounded-xl border p-3"><input name="shipping_address[postal_code]" required placeholder="PIN code" class="rounded-xl border p-3"></div>
-            <input name="shipping_address[country]" value="India" placeholder="Country" class="w-full rounded-xl border p-3">
+            <input name="shipping_address[recipient_name]" value="{{ old('shipping_address.recipient_name', $shippingAddress?->recipient_name) }}" required placeholder="Recipient name" class="w-full rounded-xl border p-3">
+            <input name="shipping_address[phone]" value="{{ old('shipping_address.phone', $shippingAddress?->phone) }}" required placeholder="Phone" class="w-full rounded-xl border p-3">
+            <input name="shipping_address[address_line1]" value="{{ old('shipping_address.address_line1', $shippingAddress?->address_line1) }}" required placeholder="Address line 1" class="w-full rounded-xl border p-3">
+            <input name="shipping_address[address_line2]" value="{{ old('shipping_address.address_line2', $shippingAddress?->address_line2) }}" placeholder="Address line 2" class="w-full rounded-xl border p-3">
+            <div class="grid gap-4 md:grid-cols-3"><input name="shipping_address[city]" value="{{ old('shipping_address.city', $shippingAddress?->city) }}" required placeholder="City" class="rounded-xl border p-3"><input name="shipping_address[state]" value="{{ old('shipping_address.state', $shippingAddress?->state) }}" required placeholder="State" class="rounded-xl border p-3"><input name="shipping_address[postal_code]" value="{{ old('shipping_address.postal_code', $shippingAddress?->postal_code) }}" required placeholder="PIN code" class="rounded-xl border p-3"></div>
+            <input name="shipping_address[country]" value="{{ old('shipping_address.country', $shippingAddress?->country ?? 'India') }}" placeholder="Country" class="w-full rounded-xl border p-3">
 
             <h2 class="pt-5 text-xl font-bold">Shipping method</h2>
             @foreach($methods as $method)
