@@ -9,6 +9,7 @@ class OrderStatuHistory extends Model
 {
     use HasFactory;
     protected $table = 'order_status_history';
+    const UPDATED_AT = null;
     protected $guarded = [];
 
     protected function casts(): array

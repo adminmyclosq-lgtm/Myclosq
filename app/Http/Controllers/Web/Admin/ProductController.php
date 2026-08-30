@@ -118,8 +118,15 @@ class ProductController extends Controller
 
     private function ensureInventory(ProductVariant $variant, int $quantityOnHand = 0): void
     {
-        $batch = ProductBatche::firstOrCreate(
-            ['product_variant_id' => $variant->id, 'batch_number' => $variant->sku.'-OPENING'],
+        $legacyBatchNumber = $variant->sku.'-OPENING';
+        $batchNumber = 'OPENING-'.$variant->id;
+
+        $batch = ProductBatche::where('product_variant_id', $variant->id)
+            ->whereIn('batch_number', [$legacyBatchNumber, $batchNumber])
+            ->first();
+
+        $batch ??= ProductBatche::firstOrCreate(
+            ['product_variant_id' => $variant->id, 'batch_number' => $batchNumber],
             ['quantity_received' => $quantityOnHand, 'status' => 'active']
         );
 

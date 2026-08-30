@@ -9,9 +9,9 @@ use Illuminate\Support\Str;
 
 class CheckoutService
 {
-    public function placeOrder(int $userId, array $shippingAddress, ?array $billingAddress=null, ?int $shippingMethodId=null, ?string $couponCode=null): Order
+    public function placeOrder(int $userId, array $shippingAddress, ?array $billingAddress=null, ?int $shippingMethodId=null, ?string $couponCode=null, string $paymentMethod='online'): Order
     {
-        return DB::transaction(function() use($userId,$shippingAddress,$billingAddress,$shippingMethodId,$couponCode) {
+        return DB::transaction(function() use($userId,$shippingAddress,$billingAddress,$shippingMethodId,$couponCode,$paymentMethod) {
             $cart = Cart::where('user_id',$userId)->where('status','active')
                 ->with('cartItems.productVariant.product')->lockForUpdate()->firstOrFail();
 
@@ -113,6 +113,16 @@ class CheckoutService
                 'remarks'=>'Order placed through storefront',
                 'created_at'=>now(),
             ]);
+
+            if ($paymentMethod === 'cod') {
+                $order->payments()->create([
+                    'gateway' => 'cash_on_delivery',
+                    'amount' => $order->grand_total,
+                    'currency' => $order->currency,
+                    'status' => 'pending',
+                    'idempotency_key' => (string) Str::uuid(),
+                ]);
+            }
 
             return $order->load('orderItems.productVariant.product','payments','shipments');
         });

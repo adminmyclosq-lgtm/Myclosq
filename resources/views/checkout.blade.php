@@ -25,6 +25,16 @@
             <h2 class="pt-5 text-xl font-bold">Coupon</h2>
             <input name="coupon_code" placeholder="Coupon code (optional)" class="w-full rounded-xl border p-3">
 
+            <h2 class="pt-5 text-xl font-bold">Payment method</h2>
+            <label class="flex cursor-pointer items-center justify-between rounded-2xl border p-4">
+                <span><input type="radio" name="payment_method" value="online" class="mr-3" @checked(request('payment_method', 'online') !== 'cod')>Pay online</span>
+                <span class="text-sm text-stone-500">Secure Razorpay checkout</span>
+            </label>
+            <label class="flex cursor-pointer items-center justify-between rounded-2xl border p-4">
+                <span><input type="radio" name="payment_method" value="cod" class="mr-3" @checked(request('payment_method') === 'cod')>Cash on delivery</span>
+                <span class="text-sm text-stone-500">Pay when your order arrives</span>
+            </label>
+
             <button class="btn-primary mt-5">Place order</button>
         </div>
         <aside class="card h-fit">

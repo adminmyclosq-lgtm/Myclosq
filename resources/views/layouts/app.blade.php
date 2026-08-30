@@ -7,6 +7,7 @@
     <script>
         window.AppRoutes = {
             cartItems: @json(url('/api/v1/cart/items')),
+            cartItemBase: @json(url('/api/v1/cart/items')),
             login: @json(route('login')),
         };
     </script>
@@ -14,20 +15,58 @@
     @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-background text-foreground">
+@php
+    $headerCart = auth()->check()
+        ? \App\Models\Cart::with('cartItems.productVariant.product')
+            ->where('user_id', auth()->id())
+            ->where('status', 'active')
+            ->first()
+        : null;
+    $headerCartItemCount = (int) ($headerCart?->cartItems->sum('quantity') ?? 0);
+@endphp
 <header class="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
-    <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 flex h-16 items-center justify-between gap-6">
+    <div class="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-5 h-16 sm:px-8">
         <a href="{{ route('home') }}" class="font-serif text-lg leading-tight tracking-tight text-foreground">
             Guided<br class="hidden sm:inline"/><span class="hidden sm:inline">Wellness</span><span class="sm:hidden"> Wellness</span>
         </a>
         <nav class="hidden items-center gap-7 text-sm md:flex">
-            <a href="{{ route('shop') }}">Shop</a>
+            <a href="{{ route('home') }}">Home</a>
             <a href="{{ url('/#how-it-works') }}">How It Works</a>
             <a href="{{ url('/#standards') }}">Our Standards</a>
             <a href="{{ url('/#learn') }}">Learn</a>
             <a href="{{ url('/#faq') }}">Support</a>
         </nav>
         <div class="flex items-center gap-3 text-sm">
-            <a href="{{ route('cart') }}" class="hidden md:inline-flex">Cart</a>
+            <div class="group relative">
+                <a href="{{ route('cart') }}" class="inline-flex items-center gap-1.5 font-semibold text-[var(--ink)]" aria-label="Cart, {{ $headerCartItemCount }} item{{ $headerCartItemCount === 1 ? '' : 's' }}">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-1.1 2.2A1 1 0 0 0 6.8 17H19M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" /></svg>
+                    <span data-cart-count>{{ $headerCartItemCount }}</span>
+                    <span>Cart</span>
+                </a>
+                <div class="invisible absolute right-0 top-full z-50 mt-3 w-80 translate-y-1 rounded-lg border border-stone-200 bg-white p-4 opacity-0 shadow-lg transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                    <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+                        <span class="font-semibold text-stone-900">Your cart</span>
+                        <span class="text-xs text-stone-500"><span data-cart-count>{{ $headerCartItemCount }}</span> item{{ $headerCartItemCount === 1 ? '' : 's' }}</span>
+                    </div>
+                    @auth
+                        @if($headerCart && $headerCart->cartItems->isNotEmpty())
+                            <div class="max-h-56 divide-y divide-stone-100 overflow-y-auto">
+                                @foreach($headerCart->cartItems as $item)
+                                    <div class="flex items-start justify-between gap-4 py-3 text-sm">
+                                        <span class="line-clamp-2 font-medium text-stone-800">{{ $item->productVariant->product->name }}</span>
+                                        <span class="shrink-0 text-stone-500">x{{ $item->quantity }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="py-5 text-sm text-stone-500">Your cart is empty.</p>
+                        @endif
+                    @else
+                        <p class="py-5 text-sm text-stone-500">Sign in to view your cart.</p>
+                    @endauth
+                    <a href="{{ route('cart') }}" class="btn-primary mt-3 w-full !rounded-lg !px-4 !py-2 text-sm">View cart</a>
+                </div>
+            </div>
             @auth
                 @php
                     $authUser = auth()->user();
@@ -37,10 +76,22 @@
                         ? ucwords(strtolower(str_replace('_', ' ', (string) $primaryRole->code)))
                         : 'User';
                 @endphp
-                <a href="{{ route($accountRoute) }}" class="hidden max-w-[14rem] rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight md:block">
-                    <span class="block truncate font-semibold text-stone-800">{{ $authUser?->name ?? 'Account' }}</span>
-                    <span class="block truncate text-xs text-stone-500">{{ $roleLabel }}</span>
-                </a>
+                <details class="group relative hidden md:block">
+                    <summary class="flex max-w-[14rem] cursor-pointer list-none items-center gap-2 rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight [&::-webkit-details-marker]:hidden">
+                        <span class="min-w-0 flex-1">
+                            <span class="block truncate font-semibold text-stone-800">{{ $authUser?->name ?? 'Account' }}</span>
+                            <span class="block truncate text-xs text-stone-500">{{ $roleLabel }}</span>
+                        </span>
+                        <svg class="h-4 w-4 shrink-0 text-stone-500 transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
+                    </summary>
+                    <div class="absolute right-0 z-50 mt-2 w-48 rounded-lg border border-stone-200 bg-white p-2 shadow-lg">
+                        <a href="{{ route($accountRoute) }}" class="block rounded-md px-3 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50">Account</a>
+                        <form method="POST" action="{{ route('logout') }}" class="border-t border-stone-100 pt-2">
+                            @csrf
+                            <button type="submit" class="w-full rounded-md px-3 py-2 text-left text-sm font-semibold text-red-700 transition hover:bg-red-50">Sign out</button>
+                        </form>
+                    </div>
+                </details>
                 <a href="{{ route($accountRoute) }}" class="inline-flex md:hidden">Account</a>
             @else
                 <a href="{{ route('login') }}" class="hidden md:inline-flex">Account</a>

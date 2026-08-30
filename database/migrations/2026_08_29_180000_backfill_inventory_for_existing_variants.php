@@ -13,10 +13,11 @@ return new class extends Migration
         }
 
         DB::table('product_variants')->orderBy('id')->each(function (object $variant): void {
-            $batchNumber = $variant->sku.'-OPENING';
+            $legacyBatchNumber = $variant->sku.'-OPENING';
+            $batchNumber = 'OPENING-'.$variant->id;
             $batch = DB::table('product_batches')
                 ->where('product_variant_id', $variant->id)
-                ->where('batch_number', $batchNumber)
+                ->whereIn('batch_number', [$legacyBatchNumber, $batchNumber])
                 ->first();
 
             $batchId = $batch?->id ?? DB::table('product_batches')->insertGetId([

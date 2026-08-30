@@ -42,8 +42,8 @@
     </div>
 </header>
 
-<div class="flex-1 flex overflow-hidden">
-<aside class="w-full border-r bg-white md:w-64 overflow-y-auto shrink-0">
+<div class="flex min-h-0 flex-1 overflow-hidden">
+<aside class="w-full shrink-0 overflow-y-auto border-r bg-white md:w-64">
 <nav class="space-y-1 p-4 text-sm font-medium text-stone-600">
 @foreach([
 ['Dashboard','admin.dashboard'],['Products','admin.products.index'],['Orders','admin.orders.index'],['Customers','admin.customers.index'],
@@ -53,7 +53,19 @@
 @endforeach
 </nav>
 </aside>
-<main class="flex-1 overflow-y-auto bg-stone-50">@yield('content')</main>
+<main id="admin-content" class="min-w-0 flex-1 overflow-y-scroll bg-stone-50">@yield('content')</main>
 </div>
+<script>
+    const adminContent = document.getElementById('admin-content');
+    const adminNavigation = document.querySelector('aside nav');
+
+    adminNavigation?.addEventListener('click', (event) => {
+        if (event.target.closest('a')) adminContent.scrollTop = 0;
+    });
+
+    window.addEventListener('pageshow', () => {
+        adminContent.scrollTop = 0;
+    });
+</script>
 </body>
 </html>

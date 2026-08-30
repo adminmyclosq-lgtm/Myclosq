@@ -35,6 +35,14 @@ body {
     background-color: var(--color-background);
 }
 
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
 .display-serif, .serif {
     font-family: var(--font-serif);
     letter-spacing: -0.03em;
