@@ -27,7 +27,7 @@
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Description</label>
                     <textarea name="subtitle" rows="3" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-3 gap-4">
                     <div>
                         <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button Text</label>
                         <input name="content[primary_button_text]" value="{{ $contentData['primary_button_text'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
@@ -36,9 +36,17 @@
                         <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button URL</label>
                         <input name="content[primary_button_url]" value="{{ $contentData['primary_button_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                     </div>
+                    <div>
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button Size</label>
+                        <select name="content[primary_button_size]" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                            <option value="">Default</option>
+                            <option value="btn-lg" @selected(($contentData['primary_button_size'] ?? '') === 'btn-lg')>Large</option>
+                            <option value="btn-sm" @selected(($contentData['primary_button_size'] ?? '') === 'btn-sm')>Small</option>
+                        </select>
+                    </div>
                 </div>
-                @if($section->section_type === 'hero')
-                <div class="grid grid-cols-2 gap-4">
+                @if($section->section_type === 'hero' || $section->section_type === 'cta')
+                <div class="grid grid-cols-3 gap-4">
                     <div>
                         <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button Text</label>
                         <input name="content[secondary_button_text]" value="{{ $contentData['secondary_button_text'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
@@ -47,7 +55,17 @@
                         <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button URL</label>
                         <input name="content[secondary_button_url]" value="{{ $contentData['secondary_button_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                     </div>
+                    <div>
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button Size</label>
+                        <select name="content[secondary_button_size]" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                            <option value="">Default</option>
+                            <option value="btn-lg" @selected(($contentData['secondary_button_size'] ?? '') === 'btn-lg')>Large</option>
+                            <option value="btn-sm" @selected(($contentData['secondary_button_size'] ?? '') === 'btn-sm')>Small</option>
+                        </select>
+                    </div>
                 </div>
+                @endif
+                @if($section->section_type === 'hero')
                 <div class="border-t border-stone-100 pt-5">
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Header Logo</label>
                     <p class="mb-3 text-[11px] text-stone-400">Shown in the homepage menu bar. Upload a square PNG, JPG, or WebP logo.</p>

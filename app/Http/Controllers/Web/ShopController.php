@@ -31,6 +31,7 @@ class ShopController extends Controller
                 ->first()
             : null;
 
-        return view('shop.show', compact('product', 'cartItem'));
+        $page = \App\Models\CmsPage::with('sections')->where('slug', 'product-page-content')->first();
+        return view('shop.show', compact('product', 'cartItem', 'page'));
     }
 }

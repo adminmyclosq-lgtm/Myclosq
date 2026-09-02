@@ -131,5 +131,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DevelopmentSeeder::class);
         $this->call(HowItWorksPageSeeder::class);
+        $this->call(HomePageSeeder::class);
+        $this->call(OtherPagesSeeder::class);
     }
 }

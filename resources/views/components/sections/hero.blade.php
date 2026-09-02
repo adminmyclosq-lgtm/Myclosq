@@ -4,9 +4,11 @@
     if (!is_array($content)) $content = [];
     $settings = $content['settings'] ?? [];
     
-    $heroBadge = $content['badge'] ?? '30-Day Guided Gut Reset';
-    $button1 = $content['button_1'] ?? 'Explore the Reset';
-    $button2 = $content['button_2'] ?? 'Check Your Fit';
+    $heroBadge = $content['eyebrow'] ?? $content['badge'] ?? '30-Day Guided Gut Reset';
+    $primaryBtnText = $content['primary_button_text'] ?? 'Explore the Reset';
+    $primaryBtnUrl = $content['primary_button_url'] ?? route('shop');
+    $secondaryBtnText = $content['secondary_button_text'] ?? 'Check Your Fit';
+    $secondaryBtnUrl = $content['secondary_button_url'] ?? '#fit';
     
     // Spacing
     $topStyle = isset($settings['top_spacing']) && $settings['top_spacing'] ? "padding-top: {$settings['top_spacing']};" : "padding-top: 64px;";
@@ -23,8 +25,8 @@
                 {{ $section->subtitle ?? 'A 30-day guided gut-support capsule course. Take one capsule daily, complete a few short course moments, and receive a personal Gut Response Brief showing what changed and what to do next.' }}
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
-                <a class="btn-primary" href="{{ route('shop') }}">{{ $button1 }}</a>
-                <a class="btn-secondary" href="#fit">{{ $button2 }}</a>
+                <a class="btn-primary {{ $content['primary_button_size'] ?? '' }}" href="{{ $primaryBtnUrl }}">{{ $primaryBtnText }}</a>
+                <a class="btn-secondary {{ $content['secondary_button_size'] ?? '' }}" href="{{ $secondaryBtnUrl }}">{{ $secondaryBtnText }}</a>
             </div>
             <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-medium uppercase tracking-[0.14em] text-stone-500">
                 <span>· 30 capsules</span>
