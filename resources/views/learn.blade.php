@@ -3,6 +3,13 @@
 @section('content')
 @php
     $page = \App\Models\CmsPage::where('slug', 'learn')->with('sections.media')->first();
+    if (!function_exists('resolveImg')) {
+        function resolveImg($path, $fallback) {
+            $path = $path ?: $fallback;
+            if (str_starts_with($path, 'assets/')) return 'https://guided-gut-reset-lovable-app.lovable.app/' . $path;
+            return asset($path);
+        }
+    }
 @endphp
 @if(isset($page) && $page->sections && $page->sections->count() > 0)
     @foreach($page->sections->sortBy('sort_order') as $section)
@@ -29,7 +36,7 @@
                         @if($section->media)
                             <img src="{{ $section->media->storage_path ? asset('storage/'.$section->media->storage_path) : $section->media->url }}" alt="{{ $section->title }}" class="h-full w-full object-cover"/>
                         @else
-                            <img src="{{ asset($contentData['image'] ?? 'assets/hero-product-CftTmpl1.jpg') }}" alt="Learn" class="h-full w-full object-cover"/>
+                            <img src="{{ resolveImg($contentData['image'] ?? '', 'assets/hero-product-CftTmpl1.jpg') }}" alt="Learn" class="h-full w-full object-cover"/>
                         @endif
                     </div>
                 </div>
@@ -58,7 +65,7 @@
                         @if($section->media)
                             <img src="{{ $section->media->storage_path ? asset('storage/'.$section->media->storage_path) : $section->media->url }}" alt="{{ $section->title }}" class="h-full w-full object-cover"/>
                         @else
-                            <img src="{{ asset($contentData['image'] ?? 'assets/bottle-capsules-COsDFlLa.jpg') }}" alt="Trial" class="h-full w-full object-cover"/>
+                            <img src="{{ resolveImg($contentData['image'] ?? '', 'assets/bottle-capsules-COsDFlLa.jpg') }}" alt="Trial" class="h-full w-full object-cover"/>
                         @endif
                     </div>
                     <div>
@@ -82,7 +89,7 @@
                         @foreach($contentData['cards'] ?? [] as $card)
                             <a class="group block" href="{{ $card['url'] ?? '#' }}">
                                 <div class="overflow-hidden rounded-2xl bg-cream">
-                                    <img src="{{ asset($card['image'] ?? 'assets/hero-product-CftTmpl1.jpg') }}" alt="" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-[1.03]"/>
+                                    <img src="{{ resolveImg($card['image'] ?? '', 'assets/hero-product-CftTmpl1.jpg') }}" alt="" class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-[1.03]"/>
                                 </div>
                                 <div class="mt-5">
                                     <div class="text-[11px] font-medium uppercase tracking-[0.14em] text-primary">{{ $card['tag'] ?? '' }}</div>
