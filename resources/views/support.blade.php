@@ -1,6 +1,9 @@
 @extends('layouts.app', ['title' => 'Support - Guided Wellness'])
 
 @section('content')
+@php
+    $page = \App\Models\CmsPage::where('slug', 'support')->with('sections.media')->first();
+@endphp
 @if(isset($page) && $page->sections && $page->sections->count() > 0)
     @foreach($page->sections->sortBy('sort_order') as $section)
         @php
