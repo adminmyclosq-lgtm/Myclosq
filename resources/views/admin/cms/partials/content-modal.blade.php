@@ -3,8 +3,8 @@
     if (!is_array($contentData)) $contentData = [];
     $headerLogo = !empty($contentData['header_logo_media_id'] ?? null) ? \App\Models\Media::find($contentData['header_logo_media_id']) : null;
 @endphp
-<dialog id="modal-content-{{$section->id}}" class="backdrop:bg-stone-900/50 p-0 rounded-xl shadow-2xl w-full max-w-2xl bg-white border-0 open:animate-[fadeIn_0.2s_ease-out]">
-    <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50 rounded-t-xl">
+<dialog id="modal-content-{{$section->id}}" class="backdrop:bg-stone-900/50 m-auto p-0 shadow-2xl w-full max-w-2xl bg-white border-0 open:animate-[fadeIn_0.2s_ease-out]">
+    <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
         <h3 class="text-lg font-bold text-stone-900">Edit Content: {{ ucwords(str_replace('_', ' ', $section->section_type)) }}</h3>
         <button type="button" onclick="this.closest('dialog').close()" class="text-stone-400 hover:text-stone-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
     </div>
@@ -14,128 +14,299 @@
         <input type="hidden" name="section_type" value="{{ $section->section_type }}">
         
         <div class="space-y-5">
-            @if($section->section_type === 'hero' || $section->section_type === 'text_image' || $section->section_type === 'showcase' || $section->section_type === 'cta')
+            @if($section->section_type === 'hero')
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Eyebrow / Badge Text</label>
-                    <input name="content[eyebrow]" value="{{ $contentData['eyebrow'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
+                    <input name="content[badge]" value="{{ $contentData['badge'] ?? '30-Day Guided Gut Reset' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                 </div>
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Heading</label>
-                    <input name="title" value="{{ $section->title }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">
+                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">{{ $section->title }}</textarea>
                 </div>
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Description</label>
                     <textarea name="subtitle" rows="3" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
                 </div>
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button Text</label>
-                        <input name="content[primary_button_text]" value="{{ $contentData['primary_button_text'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button</label>
+                        <input name="content[button_1]" value="{{ $contentData['button_1'] ?? 'Explore the Reset' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                     </div>
                     <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button URL</label>
-                        <input name="content[primary_button_url]" value="{{ $contentData['primary_button_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button Size</label>
-                        <select name="content[primary_button_size]" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                            <option value="">Default</option>
-                            <option value="btn-lg" @selected(($contentData['primary_button_size'] ?? '') === 'btn-lg')>Large</option>
-                            <option value="btn-sm" @selected(($contentData['primary_button_size'] ?? '') === 'btn-sm')>Small</option>
-                        </select>
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button</label>
+                        <input name="content[button_2]" value="{{ $contentData['button_2'] ?? 'Check Your Fit' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                     </div>
                 </div>
-                @if($section->section_type === 'hero' || $section->section_type === 'cta')
-                <div class="grid grid-cols-3 gap-4">
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button Text</label>
-                        <input name="content[secondary_button_text]" value="{{ $contentData['secondary_button_text'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button URL</label>
-                        <input name="content[secondary_button_url]" value="{{ $contentData['secondary_button_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button Size</label>
-                        <select name="content[secondary_button_size]" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                            <option value="">Default</option>
-                            <option value="btn-lg" @selected(($contentData['secondary_button_size'] ?? '') === 'btn-lg')>Large</option>
-                            <option value="btn-sm" @selected(($contentData['secondary_button_size'] ?? '') === 'btn-sm')>Small</option>
-                        </select>
-                    </div>
-                </div>
-                @endif
-                @if($section->section_type === 'hero')
-                <div class="border-t border-stone-100 pt-5">
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Header Logo</label>
-                    <p class="mb-3 text-[11px] text-stone-400">Shown in the homepage menu bar. Upload a square PNG, JPG, or WebP logo.</p>
-                    <div class="flex items-center gap-4">
-                        @if($headerLogo)
-                            <img src="{{ $headerLogo->url }}" alt="Current header logo" class="h-12 w-12 rounded-full border border-stone-200 object-cover">
-                        @endif
-                        <input type="file" name="header_logo" accept="image/png,image/jpeg,image/webp" class="text-sm">
-                    </div>
-                </div>
-                @endif
-                
-                @if($section->section_type === 'text_image')
+
+            @elseif($section->section_type === 'problem')
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Image Position</label>
-                    <select name="content[image_position]" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                        <option value="left" @selected(($contentData['image_position'] ?? '') === 'left')>Left</option>
-                        <option value="right" @selected(($contentData['image_position'] ?? '') === 'right')>Right</option>
-                    </select>
-                </div>
-                @endif
-                
-            @elseif(in_array($section->section_type, ['feature_cards', 'standards', 'faq', 'testimonials']))
-                <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Section Title</label>
-                    <input name="title" value="{{ $section->title }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
+                    <input name="content[badge]" value="{{ $contentData['badge'] ?? 'The problem' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                 </div>
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Section Description</label>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Heading</label>
+                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">{{ $section->title }}</textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Description</label>
                     <textarea name="subtitle" rows="3" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
                 </div>
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Items Data (JSON Array)</label>
-                    <textarea name="content" rows="6" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-mono bg-stone-50">{{ is_string($section->content) && str_starts_with(trim($section->content), '[') ? $section->content : (isset($contentData['items']) ? json_encode($contentData['items'], JSON_PRETTY_PRINT) : '[]') }}</textarea>
-                    <div class="mt-1 text-xs text-stone-500">Enter a JSON array of items: [{"title":"...","description":"..."}]</div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Bullet Points</label>
+                    <div class="space-y-2">
+                        @for($i=0; $i<3; $i++)
+                        <input name="content[cards][{{$i}}]" value="{{ is_array($contentData['cards'][$i] ?? '') ? ($contentData['cards'][$i]['title'] ?? '') : ($contentData['cards'][$i] ?? '') }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm" placeholder="Bullet {{ $i+1 }}">
+                        @endfor
+                    </div>
                 </div>
 
-            @elseif($section->section_type === 'custom_content' || $section->section_type === 'rich_text')
+            @elseif($section->section_type === 'features')
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Rich Content (HTML/JSON)</label>
-                    <textarea name="content" rows="10" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-mono bg-stone-50">{{ is_string($section->content) ? $section->content : '' }}</textarea>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
+                    <input name="content[badge]" value="{{ $contentData['badge'] ?? 'Standout experience' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                 </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Heading</label>
+                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">{{ $section->title }}</textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Feature Cards (3 items)</label>
+                    <div class="space-y-4">
+                        @for($i=0; $i<3; $i++)
+                        <div class="p-3 bg-stone-50 border border-stone-200 rounded-md">
+                            <input name="content[cards][{{$i}}][title]" value="{{ $contentData['cards'][$i]['title'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm font-bold mb-2" placeholder="Card {{ $i+1 }} Title">
+                            <textarea name="content[cards][{{$i}}][text]" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm" placeholder="Card {{ $i+1 }} Description">{{ $contentData['cards'][$i]['text'] ?? '' }}</textarea>
+                        </div>
+                        @endfor
+                    </div>
+                </div>
+
+            @elseif($section->section_type === 'standards')
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
+                    <input name="content[badge]" value="{{ $contentData['badge'] ?? 'Transparency' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Heading</label>
+                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">{{ $section->title }}</textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Description</label>
+                    <textarea name="subtitle" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Standard Cards (3 items)</label>
+                    <div class="space-y-4">
+                        @for($i=0; $i<3; $i++)
+                        <div class="p-3 bg-stone-50 border border-stone-200 rounded-md">
+                            <div class="flex gap-2 mb-2">
+                                <input name="content[cards][{{$i}}][num]" value="{{ $contentData['cards'][$i]['num'] ?? '0'.($i+1) }}" class="w-16 rounded-md border border-stone-300 px-2 py-1.5 text-sm font-bold" placeholder="Num">
+                                <input name="content[cards][{{$i}}][title]" value="{{ $contentData['cards'][$i]['title'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm font-bold" placeholder="Card {{ $i+1 }} Title">
+                            </div>
+                            <textarea name="content[cards][{{$i}}][text]" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm" placeholder="Card {{ $i+1 }} Description">{{ $contentData['cards'][$i]['text'] ?? '' }}</textarea>
+                        </div>
+                        @endfor
+                    </div>
+                </div>
+
+            @elseif($section->section_type === 'showcase')
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Eyebrow Text</label>
+                    <input name="content[eyebrow]" value="{{ $contentData['eyebrow'] ?? 'What you receive' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Heading</label>
+                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">{{ $section->title }}</textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">List Items (One per line)</label>
+                    <textarea name="subtitle" rows="4" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Footer / Button Text</label>
+                    <input name="content[primary_button_text]" value="{{ $contentData['primary_button_text'] ?? 'Take 30. Spend 15. Know your gut.' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                </div>
+
+            @elseif(str_starts_with($section->section_type, 'support_') || str_starts_with($section->section_type, 'standards_') || str_starts_with($section->section_type, 'learn_') || str_starts_with($section->section_type, 'product_'))
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Title</label>
+                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->title }}</textarea>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Subtitle</label>
+                    <textarea name="subtitle" rows="3" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
+                </div>
+                
+                @foreach($contentData as $key => $val)
+                    @if(in_array($key, ['settings', 'badge', 'image'])) @continue @endif
+                    
+                    @if(is_array($val))
+                        <div class="mt-4 p-4 border border-stone-200 bg-stone-50 rounded-lg">
+                            <label class="text-xs font-bold text-stone-600 uppercase block mb-3">{{ ucwords(str_replace('_', ' ', $key)) }} Array</label>
+                            <div class="space-y-3">
+                                @foreach($val as $i => $item)
+                                    <div class="grid gap-2 border-l-2 border-stone-300 pl-3">
+                                        @if(is_array($item))
+                                            @foreach($item as $subK => $subV)
+                                                @if(is_array($subV))
+                                                    <div class="text-xs font-semibold text-stone-500 mt-2">{{ ucwords($subK) }}:</div>
+                                                    @foreach($subV as $j => $arrVal)
+                                                        <input type="text" name="content[{{$key}}][{{$i}}][{{$subK}}][{{$j}}]" value="{{ $arrVal }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-xs text-stone-600" placeholder="{{ $subK }} {{$j+1}}">
+                                                    @endforeach
+                                                @else
+                                                    <div class="grid grid-cols-[100px_1fr] items-center">
+                                                        <span class="text-xs font-medium text-stone-600">{{ ucwords(str_replace('_', ' ', $subK)) }}</span>
+                                                        @if(str_contains($subK, 'text') || str_contains($subK, 'description'))
+                                                            <textarea name="content[{{$key}}][{{$i}}][{{$subK}}]" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm">{{ $subV }}</textarea>
+                                                        @else
+                                                            <input type="text" name="content[{{$key}}][{{$i}}][{{$subK}}]" value="{{ $subV }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm">
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <input type="text" name="content[{{$key}}][{{$i}}]" value="{{ $item }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm">
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="mt-4">
+                            <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">{{ ucwords(str_replace('_', ' ', $key)) }}</label>
+                            @if(str_contains($key, 'text') || str_contains($key, 'description'))
+                                <textarea name="content[{{$key}}]" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $val }}</textarea>
+                            @else
+                                <input name="content[{{$key}}]" value="{{ $val }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                            @endif
+                        </div>
+                    @endif
+                @endforeach
+
+            @elseif(str_starts_with($section->section_type, 'hiw_'))
+                <div>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Title</label>
+                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->title }}</textarea>
+                </div>
+                
+                @if(in_array($section->section_type, ['hiw_hero', 'hiw_timeline', 'hiw_cards_grid', 'hiw_personal_brief']))
+                    <div>
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Subtitle</label>
+                        <textarea name="subtitle" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
+                    </div>
+                @endif
+                
+                @if(in_array($section->section_type, ['hiw_hero', 'hiw_cta']))
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button Text</label><input type="text" name="content[button_1]" value="{{ $contentData['button_1'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
+                        <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button URL</label><input type="text" name="content[button_1_url]" value="{{ $contentData['button_1_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button Text</label><input type="text" name="content[button_2]" value="{{ $contentData['button_2'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
+                        <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button URL</label><input type="text" name="content[button_2_url]" value="{{ $contentData['button_2_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
+                    </div>
+                @endif
+
+                @if($section->section_type === 'hiw_help')
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Left Button Text</label><input type="text" name="content[button]" value="{{ $contentData['button'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
+                        <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Left Button URL</label><input type="text" name="content[button_url]" value="{{ $contentData['button_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
+                    </div>
+                @endif
+                
+                @if(in_array($section->section_type, ['hiw_timeline', 'hiw_cards_grid', 'hiw_cards_grid_flat', 'hiw_help']))
+                    @php $limit = $section->section_type === 'hiw_timeline' ? 6 : 4; @endphp
+                    <div class="mt-4">
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">{{ $limit }} Data Cards</label>
+                        <div class="space-y-3">
+                            @for($i = 0; $i < $limit; $i++)
+                                <div class="grid grid-cols-[1fr_2fr] gap-3 bg-stone-50 p-2 rounded-md border border-stone-200">
+                                    <input type="text" name="content[cards][{{$i}}][{{ $section->section_type === 'hiw_timeline' ? 'day' : 'title' }}]" value="{{ $contentData['cards'][$i][$section->section_type === 'hiw_timeline' ? 'day' : 'title'] ?? '' }}" placeholder="{{ $section->section_type === 'hiw_timeline' ? 'Day' : 'Card Title' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                                    <input type="text" name="content[cards][{{$i}}][{{ $section->section_type === 'hiw_timeline' ? 'label' : 'text' }}]" value="{{ $contentData['cards'][$i][$section->section_type === 'hiw_timeline' ? 'label' : 'text'] ?? '' }}" placeholder="{{ $section->section_type === 'hiw_timeline' ? 'Label Text' : 'Description text' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                                </div>
+                            @endfor
+                        </div>
+                    </div>
+                @endif
+
+                @if(in_array($section->section_type, ['hiw_honest_read', 'hiw_physical_pack']))
+                    @php $limit = $section->section_type === 'hiw_honest_read' ? 5 : 3; @endphp
+                    <div class="mt-4">
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">{{ $limit }} Bullet Points</label>
+                        <div class="space-y-2">
+                            @for($i = 0; $i < $limit; $i++)
+                                <input type="text" name="content[cards][{{$i}}]" value="{{ (is_array($contentData['cards'][$i] ?? '')) ? ($contentData['cards'][$i]['title'] ?? '') : ($contentData['cards'][$i] ?? '') }}" placeholder="Bullet line {{$i+1}}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                            @endfor
+                        </div>
+                    </div>
+                @endif
+
+                @if($section->section_type === 'hiw_personal_brief')
+                    <div class="mt-4">
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Outcome Tags (Up to 5)</label>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                            @for($i = 0; $i < 5; $i++)
+                                <input type="text" name="content[tags][{{$i}}]" value="{{ (is_array($contentData['tags'][$i] ?? '')) ? ($contentData['tags'][$i]['title'] ?? '') : ($contentData['tags'][$i] ?? '') }}" placeholder="Outcome" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                            @endfor
+                        </div>
+                    </div>
+                @endif
+
+                @if(in_array($section->section_type, ['hiw_product_layer', 'hiw_ready']))
+                    @php $titleKey = $section->section_type === 'hiw_ready' ? 'badge' : 'title'; @endphp
+                    <div class="grid lg:grid-cols-2 gap-6 bg-stone-50 p-4 rounded-xl border border-stone-200 mt-4">
+                        <div>
+                            <div class="mb-2"><input type="text" name="content[col1_{{$titleKey}}]" value="{{ $contentData["col1_{$titleKey}"] ?? '' }}" placeholder="Column 1 Title/Badge" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-bold"></div>
+                            <div class="space-y-2">
+                                @for($i = 0; $i < 3; $i++)
+                                    <input type="text" name="content[col1_items][{{$i}}]" value="{{ $contentData['col1_items'][$i] ?? '' }}" placeholder="Line item {{$i+1}}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-xs">
+                                @endfor
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mb-2"><input type="text" name="content[col2_{{$titleKey}}]" value="{{ $contentData["col2_{$titleKey}"] ?? '' }}" placeholder="Column 2 Title/Badge" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-bold"></div>
+                            <div class="space-y-2">
+                                @for($i = 0; $i < 3; $i++)
+                                    <input type="text" name="content[col2_items][{{$i}}]" value="{{ $contentData['col2_items'][$i] ?? '' }}" placeholder="Line item {{$i+1}}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-xs">
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
             @else
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Title</label>
-                    <input name="title" value="{{ $section->title }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                    <input name="title" value="{{ $section->title }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">
                 </div>
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Description / Subtitle</label>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Subtitle / Description</label>
                     <textarea name="subtitle" rows="3" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
                 </div>
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Content Data (JSON)</label>
-                    <textarea name="content" rows="4" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-mono bg-stone-50">{{ is_string($section->content) && str_starts_with(trim($section->content), '{') ? $section->content : '' }}</textarea>
+                    <textarea name="content" rows="4" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-mono bg-stone-50">{{ is_string($section->content) && str_starts_with(trim($section->content), '{') ? $section->content : (is_array($contentData) ? json_encode($contentData, JSON_PRETTY_PRINT) : '{}') }}</textarea>
                 </div>
             @endif
 
-            @if(!in_array($section->section_type, ['rich_text', 'spacer', 'faq']))
-            <div class="border-t border-stone-100 pt-5 mt-5">
-                <label class="text-xs font-semibold text-stone-600 uppercase block mb-4">Media / Image</label>
-                <div class="flex gap-6 items-start">
+            @if(!in_array($section->section_type, ['rich_text', 'spacer', 'faq', 'features', 'standards']))
+            <div class="border-t border-stone-200 pt-6 mt-6">
+                <label class="text-xs font-semibold text-stone-600 uppercase block mb-4">Media / Image Upload</label>
+                <div class="flex flex-col sm:flex-row gap-6 items-start">
                     @if($section->media)
-                        <div class="w-24 h-24 rounded border overflow-hidden shrink-0">
+                        <div class="w-32 h-32 rounded-xl border border-stone-200 overflow-hidden shrink-0 shadow-sm relative group bg-stone-100 flex items-center justify-center">
                             <img src="{{ $section->media->storage_path ? asset('storage/'.$section->media->storage_path) : $section->media->url }}" class="w-full h-full object-cover">
                         </div>
                     @endif
-                    <div class="flex-1">
-                        <input type="file" name="image" accept="image/*" class="text-sm">
-                        <p class="text-[11px] text-stone-400 mt-2 tracking-wide">Upload a new image to replace the current media.</p>
+                    <div class="flex-1 w-full relative">
+                        <input type="file" name="image" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="this.nextElementSibling.querySelector('span.filename').innerText = this.files[0].name">
+                        <div class="border-2 border-dashed border-stone-300 rounded-xl bg-stone-50/50 hover:bg-stone-50 transition p-6 flex flex-col items-center justify-center text-center h-32">
+                            <svg class="h-6 w-6 text-stone-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            <span class="text-sm font-semibold text-stone-700 filename">Click or drag image here</span>
+                            <span class="text-xs text-stone-500 mt-1">PNG, JPG, WEBP up to 5MB</span>
+                        </div>
                     </div>
                 </div>
             </div>

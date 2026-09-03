@@ -3,18 +3,14 @@
     if (!is_array($contentData)) $contentData = [];
     $settings = $contentData['settings'] ?? ['top_spacing' => '80px', 'bottom_spacing' => '80px'];
 @endphp
-<dialog id="modal-settings-{{$section->id}}" class="backdrop:bg-stone-900/50 p-0 rounded-xl shadow-2xl w-full max-w-xl bg-white border-0 open:animate-[fadeIn_0.2s_ease-out]">
-    <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50 rounded-t-xl">
+<dialog id="modal-settings-{{$section->id}}" class="backdrop:bg-stone-900/50 m-auto p-0 shadow-2xl w-full max-w-xl bg-white border-0 open:animate-[fadeIn_0.2s_ease-out]">
+    <div class="p-6 border-b border-stone-100 flex justify-between items-center bg-stone-50">
         <h3 class="text-lg font-bold text-stone-900">Section Settings</h3>
         <button type="button" onclick="this.closest('dialog').close()" class="text-stone-400 hover:text-stone-600"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
     </div>
     <form method="POST" action="{{ route('admin.cms.sections.update', $section) }}" class="p-6">
         @csrf @method('PUT')
-        @foreach($contentData as $key => $val)
-            @if($key !== 'settings' && !is_array($val))
-                <input type="hidden" name="content[{{ $key }}]" value="{{ $val }}">
-            @endif
-        @endforeach
+        <input type="hidden" name="_is_settings_form" value="1">
         <input type="hidden" name="sort_order" value="{{ $section->sort_order }}">
         <input type="hidden" name="title" value="{{ $section->title }}">
         <input type="hidden" name="subtitle" value="{{ $section->subtitle }}">

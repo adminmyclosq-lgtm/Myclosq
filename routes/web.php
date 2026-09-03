@@ -28,10 +28,10 @@ use App\Http\Controllers\Web\Admin\ResetOperationsController;
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/shop', [ShopController::class,'index'])->name('shop');
-Route::get('/how-it-works', [HomeController::class,'cmsPage'])->defaults('slug', 'how-it-works')->name('how-it-works');
-Route::get('/our-standards', [HomeController::class,'cmsPage'])->defaults('slug', 'our-standards')->name('our-standards');
-Route::get('/learn', [HomeController::class,'cmsPage'])->defaults('slug', 'learn')->name('learn');
-Route::get('/support', [HomeController::class,'cmsPage'])->defaults('slug', 'support')->name('support');
+Route::get('/how-it-works', [HomeController::class,'howItWorks'])->name('how-it-works');
+Route::view('/our-standards', 'our-standards')->name('our-standards');
+Route::view('/learn', 'learn')->name('learn');
+Route::view('/support', 'support')->name('support');
 Route::get('/product/{product:slug}', [ShopController::class,'show'])->name('product.show');
 Route::get('/mybrief', [MyBriefController::class, 'show'])->middleware('auth')->name('my-brief');
 Route::get('/my-plan', [MyPlanController::class, 'show'])->middleware('auth')->name('my-plan');

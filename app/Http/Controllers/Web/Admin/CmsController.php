@@ -70,7 +70,16 @@ class CmsController extends Controller {
         
         $content = $request->input('content');
         if (is_array($content)) {
-            $data['content'] = json_encode($content);
+            $existingContent = is_string($section->content) ? json_decode($section->content, true) : [];
+            if (!is_array($existingContent)) $existingContent = [];
+            
+            if ($request->has('_is_settings_form')) {
+                $existingContent['settings'] = $content['settings'] ?? [];
+                $data['content'] = json_encode($existingContent);
+            } else {
+                $content['settings'] = $existingContent['settings'] ?? [];
+                $data['content'] = json_encode($content);
+            }
         } else {
             $data['content'] = $content;
         }
