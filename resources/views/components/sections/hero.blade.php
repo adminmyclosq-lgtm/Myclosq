@@ -11,10 +11,11 @@
     // Spacing
     $topStyle = isset($settings['top_spacing']) && $settings['top_spacing'] ? "padding-top: {$settings['top_spacing']};" : "padding-top: 64px;";
     $bottomStyle = isset($settings['bottom_spacing']) && $settings['bottom_spacing'] ? "padding-bottom: {$settings['bottom_spacing']};" : "padding-bottom: 64px;";
+    $bgColor = isset($settings['bg_color']) && $settings['bg_color'] ? $settings['bg_color'] : "bg-[var(--cream)]";
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="relative overflow-hidden bg-[var(--cream)]" style="{{ $topStyle }} {{ $bottomStyle }}">
+<section class="relative overflow-hidden {{ $bgColor }}" style="{{ $topStyle }} {{ $bottomStyle }}">
     <div class="section !py-0 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div class="max-w-xl animate-[fadeIn_.7s_ease-out_both]">
             <span class="badge">{{ $heroBadge }}</span>

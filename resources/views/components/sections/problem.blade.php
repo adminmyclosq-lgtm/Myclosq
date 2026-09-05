@@ -9,10 +9,11 @@
     
     $topStyle = isset($settings['top_spacing']) && $settings['top_spacing'] ? "padding-top: {$settings['top_spacing']};" : "padding-top: 80px;";
     $bottomStyle = isset($settings['bottom_spacing']) && $settings['bottom_spacing'] ? "padding-bottom: {$settings['bottom_spacing']};" : "padding-bottom: 80px;";
+    $bgColor = isset($settings['bg_color']) && $settings['bg_color'] ? $settings['bg_color'] : "bg-background";
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="border-t border-border/60 bg-background">
+<section class="border-t border-border/60 {{ $bgColor }}" style="{{ $topStyle }} {{ $bottomStyle }}">
     <div class="section grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:items-center">
         <div class="overflow-hidden rounded-2xl bg-cream">
             @if($section->media)

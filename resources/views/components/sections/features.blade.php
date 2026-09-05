@@ -13,10 +13,11 @@
     
     $topStyle = isset($settings['top_spacing']) && $settings['top_spacing'] ? "padding-top: {$settings['top_spacing']};" : "padding-top: 80px;";
     $bottomStyle = isset($settings['bottom_spacing']) && $settings['bottom_spacing'] ? "padding-bottom: {$settings['bottom_spacing']};" : "padding-bottom: 80px;";
+    $bgColor = isset($settings['bg_color']) && $settings['bg_color'] ? $settings['bg_color'] : "bg-[var(--cream)]";
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="bg-[var(--cream)]" id="how-it-works" style="{{ $topStyle }} {{ $bottomStyle }}">
+<section class="{{ $bgColor }}" id="how-it-works" style="{{ $topStyle }} {{ $bottomStyle }}">
     <div class="section">
         <div class="max-w-3xl">
             <span class="badge">{{ $badge }}</span>
