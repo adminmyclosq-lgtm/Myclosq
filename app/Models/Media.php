@@ -28,6 +28,6 @@ class Media extends Model
 
     public function getUrlAttribute(): string
     {
-        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->storage_path);
+        return url('storage/'.ltrim($this->storage_path, '/'));
     }
 }
