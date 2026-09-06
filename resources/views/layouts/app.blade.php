@@ -27,13 +27,7 @@
 <header class="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
     <div class="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-5 h-16 sm:px-8">
         <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold tracking-tight text-foreground">
-            @if(!empty($headerLogo))
-                <img src="{{ $headerLogo->url }}" alt="Guided Wellness" class="h-10 w-10 rounded-full object-cover">
-                <span>Guided Wellness</span>
-            @else
-                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--ink)] text-sm font-bold text-white">GW</span>
-                <span>Guided Wellness</span>
-            @endif
+            <img src="{{ asset('images/closq-logo.jpg') }}" alt="CLOS.Q Logo" class="h-14 w-auto object-contain">
         </a>
         <nav class="hidden items-center gap-7 text-sm md:flex">
             @auth
