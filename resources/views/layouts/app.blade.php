@@ -49,7 +49,29 @@
             <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Gut Reset</a>
         </nav>
         <div class="flex items-center gap-3 text-sm">
-            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 md:hidden" style="background-color: #587762;">Shop Gut Reset</a>
+            <details class="group relative md:hidden">
+                <summary class="inline-flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-stone-200 bg-white text-[var(--ink)] [&::-webkit-details-marker]:hidden" aria-label="Open menu">
+                    <svg class="h-5 w-5 group-open:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" /></svg>
+                    <svg class="hidden h-5 w-5 group-open:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" d="m6 6 12 12M18 6 6 18" /></svg>
+                </summary>
+                <nav class="absolute right-0 top-full z-50 mt-3 w-64 rounded-xl border border-stone-200 bg-white p-2 shadow-xl">
+                    <a href="{{ route('home') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Home</a>
+                    <a href="{{ route('how-it-works') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">How It Works</a>
+                    <a href="{{ route('our-standards') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Our Standards</a>
+                    <a href="{{ route('learn') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Learn</a>
+                    <a href="{{ route('support') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Support</a>
+                    @auth
+                        @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
+                            <a href="{{ route('my-brief') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">My Brief</a>
+                        @endunless
+                        @php($mobileAccountRoute = auth()->user()?->hasRole('SUPER_ADMIN') ? 'admin.dashboard' : 'account')
+                        <a href="{{ route($mobileAccountRoute) }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Account</a>
+                    @else
+                        <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a>
+                    @endauth
+                    <a href="{{ route('shop') }}" class="mt-1 block rounded-lg bg-[#587762] px-4 py-3 text-center font-medium text-white">Shop Gut Reset</a>
+                </nav>
+            </details>
             <div class="group relative">
                 <a href="{{ route('cart') }}" class="inline-flex items-center gap-1.5 font-semibold text-[var(--ink)]" aria-label="Cart, {{ $headerCartItemCount }} item{{ $headerCartItemCount === 1 ? '' : 's' }}">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-1.1 2.2A1 1 0 0 0 6.8 17H19M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" /></svg>
@@ -105,7 +127,6 @@
                         </form>
                     </div>
                 </details>
-                <a href="{{ route($accountRoute) }}" class="inline-flex md:hidden">Account</a>
             @else
                 <a href="{{ route('login') }}" class="hidden items-center gap-1.5 font-semibold text-[var(--ink)] md:inline-flex"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path stroke-linecap="round" d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg>Login</a>
             @endauth

@@ -9,9 +9,7 @@
         @foreach($products as $product)
         <article class="card overflow-hidden p-0">
             <a href="{{ route('product.show',$product) }}" class="block aspect-square bg-stone-100">
-                @if($product->productImages->first()?->media)
-                    <img src="{{ $product->productImages->first()?->media->url }}" class="h-full w-full object-cover" alt="{{ $product->name }}">
-                @endif
+                <img src="{{ $product->productImages->first()?->media?->url ?: 'https://guided-gut-reset-lovable-app.lovable.app/assets/hero-product-CftTmpl1.jpg' }}" class="h-full w-full object-cover" alt="{{ $product->name }}" onerror="this.onerror=null;this.src='https://guided-gut-reset-lovable-app.lovable.app/assets/hero-product-CftTmpl1.jpg';">
             </a>
             <div class="p-6">
                 <div class="text-xs uppercase tracking-widest text-stone-500">{{ $product->category->name ?? 'Gut Reset' }}</div>

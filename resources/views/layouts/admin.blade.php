@@ -23,14 +23,12 @@
     </div>
     
     <!-- Account Menu (CSS Hover) -->
-    <div class="relative group h-full flex items-center cursor-default">
-        <div class="flex items-center gap-2 transition-colors hover:text-[var(--ink)] h-full px-2">
+    <details class="group relative flex h-full items-center">
+        <summary class="flex cursor-pointer list-none items-center gap-2 px-2 transition-colors hover:text-[var(--ink)] [&::-webkit-details-marker]:hidden">
             <span>{{ Auth::user()->name ?? 'Administrator' }}</span>
-            <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-        </div>
-        
-        <!-- Dropdown -->
-        <div class="absolute right-0 top-full mt-3 w-56 rounded-md border border-stone-200 bg-white py-1 shadow-xl z-50 hidden group-hover:block">
+            <svg class="h-3 w-3 opacity-50 transition group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"></path></svg>
+        </summary>
+        <div class="absolute right-0 top-full z-50 mt-3 w-56 rounded-md border border-stone-200 bg-white py-1 shadow-xl">
             <div class="mb-1 border-b border-stone-100 px-4 py-3">
                 <div class="truncate text-sm font-medium text-stone-900">{{ Auth::user()->name ?? 'Administrator' }}</div>
                 <div class="text-[10px] text-stone-400 mt-1 truncate uppercase tracking-widest font-semibold">
@@ -42,11 +40,11 @@
                 <button type="submit" class="w-full px-4 py-2 text-left text-stone-700 transition-colors hover:bg-stone-50 hover:text-[var(--ink)]">Sign Out</button>
             </form>
         </div>
-    </div>
+    </details>
 </header>
 
 <div class="flex min-h-0 flex-1 overflow-hidden">
-<aside class="w-full shrink-0 overflow-y-auto border-r bg-white md:w-64">
+<aside class="max-h-56 w-full shrink-0 overflow-y-auto border-r bg-white md:max-h-none md:w-64">
 <nav class="space-y-1 p-4 text-sm font-medium text-stone-600">
 @foreach([
 ['Dashboard','admin.dashboard'],['Products','admin.products.index'],['Orders','admin.orders.index'],['Customers','admin.customers.index'],
