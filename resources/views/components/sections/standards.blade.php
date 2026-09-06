@@ -13,10 +13,11 @@
     
     $topStyle = isset($settings['top_spacing']) && $settings['top_spacing'] ? "padding-top: {$settings['top_spacing']};" : "padding-top: 80px;";
     $bottomStyle = isset($settings['bottom_spacing']) && $settings['bottom_spacing'] ? "padding-bottom: {$settings['bottom_spacing']};" : "padding-bottom: 80px;";
+    $bgColor = isset($settings['bg_color']) && $settings['bg_color'] ? $settings['bg_color'] : "";
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="section" id="standards" style="{{ $topStyle }} {{ $bottomStyle }}">
+<section class="section {{ $bgColor }}" id="standards" style="{{ $topStyle }} {{ $bottomStyle }}">
     <div class="max-w-3xl">
         <span class="badge">{{ $badge }}</span>
         <h2 class="display-serif mt-4 text-4xl leading-tight">{!! $section->title ?? 'Standards you should be able to inspect.' !!}</h2>

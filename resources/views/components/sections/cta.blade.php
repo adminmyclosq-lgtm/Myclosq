@@ -4,8 +4,9 @@
     $settings = $contentData['settings'] ?? [];
     $topSpace = $settings['top_spacing'] ?? '80px';
     $bottomSpace = $settings['bottom_spacing'] ?? '80px';
+    $bgColor = $settings['bg_color'] ?? '';
 @endphp
-<section class="section" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }};" id="section-{{ $section->id ?? 'new' }}">
+<section class="section {{ $bgColor }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }};" id="section-{{ $section->id ?? 'new' }}">
     <div class="rounded-[2rem] bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)] px-6 py-12 text-white md:px-12 md:py-16">
         <div class="grid gap-8 md:grid-cols-[1.25fr_.75fr] md:items-end">
             <div>
