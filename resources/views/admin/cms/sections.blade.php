@@ -87,6 +87,7 @@
                             <span>Top: {{ $settings['top_spacing'] ?? '80px' }}</span>
                             <span>Bottom: {{ $settings['bottom_spacing'] ?? '80px' }}</span>
                             <span>BG: {{ isset($settings['bg_color']) && $settings['bg_color'] != 'bg-white' ? '✓' : 'None' }}</span>
+                            <span>Font: {{ isset($settings['title_font_size']) || isset($settings['body_font_size']) ? '✓' : 'Default' }}</span>
                         </div>
                     </div>
                 </div>

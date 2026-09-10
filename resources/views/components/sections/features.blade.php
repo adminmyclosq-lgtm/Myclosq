@@ -21,13 +21,13 @@
     <div class="section">
         <div class="max-w-3xl">
             <span class="badge">{{ $badge }}</span>
-            <h2 class="display-serif mt-4 text-4xl leading-tight">{!! $section->title ?? 'The capsule creates the response.<br>The guided course helps make it readable.' !!}</h2>
+            <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }}" @endif>{!! $section->title ?? 'The capsule creates the response.<br>The guided course helps make it readable.' !!}</h2>
         </div>
         <div class="mt-12 grid gap-6 md:grid-cols-3">
             @foreach($cards as $card)
                 <div class="card">
                     <div class="text-sm font-semibold">{{ $card['title'] ?? '' }}</div>
-                    <p class="mt-3 text-sm leading-6 text-stone-600">{{ $card['text'] ?? '' }}</p>
+                    <p class="mt-3 leading-6 text-stone-600 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-sm' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>{{ $card['text'] ?? '' }}</p>
                 </div>
             @endforeach
         </div>

@@ -26,8 +26,8 @@
         </div>
         <div>
             <div class="badge mb-4">{{ $badge }}</div>
-            <h2 class="font-serif text-4xl leading-[1.1] text-foreground md:text-5xl">{!! $section->title ?? 'Most gut resets leave you guessing.' !!}</h2>
-            <p class="mt-6 max-w-md text-[15px] leading-relaxed text-foreground/70">{{ $section->subtitle }}</p>
+            <h2 class="{{ $settings['title_font_family'] ?? 'font-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-[1.1] md:text-5xl' }} text-foreground" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }}" @endif>{!! $section->title ?? 'Most gut resets leave you guessing.' !!}</h2>
+            <p class="mt-6 max-w-md leading-relaxed text-foreground/70 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>{{ $section->subtitle }}</p>
             
             @if(!empty($cards))
             <ul class="mt-8 space-y-4 text-[14px] text-foreground/75">

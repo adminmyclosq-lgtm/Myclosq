@@ -19,8 +19,8 @@
     <div class="section !py-0 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div class="max-w-xl animate-[fadeIn_.7s_ease-out_both]">
             <span class="badge">{{ $heroBadge }}</span>
-            <h1 class="display-serif mt-5 text-5xl leading-[1.02] md:text-6xl lg:text-7xl">{!! $section->title ?? 'Take it daily.<br>Check in lightly.<br>Know what changed.' !!}</h1>
-            <p class="mt-6 max-w-md text-[15px] leading-7 text-stone-600">
+            <h1 class="mt-5 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-5xl leading-[1.02] md:text-6xl lg:text-7xl' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }}" @endif>{!! $section->title ?? 'Take it daily.<br>Check in lightly.<br>Know what changed.' !!}</h1>
+            <p class="mt-6 max-w-md leading-7 text-stone-600 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>
                 {{ $section->subtitle ?? 'A 30-day guided gut-support capsule course. Take one capsule daily, complete a few short course moments, and receive a personal Gut Response Brief showing what changed and what to do next.' }}
             </p>
             <div class="mt-8 flex flex-wrap gap-3">

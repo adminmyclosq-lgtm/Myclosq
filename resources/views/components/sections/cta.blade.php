@@ -11,8 +11,8 @@
         <div class="grid gap-8 md:grid-cols-[1.25fr_.75fr] md:items-end">
             <div>
                 <span class="badge bg-white/10 text-white">{{ $contentData['eyebrow'] ?? 'Start the course' }}</span>
-                <h2 class="display-serif mt-4 text-5xl leading-tight">{{ $section->title ?? 'Give the capsule a fair 30-day trial.' }}</h2>
-                <p class="mt-4 max-w-2xl text-white/80">{{ $section->subtitle ?? 'Start the course and receive your Gut Response Brief at Day 30.' }}</p>
+                <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-5xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }}" @endif>{{ $section->title ?? 'Give the capsule a fair 30-day trial.' }}</h2>
+                <p class="mt-4 max-w-2xl text-white/80 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>{{ $section->subtitle ?? 'Start the course and receive your Gut Response Brief at Day 30.' }}</p>
             </div>
             <div class="flex flex-wrap gap-3 md:justify-end">
                 <a class="btn-primary !bg-white !text-[var(--ink)]" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ $contentData['primary_button_text'] ?? 'Shop Gut Reset' }}</a>

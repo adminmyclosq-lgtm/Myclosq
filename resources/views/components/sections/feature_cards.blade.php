@@ -14,7 +14,7 @@
         @else
             <span class="badge">Check your fit</span>
         @endif
-        <h2 class="display-serif mt-4 text-4xl leading-tight">{{ $section->title ?? 'Is this likely to be right for you?' }}</h2>
+        <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }}" @endif>{{ $section->title ?? 'Is this likely to be right for you?' }}</h2>
         <div class="mt-10 grid gap-6 md:grid-cols-2">
             @if(count($items) > 0)
                 @foreach($items as $item)

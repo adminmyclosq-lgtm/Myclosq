@@ -14,9 +14,9 @@
     <div class="section grid gap-10 md:grid-cols-2 md:items-center">
         <div>
             @if($eyebrow)<span class="badge">{{ $eyebrow }}</span>@endif
-            <h2 class="display-serif mt-4 text-4xl leading-tight">{{ $title }}</h2>
+            <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }}" @endif>{{ $title }}</h2>
             @if(count($listItems) > 0)
-            <ul class="mt-7 space-y-4 text-stone-700">
+            <ul class="mt-7 space-y-4 text-stone-700 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-base' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>
                 @foreach($listItems as $item)
                     @if(trim($item)) <li>{{ $item }}</li> @endif
                 @endforeach

@@ -15,8 +15,8 @@
             @else
                 <span class="badge">Questions</span>
             @endif
-            <h2 class="display-serif mt-4 text-4xl leading-tight">{{ $section->title ?? 'Questions you might have.' }}</h2>
-            @if($section && $section->subtitle)<p class="mt-4 leading-7 text-stone-600">{{ $section->subtitle }}</p>@endif
+            <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }}" @endif>{{ $section->title ?? 'Questions you might have.' }}</h2>
+            @if($section && $section->subtitle)<p class="mt-4 leading-7 text-stone-600 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>{{ $section->subtitle }}</p>@endif
         </div>
         <div class="mt-10 grid gap-4 md:grid-cols-2">
             @if(count($items) > 0)
