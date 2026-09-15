@@ -47,7 +47,7 @@
 <nav class="space-y-1 p-4 text-sm font-medium text-stone-600">
 @foreach([
 ['Dashboard','admin.dashboard'],['Products','admin.products.index'],['Orders','admin.orders.index'],['Customers','admin.customers.index'],
-['Inventory','admin.inventory.index'],['Shipping','admin.shipping.index'],['Coupons','admin.coupons.index'],['Media','admin.media.index'],['CMS','admin.cms.index'],['Payments','admin.payments.index'],['Fulfilment','admin.fulfilment.index'],['WhatsApp','admin.whatsapp.dashboard'],['Day 0–30','admin.reset.operations']
+['Inventory','admin.inventory.index'],['Shipping','admin.shipping.index'],['Coupons','admin.coupons.index'],['Media','admin.media.index'],['CMS','admin.cms.index'],['Global CMS','admin.cms.global'],['Payments','admin.payments.index'],['Fulfilment','admin.fulfilment.index'],['WhatsApp','admin.whatsapp.dashboard'],['Day 0–30','admin.reset.operations']
 ] as $item)
 <a class="block rounded-lg px-3 py-2 hover:bg-stone-100 hover:text-stone-900 transition-colors {{ request()->routeIs($item[1].'*') ? 'bg-stone-100 text-stone-900' : '' }}" href="{{ route($item[1]) }}">{{ $item[0] }}</a>
 @endforeach

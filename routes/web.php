@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function() {
         Route::post('/media',[AdminMediaController::class,'store'])->name('media.store');
 
         Route::get('/cms',[AdminCmsController::class,'index'])->name('cms.index');
+        Route::get('/cms/global',[AdminCmsController::class,'global'])->name('cms.global');
         Route::put('/cms/{page}',[AdminCmsController::class,'update'])->name('cms.update');
         Route::get('/cms/{page}/sections',[AdminCmsController::class,'sections'])->name('cms.sections');
         Route::post('/cms/{page}/sections',[AdminCmsController::class,'storeSection'])->name('cms.sections.store');

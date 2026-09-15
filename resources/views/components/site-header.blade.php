@@ -13,6 +13,23 @@
     $roleLabel = $primaryRole
         ? ucwords(strtolower(str_replace('_', ' ', (string) $primaryRole->code)))
         : 'User';
+
+    // Global CMS Data
+    $globalPage = \App\Models\CmsPage::where('slug', 'global')->with('sections')->first();
+    $headerSection = $globalPage ? $globalPage->sections->where('section_type', 'header')->first() : null;
+    $headerContent = $headerSection ? (is_string($headerSection->content) ? json_decode($headerSection->content, true) : $headerSection->content) : [];
+    if (!is_array($headerContent)) $headerContent = [];
+    
+    $navItems = !empty($headerContent['nav_items']) ? $headerContent['nav_items'] : [
+        ['label' => 'Home', 'url' => route('home')],
+        ['label' => 'How It Works', 'url' => route('how-it-works')],
+        ['label' => 'Our Standards', 'url' => route('our-standards')],
+        ['label' => 'Learn', 'url' => route('learn')],
+        ['label' => 'Support', 'url' => route('support')],
+    ];
+    $btnText = $headerContent['button_text'] ?? 'Shop Gut Reset';
+    $btnUrl = $headerContent['button_url'] ?? route('shop');
+    $btnColor = $headerContent['settings']['button_primary_color'] ?? '#587762';
 @endphp
 <header class="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
     <div class="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-5 py-3 sm:px-8">
@@ -25,12 +42,10 @@
                     <a href="{{ route('my-brief') }}">My Brief</a>
                 @endunless
             @endauth
-            <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('how-it-works') }}">How It Works</a>
-            <a href="{{ route('our-standards') }}">Our Standards</a>
-            <a href="{{ route('learn') }}">Learn</a>
-            <a href="{{ route('support') }}">Support</a>
-            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Gut Reset</a>
+            @foreach($navItems as $item)
+                <a href="{{ url($item['url'] ?? '#') }}">{{ $item['label'] ?? '' }}</a>
+            @endforeach
+            <a href="{{ url($btnUrl) }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: {{ $btnColor }};">{{ $btnText }}</a>
         </nav>
         <div class="flex items-center gap-3 text-sm">
             <details class="group relative md:hidden">
@@ -39,11 +54,9 @@
                     <svg class="hidden h-5 w-5 group-open:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" d="m6 6 12 12M18 6 6 18" /></svg>
                 </summary>
                 <nav class="absolute right-0 top-full z-50 mt-3 w-64 rounded-xl border border-stone-200 bg-white p-2 shadow-xl">
-                    <a href="{{ route('home') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Home</a>
-                    <a href="{{ route('how-it-works') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">How It Works</a>
-                    <a href="{{ route('our-standards') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Our Standards</a>
-                    <a href="{{ route('learn') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Learn</a>
-                    <a href="{{ route('support') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Support</a>
+                    @foreach($navItems as $item)
+                        <a href="{{ url($item['url'] ?? '#') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">{{ $item['label'] ?? '' }}</a>
+                    @endforeach
                     @auth
                         @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
                             <a href="{{ route('my-brief') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">My Brief</a>
@@ -52,7 +65,7 @@
                     @else
                         <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a>
                     @endauth
-                    <a href="{{ route('shop') }}" class="mt-1 block rounded-lg bg-[#587762] px-4 py-3 text-center font-medium text-white">Shop Gut Reset</a>
+                    <a href="{{ url($btnUrl) }}" class="mt-1 block rounded-lg px-4 py-3 text-center font-medium text-white" style="background-color: {{ $btnColor }};">{{ $btnText }}</a>
                 </nav>
             </details>
             <div class="group relative">

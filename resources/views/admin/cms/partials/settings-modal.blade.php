@@ -57,14 +57,33 @@
             <div>
                 <h4 class="text-sm font-bold text-stone-800 border-b pb-2 mb-4">Background</h4>
                 <div class="grid grid-cols-2 gap-4">
-                    <div>
+                    <div class="col-span-2">
                         <label class="text-xs font-semibold text-stone-500 uppercase">Background Color</label>
-                        <select name="content[settings][bg_color]" class="mt-1 w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                            <option value="bg-white" @selected(($settings['bg_color']??'') == 'bg-white')>White</option>
-                            <option value="bg-[var(--cream)]" @selected(($settings['bg_color']??'') == 'bg-[var(--cream)]')>Cream</option>
-                            <option value="bg-[var(--ink)]" @selected(($settings['bg_color']??'') == 'bg-[var(--ink)]')>Ink (Dark)</option>
-                            <option value="bg-stone-50" @selected(($settings['bg_color']??'') == 'bg-stone-50')>Light Gray</option>
-                        </select>
+                        <div class="mt-2 flex items-center gap-3">
+                            <input type="color" id="picker_bg_color_{{$section->id}}" value="{{ (str_starts_with($settings['bg_color'] ?? '', '#')) ? $settings['bg_color'] : '#ffffff' }}" oninput="document.getElementById('input_bg_color_{{$section->id}}').value = this.value" class="h-9 w-16 cursor-pointer rounded border border-stone-300 p-0.5 bg-white">
+                            <input type="text" id="input_bg_color_{{$section->id}}" name="content[settings][bg_color]" value="{{ $settings['bg_color'] ?? '' }}" onchange="document.getElementById('picker_bg_color_{{$section->id}}').value = this.value || '#ffffff'" class="w-full max-w-[150px] h-9 rounded-md border border-stone-300 px-3 text-sm font-mono uppercase" placeholder="Class or #HEX">
+                            <button type="button" onclick="document.getElementById('input_bg_color_{{$section->id}}').value = ''; document.getElementById('picker_bg_color_{{$section->id}}').value = '#ffffff';" class="text-xs font-medium text-stone-500 hover:text-stone-800">Clear</button>
+                        </div>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <button type="button" onclick="document.getElementById('picker_bg_color_{{$section->id}}').value='#ffffff'; document.getElementById('input_bg_color_{{$section->id}}').value='bg-white';" class="flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2 py-1 hover:bg-stone-50 transition" title="White (bg-white)">
+                                <div class="h-3 w-3 rounded-full border border-black/10 shadow-inner" style="background-color: #ffffff"></div>
+                                <span class="text-xs text-stone-600">White</span>
+                            </button>
+                            <button type="button" onclick="document.getElementById('picker_bg_color_{{$section->id}}').value='#f5f1e8'; document.getElementById('input_bg_color_{{$section->id}}').value='bg-[var(--cream)]';" class="flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2 py-1 hover:bg-stone-50 transition" title="Cream">
+                                <div class="h-3 w-3 rounded-full border border-black/10 shadow-inner" style="background-color: #f5f1e8"></div>
+                                <span class="text-xs text-stone-600">Cream</span>
+                            </button>
+                            <button type="button" onclick="document.getElementById('picker_bg_color_{{$section->id}}').value='#254536'; document.getElementById('input_bg_color_{{$section->id}}').value='bg-[var(--ink)]';" class="flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2 py-1 hover:bg-stone-50 transition" title="Ink (Dark)">
+                                <div class="h-3 w-3 rounded-full border border-black/10 shadow-inner" style="background-color: #254536"></div>
+                                <span class="text-xs text-stone-600">Ink</span>
+                            </button>
+                            @foreach($swatches as $swatch)
+                                <button type="button" onclick="document.getElementById('picker_bg_color_{{$section->id}}').value='{{$swatch['hex']}}'; document.getElementById('input_bg_color_{{$section->id}}').value='{{$swatch['hex']}}';" class="flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-2 py-1 hover:bg-stone-50 transition" title="{{ $swatch['name'] }} ({{ strtoupper($swatch['hex']) }})">
+                                    <div class="h-3 w-3 rounded-full border border-black/10 shadow-inner" style="background-color: {{ $swatch['hex'] }}"></div>
+                                    <span class="text-xs text-stone-600">{{ $swatch['name'] }}</span>
+                                </button>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -173,6 +192,50 @@
                                     <span class="text-xs text-stone-600">{{ $swatch['name'] }}</span>
                                 </button>
                             @endforeach
+                        </div>
+                    </div>
+
+                    <div class="col-span-2 pt-2 border-t border-stone-100">
+                        <label class="text-xs font-semibold text-stone-500 uppercase">Primary Button</label>
+                        <div class="mt-2 grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-[10px] font-bold text-stone-400 block mb-1">BACKGROUND COLOR</span>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" id="picker_btn_color_{{$section->id}}" value="{{ $settings['button_primary_color'] ?? '#254536' }}" oninput="document.getElementById('input_btn_color_{{$section->id}}').value = this.value" class="h-9 w-12 cursor-pointer rounded border border-stone-300 p-0.5 bg-white">
+                                    <input type="text" id="input_btn_color_{{$section->id}}" name="content[settings][button_primary_color]" value="{{ $settings['button_primary_color'] ?? '' }}" onchange="document.getElementById('picker_btn_color_{{$section->id}}').value = this.value || '#254536'" class="w-full max-w-[100px] h-9 rounded-md border border-stone-300 px-2 text-xs font-mono uppercase" placeholder="#HEX">
+                                    <button type="button" onclick="document.getElementById('input_btn_color_{{$section->id}}').value = ''; document.getElementById('picker_btn_color_{{$section->id}}').value = '#254536';" class="text-xs font-medium text-stone-500 hover:text-stone-800">Clear</button>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-stone-400 block mb-1">TEXT COLOR</span>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" id="picker_btn_text_color_{{$section->id}}" value="{{ $settings['button_primary_text_color'] ?? '#ffffff' }}" oninput="document.getElementById('input_btn_text_color_{{$section->id}}').value = this.value" class="h-9 w-12 cursor-pointer rounded border border-stone-300 p-0.5 bg-white">
+                                    <input type="text" id="input_btn_text_color_{{$section->id}}" name="content[settings][button_primary_text_color]" value="{{ $settings['button_primary_text_color'] ?? '' }}" onchange="document.getElementById('picker_btn_text_color_{{$section->id}}').value = this.value || '#ffffff'" class="w-full max-w-[100px] h-9 rounded-md border border-stone-300 px-2 text-xs font-mono uppercase" placeholder="#HEX">
+                                    <button type="button" onclick="document.getElementById('input_btn_text_color_{{$section->id}}').value = ''; document.getElementById('picker_btn_text_color_{{$section->id}}').value = '#ffffff';" class="text-xs font-medium text-stone-500 hover:text-stone-800">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-2 pt-2 border-t border-stone-100">
+                        <label class="text-xs font-semibold text-stone-500 uppercase">Secondary Button</label>
+                        <div class="mt-2 grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-[10px] font-bold text-stone-400 block mb-1">BACKGROUND COLOR</span>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" id="picker_btn_sec_color_{{$section->id}}" value="{{ $settings['button_secondary_color'] ?? '#254536' }}" oninput="document.getElementById('input_btn_sec_color_{{$section->id}}').value = this.value" class="h-9 w-12 cursor-pointer rounded border border-stone-300 p-0.5 bg-white">
+                                    <input type="text" id="input_btn_sec_color_{{$section->id}}" name="content[settings][button_secondary_color]" value="{{ $settings['button_secondary_color'] ?? '' }}" onchange="document.getElementById('picker_btn_sec_color_{{$section->id}}').value = this.value || '#254536'" class="w-full max-w-[100px] h-9 rounded-md border border-stone-300 px-2 text-xs font-mono uppercase" placeholder="#HEX">
+                                    <button type="button" onclick="document.getElementById('input_btn_sec_color_{{$section->id}}').value = ''; document.getElementById('picker_btn_sec_color_{{$section->id}}').value = '#254536';" class="text-xs font-medium text-stone-500 hover:text-stone-800">Clear</button>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold text-stone-400 block mb-1">OVERRIDE TEXT COLOR</span>
+                                <div class="flex items-center gap-3">
+                                    <input type="color" id="picker_btn_sec_text_color_{{$section->id}}" value="{{ $settings['button_secondary_text_color'] ?? '#254536' }}" oninput="document.getElementById('input_btn_sec_text_color_{{$section->id}}').value = this.value" class="h-9 w-12 cursor-pointer rounded border border-stone-300 p-0.5 bg-white">
+                                    <input type="text" id="input_btn_sec_text_color_{{$section->id}}" name="content[settings][button_secondary_text_color]" value="{{ $settings['button_secondary_text_color'] ?? '' }}" onchange="document.getElementById('picker_btn_sec_text_color_{{$section->id}}').value = this.value || '#254536'" class="w-full max-w-[100px] h-9 rounded-md border border-stone-300 px-2 text-xs font-mono uppercase" placeholder="#HEX">
+                                    <button type="button" onclick="document.getElementById('input_btn_sec_text_color_{{$section->id}}').value = ''; document.getElementById('picker_btn_sec_text_color_{{$section->id}}').value = '#254536';" class="text-xs font-medium text-stone-500 hover:text-stone-800">Clear</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

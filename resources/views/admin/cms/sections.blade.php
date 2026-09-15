@@ -124,9 +124,12 @@
             <div class="flex-1 w-full">
                 <label class="text-xs font-semibold text-stone-500 uppercase block mb-1">Section Type</label>
                 <select name="section_type" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm bg-white shadow-sm focus:border-stone-500 focus:outline-none">
+                    <option value="header">Global Header Navbar</option>
                     <option value="hero">Hero Header</option>
                     <option value="text_image">Text + Image</option>
                     <option value="feature_cards">Feature Cards</option>
+                    <option value="problem">The Problem</option>
+                    <option value="features">Features</option>
                     <option value="statistics">Statistics</option>
                     <option value="standards">Standards / Three Columns</option>
                     <option value="showcase">Product Showcase</option>

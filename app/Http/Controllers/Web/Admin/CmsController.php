@@ -11,6 +11,14 @@ class CmsController extends Controller {
         return back()->with('success','CMS page updated.');
     }
 
+    public function global() {
+        $page = CmsPage::firstOrCreate(
+            ['slug' => 'global'],
+            ['title' => 'Global Components', 'status' => 'published', 'page_type' => 'custom']
+        );
+        return redirect()->route('admin.cms.sections', $page);
+    }
+
     public function sections(CmsPage $page) {
         $page->load('sections');
         return view('admin.cms.sections', compact('page'));

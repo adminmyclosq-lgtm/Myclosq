@@ -11,15 +11,36 @@
             if (!is_array($contentData)) $contentData = [];
             $settings = $contentData['settings'] ?? [];
             if (!empty($settings['hidden_desktop']) && !empty($settings['hidden_mobile'])) continue;
+            
+            $topStyle = isset($settings['top_spacing']) && $settings['top_spacing'] ? "padding-top: {$settings['top_spacing']};" : "";
+            $bottomStyle = isset($settings['bottom_spacing']) && $settings['bottom_spacing'] ? "padding-bottom: {$settings['bottom_spacing']};" : "";
+            $bgColor = $settings['bg_color'] ?? '';
+            $bgClass = !str_starts_with($bgColor, '#') ? $bgColor : '';
+            $bgStyle = str_starts_with($bgColor, '#') ? "background-color: $bgColor;" : '';
+            
+            $btnPrimaryVar = !empty($settings['button_primary_color']) ? "--btn-primary-color: {$settings['button_primary_color']};" : "";
+            $btnPrimaryTextVar = !empty($settings['button_primary_text_color']) ? "--btn-primary-text-color: {$settings['button_primary_text_color']};" : "";
+            $btnSecondaryVar = !empty($settings['button_secondary_color']) ? "--btn-secondary-color: {$settings['button_secondary_color']};" : "";
+            $btnSecondaryTextVar = !empty($settings['button_secondary_text_color']) ? "--btn-secondary-text-color: {$settings['button_secondary_text_color']};" : "";
+            
+            $styleAttr = trim("$topStyle $bottomStyle $bgStyle $btnPrimaryVar $btnPrimaryTextVar $btnSecondaryVar $btnSecondaryTextVar");
+            
+            $titleFont = $settings['title_font_family'] ?? 'font-serif';
+            $titleSize = $settings['title_font_size'] ?? 'text-3xl md:text-4xl';
+            $titleColor = !empty($settings['title_font_color']) ? "color: {$settings['title_font_color']};" : '';
+            
+            $bodyFont = $settings['body_font_family'] ?? '';
+            $bodySize = $settings['body_font_size'] ?? 'text-[15px]';
+            $bodyColor = !empty($settings['body_font_color']) ? "color: {$settings['body_font_color']};" : '';
         @endphp
 
         @if($section->section_type === 'standards_hero')
-            <section class="border-b border-border/60">
+            <section class="border-b border-border/60 {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 grid gap-10 py-20 md:py-32 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
                     <div>
                         <div class="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">Our Standards</div>
-                        <h1 class="mt-4 font-serif text-5xl leading-[1.05] md:text-6xl">{{ $section->title }}</h1>
-                        <p class="mt-6 max-w-md text-[14px] leading-relaxed text-foreground/70">{{ $section->subtitle }}</p>
+                        <h1 class="mt-4 font-serif text-5xl leading-[1.05] md:text-6xl {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h1>
+                        <p class="mt-6 max-w-md text-[14px] leading-relaxed text-foreground/70 {{ $bodyFont }} {{ $bodySize }}"14 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                         <div class="mt-8 flex gap-3">
                             <a href="{{ $contentData['button_1_url'] ?? '#' }}" class="btn-primary">{{ $contentData['button_1'] ?? '' }}</a>
                             <a href="{{ $contentData['button_2_url'] ?? '#' }}" class="btn-secondary">{{ $contentData['button_2'] ?? '' }}</a>
@@ -38,10 +59,10 @@
             </section>
         
         @elseif($section->section_type === 'standards_formulation')
-            <section class="py-24 lg:py-32">
+            <section class="py-24 lg:py-32 {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8">
-                    <h2 class="font-serif text-3xl leading-tight md:text-4xl text-center">{{ $section->title }}</h2>
-                    <p class="mt-3 text-[14px] text-muted-foreground text-center">{{ $section->subtitle }}</p>
+                    <h2 class="font-serif text-3xl leading-tight md:text-4xl text-center {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
+                    <p class="mt-3 text-[14px] text-muted-foreground text-center {{ $bodyFont }} {{ $bodySize }}"14 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                     
                     <div class="mt-10 overflow-hidden rounded-lg border border-border/60">
                         <div class="bg-primary px-6 py-4 text-[12px] uppercase tracking-[0.14em] text-primary-foreground grid grid-cols-5 gap-4">
@@ -56,11 +77,11 @@
             </section>
         
         @elseif($section->section_type === 'standards_quality')
-            <section class="bg-primary text-primary-foreground py-24 lg:py-32">
+            <section class="bg-primary text-primary-foreground py-24 lg:py-32 {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 grid gap-10 lg:grid-cols-[1.2fr_1.4fr] lg:gap-16 items-center">
                     <div>
-                        <h2 class="font-serif text-3xl leading-tight md:text-4xl">{{ $section->title }}</h2>
-                        <p class="mt-6 max-w-md text-[15px] leading-relaxed text-primary-foreground/80">{{ $section->subtitle }}</p>
+                        <h2 class="font-serif text-3xl leading-tight md:text-4xl {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
+                        <p class="mt-6 max-w-md text-[15px] leading-relaxed text-primary-foreground/80 {{ $bodyFont }} {{ $bodySize }}"15 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2">
                         @foreach($contentData['cards'] ?? [] as $card)
@@ -76,10 +97,10 @@
             </section>
         
         @elseif($section->section_type === 'standards_observation')
-            <section class="py-24 lg:py-32">
+            <section class="py-24 lg:py-32 {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 mx-auto max-w-3xl text-center">
-                    <h2 class="font-serif text-3xl leading-tight md:text-4xl text-center">{{ $section->title }}</h2>
-                    <p class="mx-auto mt-6 text-[15px] max-w-2xl leading-relaxed text-foreground/70">{{ $section->subtitle }}</p>
+                    <h2 class="font-serif text-3xl leading-tight md:text-4xl text-center {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
+                    <p class="mx-auto mt-6 text-[15px] max-w-2xl leading-relaxed text-foreground/70 {{ $bodyFont }} {{ $bodySize }}"15 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                     
                     <div class="mt-10 flex flex-wrap justify-center gap-3">
                         @foreach($contentData['tags'] ?? [] as $tag)
@@ -106,10 +127,10 @@
             </section>
         
         @elseif($section->section_type === 'standards_safety')
-            <section class="bg-cream/60 py-24 lg:py-32">
+            <section class="bg-cream/60 py-24 lg:py-32 {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8">
-                    <h2 class="text-center font-serif text-3xl leading-tight md:text-4xl">{{ $section->title }}</h2>
-                    <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-relaxed text-foreground/70">{{ $section->subtitle }}</p>
+                    <h2 class="text-center font-serif text-3xl leading-tight md:text-4xl {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
+                    <p class="mx-auto mt-4 max-w-xl text-center text-[15px] leading-relaxed text-foreground/70 {{ $bodyFont }} {{ $bodySize }}"15 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                     
                     <div class="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
                         <div class="rounded-xl border border-border/60 bg-background p-8">
@@ -138,17 +159,17 @@
             </section>
         
         @elseif($section->section_type === 'standards_review')
-            <section class="py-24 lg:py-32">
+            <section class="py-24 lg:py-32 {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 mx-auto max-w-3xl text-center">
-                    <h2 class="font-serif text-3xl leading-tight md:text-4xl">{{ $section->title }}</h2>
+                    <h2 class="font-serif text-3xl leading-tight md:text-4xl {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
                     <div class="mt-8 text-[15px] text-foreground/60 bg-cream/30 py-4 px-6 inline-block rounded-xl">{{ $section->subtitle }}</div>
                 </div>
             </section>
         
         @elseif($section->section_type === 'standards_cta')
-            <section class="bg-primary text-primary-foreground">
+            <section class="bg-primary text-primary-foreground {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 py-24 lg:py-32 text-center">
-                    <h2 class="font-serif text-3xl md:text-4xl">{{ $section->title }}</h2>
+                    <h2 class="font-serif text-3xl md:text-4xl {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
                     <div class="mt-8 flex justify-center gap-4">
                         <a href="{{ $contentData['button_1_url'] ?? '#' }}" class="btn-primary !bg-background !text-foreground hover:!bg-background/90">{{ $contentData['button_1'] ?? '' }}</a>
                         <a href="{{ $contentData['button_2_url'] ?? '#' }}" class="btn-secondary !border-primary-foreground/30 !text-primary-foreground hover:!bg-primary-foreground/10">{{ $contentData['button_2'] ?? '' }}</a>
