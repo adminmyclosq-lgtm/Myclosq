@@ -40,7 +40,7 @@
                 <div class="section grid items-center gap-10 py-16 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
                     <div>
                         <h1 class="display-serif text-5xl leading-[1.05] md:text-6xl">{!! nl2br(e($section->title)) !!}</h1>
-                        <p class="mt-6 max-w-md text-[15px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}"15 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
+                        <p class="mt-6 max-w-md text-[15px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}" style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                         <div class="mt-7 flex flex-wrap gap-3">
                             <a href="{{ $contentData['button_1_url'] ?? route('shop') }}" class="btn-primary">{{ $contentData['button_1'] ?? 'View Product' }}</a>
                             <a href="{{ $contentData['button_2_url'] ?? url('/#standards') }}" class="btn-secondary">{{ $contentData['button_2'] ?? 'Review Standards' }}</a>
@@ -92,7 +92,7 @@
             <section class="bg-[var(--cream)]/70 {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="section">
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
-                    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}"14 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
+                    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}" style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                     <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                         @foreach($contentData['cards'] ?? [] as $card)
                             <article class="rounded-lg bg-white p-5 border border-stone-200 shadow-[0_4px_10px_-5px_rgba(0,0,0,0.05)]">
@@ -136,7 +136,7 @@
                 </div>
                 <div>
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
-                    <p class="mt-5 max-w-md text-[14px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}"14 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
+                    <p class="mt-5 max-w-md text-[14px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}" style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                     <div class="mt-6 flex flex-wrap gap-2">
                         @foreach($contentData['tags'] ?? [] as $tag)
                             @if(trim(is_array($tag) ? ($tag['title'] ?? '') : $tag))
