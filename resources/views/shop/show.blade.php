@@ -177,7 +177,7 @@
             </div></div></section>
         
         @elseif($section->section_type === 'product_cta')
-            <section class="bg-[var(--ink)] text-center text-white" style="--btn-primary-color: {{ !empty($settings['button_primary_color']) ? $settings['button_primary_color'] : '#ffffff' }}; --btn-primary-text-color: {{ !empty($settings['button_primary_text_color']) ? $settings['button_primary_text_color'] : '#0b0f14' }}; --btn-secondary-color: {{ !empty($settings['button_secondary_color']) ? $settings['button_secondary_color'] : 'transparent' }}; --btn-secondary-text-color: {{ !empty($settings['button_secondary_text_color']) ? $settings['button_secondary_text_color'] : '#ffffff' }}; {{ $styleAttr }}">
+            <section class="bg-[var(--ink)] text-center text-white" style="--btn-primary-color: {{ !empty($settings['button_primary_color']) ? $settings['button_primary_color'] : '#ffffff' }}; --btn-primary-text-color: {{ !empty($settings['button_primary_text_color']) ? $settings['button_primary_text_color'] : '#0b0f14' }}; --btn-secondary-color: {{ !empty($settings['button_secondary_color']) ? $settings['button_secondary_color'] : 'transparent' }}; --btn-secondary-text-color: {{ !empty($settings['button_secondary_text_color']) ? $settings['button_secondary_text_color'] : '#ffffff' }}; {{ $styleAttr ?? '' }}">
                 <div class="section">
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{!! $section->title !!}</h2>
                     <p class="mx-auto mt-4 max-w-md text-[14px] leading-7 text-white/80">{{ $section->subtitle }}</p>
