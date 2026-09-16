@@ -13,6 +13,8 @@
     $roleLabel = $primaryRole
         ? ucwords(strtolower(str_replace('_', ' ', (string) $primaryRole->code)))
         : 'User';
+        
+    $isMyClosq = in_array(request()->getHost(), ['myclosq.com', 'www.myclosq.com']);
 
     // Global CMS Data
     $globalPage = \App\Models\CmsPage::where('slug', 'global')->with('sections')->first();
@@ -37,11 +39,13 @@
             <img src="{{ asset('images/closq-logo.png') }}" alt="CLOS.Q Logo" class="h-10 w-auto object-contain">
         </a>
         <nav class="hidden items-center gap-7 text-sm md:flex">
-            @auth
-                @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
-                    <a href="{{ route('my-brief') }}">My Brief</a>
-                @endunless
-            @endauth
+            @unless($isMyClosq)
+                @auth
+                    @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
+                        <a href="{{ route('my-brief') }}">My Brief</a>
+                    @endunless
+                @endauth
+            @endunless
             @foreach($navItems as $item)
                 <a href="{{ url($item['url'] ?? '#') }}">{{ $item['label'] ?? '' }}</a>
             @endforeach
@@ -57,17 +61,20 @@
                     @foreach($navItems as $item)
                         <a href="{{ url($item['url'] ?? '#') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">{{ $item['label'] ?? '' }}</a>
                     @endforeach
-                    @auth
-                        @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
-                            <a href="{{ route('my-brief') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">My Brief</a>
-                        @endunless
-                        <a href="{{ route($accountRoute) }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Account</a>
-                    @else
-                        <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a>
-                    @endauth
+                    @unless($isMyClosq)
+                        @auth
+                            @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
+                                <a href="{{ route('my-brief') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">My Brief</a>
+                            @endunless
+                            <a href="{{ route($accountRoute) }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Account</a>
+                        @else
+                            <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a>
+                        @endauth
+                    @endunless
                     <a href="{{ url($btnUrl) }}" class="mt-1 block rounded-lg px-4 py-3 text-center font-medium text-white" style="background-color: {{ $btnColor }};">{{ $btnText }}</a>
                 </nav>
             </details>
+            @unless($isMyClosq)
             <div class="group relative">
                 <a href="{{ route('cart') }}" class="inline-flex items-center gap-1.5 font-semibold text-[var(--ink)]" aria-label="Cart, {{ $headerCartItemCount }} item{{ $headerCartItemCount === 1 ? '' : 's' }}">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-1.1 2.2A1 1 0 0 0 6.8 17H19M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" /></svg>
@@ -98,26 +105,29 @@
                     <a href="{{ route('cart') }}" class="btn-primary mt-3 w-full !rounded-lg !px-4 !py-2 text-sm">View cart</a>
                 </div>
             </div>
-            @auth
-                <details class="group relative hidden md:block">
-                    <summary class="flex max-w-[14rem] cursor-pointer list-none items-center gap-2 rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight [&::-webkit-details-marker]:hidden">
-                        <span class="min-w-0 flex-1">
-                            <span class="block truncate font-semibold text-stone-800">{{ $authUser?->name ?? 'Account' }}</span>
-                            <span class="block truncate text-xs text-stone-500">{{ $roleLabel }}</span>
-                        </span>
-                        <svg class="h-4 w-4 shrink-0 text-stone-500 transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
-                    </summary>
-                    <div class="absolute right-0 z-50 mt-2 w-48 rounded-lg border border-stone-200 bg-white p-2 shadow-lg">
-                        <a href="{{ route($accountRoute) }}" class="block rounded-md px-3 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50">Account</a>
-                        <form method="POST" action="{{ route('logout') }}" class="border-t border-stone-100 pt-2">
-                            @csrf
-                            <button type="submit" class="w-full rounded-md px-3 py-2 text-left text-sm font-semibold text-red-700 transition hover:bg-red-50">Sign out</button>
-                        </form>
-                    </div>
-                </details>
-            @else
-                <a href="{{ route('login') }}" class="hidden items-center gap-1.5 font-semibold text-[var(--ink)] md:inline-flex"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path stroke-linecap="round" d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg>Login</a>
-            @endauth
+            @endunless
+            @unless($isMyClosq)
+                @auth
+                    <details class="group relative hidden md:block">
+                        <summary class="flex max-w-[14rem] cursor-pointer list-none items-center gap-2 rounded-full border border-stone-200 bg-white px-3 py-2 text-left leading-tight [&::-webkit-details-marker]:hidden">
+                            <span class="min-w-0 flex-1">
+                                <span class="block truncate font-semibold text-stone-800">{{ $authUser?->name ?? 'Account' }}</span>
+                                <span class="block truncate text-xs text-stone-500">{{ $roleLabel }}</span>
+                            </span>
+                            <svg class="h-4 w-4 shrink-0 text-stone-500 transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" /></svg>
+                        </summary>
+                        <div class="absolute right-0 z-50 mt-2 w-48 rounded-lg border border-stone-200 bg-white p-2 shadow-lg">
+                            <a href="{{ route($accountRoute) }}" class="block rounded-md px-3 py-2 text-sm font-medium text-stone-700 transition hover:bg-stone-50">Account</a>
+                            <form method="POST" action="{{ route('logout') }}" class="border-t border-stone-100 pt-2">
+                                @csrf
+                                <button type="submit" class="w-full rounded-md px-3 py-2 text-left text-sm font-semibold text-red-700 transition hover:bg-red-50">Sign out</button>
+                            </form>
+                        </div>
+                    </details>
+                @else
+                    <a href="{{ route('login') }}" class="hidden items-center gap-1.5 font-semibold text-[var(--ink)] md:inline-flex"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path stroke-linecap="round" d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg>Login</a>
+                @endauth
+            @endunless
         </div>
     </div>
 </header>
