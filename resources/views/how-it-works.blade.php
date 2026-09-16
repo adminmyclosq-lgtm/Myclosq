@@ -36,11 +36,11 @@
             $bodyColor = isset($settings['body_font_color']) && $settings['body_font_color'] ? "color: {$settings['body_font_color']};" : '';
         @endphp
         @if($section->section_type === 'hiw_hero')
-            <section class="border-b border-stone-200 bg-white {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="border-b border-stone-200 bg-white {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="section grid items-center gap-10 py-16 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
                     <div>
                         <h1 class="display-serif text-5xl leading-[1.05] md:text-6xl">{!! nl2br(e($section->title)) !!}</h1>
-                        <p class="mt-6 max-w-md text-[15px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}" style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
+                        <p class="mt-6 max-w-md text-[15px] leading-7 text-stone-600 {{ $bodyFont ?? '' }} {{ $bodySize ?? '' }}" style="{{ $bodyColor ?? '' }}">{{ $section->subtitle }}</p>
                         <div class="mt-7 flex flex-wrap gap-3">
                             <a href="{{ $contentData['button_1_url'] ?? route('shop') }}" class="btn-primary">{{ $contentData['button_1'] ?? 'View Product' }}</a>
                             <a href="{{ $contentData['button_2_url'] ?? url('/#standards') }}" class="btn-secondary">{{ $contentData['button_2'] ?? 'Review Standards' }}</a>
@@ -53,7 +53,7 @@
             </section>
         
         @elseif($section->section_type === 'hiw_product_layer')
-            <section class="bg-[var(--ink)] text-white {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="bg-[var(--ink)] text-white {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="section text-center">
                     <h2 class="display-serif mx-auto max-w-3xl text-4xl leading-[1.15] md:text-5xl">{!! nl2br(e($section->title)) !!}</h2>
                     <div class="mx-auto mt-9 grid max-w-3xl gap-4 text-left md:grid-cols-2">
@@ -74,7 +74,7 @@
             </section>
         
         @elseif($section->section_type === 'hiw_timeline')
-            <section class="section {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="section {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <h2 class="display-serif text-center text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
                 <div class="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                     @foreach($contentData['cards'] ?? [] as $card)
@@ -89,10 +89,10 @@
             </section>
         
         @elseif($section->section_type === 'hiw_cards_grid')
-            <section class="bg-[var(--cream)]/70 {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="bg-[var(--cream)]/70 {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="section">
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
-                    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}" style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
+                    <p class="mt-4 max-w-2xl text-[14px] leading-7 text-stone-600 {{ $bodyFont ?? '' }} {{ $bodySize ?? '' }}" style="{{ $bodyColor ?? '' }}">{{ $section->subtitle }}</p>
                     <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                         @foreach($contentData['cards'] ?? [] as $card)
                             <article class="rounded-lg bg-white p-5 border border-stone-200 shadow-[0_4px_10px_-5px_rgba(0,0,0,0.05)]">
@@ -105,7 +105,7 @@
             </section>
 
         @elseif($section->section_type === 'hiw_cards_grid_flat')
-            <section class="section {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="section {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <h2 class="display-serif text-center text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
                 <div class="mx-auto mt-10 grid max-w-4xl gap-4 md:grid-cols-2">
                     @foreach($contentData['cards'] ?? [] as $card)
@@ -118,7 +118,7 @@
             </section>
 
         @elseif($section->section_type === 'hiw_honest_read')
-            <section class="bg-[var(--ink)] text-white {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="bg-[var(--ink)] text-white {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="section">
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
                     <ul class="mt-8 max-w-2xl space-y-4 text-[14px] leading-6 text-white/85">
@@ -130,13 +130,13 @@
             </section>
             
         @elseif($section->section_type === 'hiw_personal_brief')
-            <section class="section grid items-center gap-10 lg:grid-cols-2 lg:gap-16 {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="section grid items-center gap-10 lg:grid-cols-2 lg:gap-16 {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="overflow-hidden rounded-xl bg-[var(--cream)]">
                     <img src="{{ $imageUrl ?: 'https://guided-gut-reset-lovable-app.lovable.app/assets/bottle-capsules-COsDFlLa.jpg' }}" alt="Sample Brief" class="aspect-[4/3] h-full w-full object-cover">
                 </div>
                 <div>
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
-                    <p class="mt-5 max-w-md text-[14px] leading-7 text-stone-600 {{ $bodyFont }} {{ $bodySize }}" style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
+                    <p class="mt-5 max-w-md text-[14px] leading-7 text-stone-600 {{ $bodyFont ?? '' }} {{ $bodySize ?? '' }}" style="{{ $bodyColor ?? '' }}">{{ $section->subtitle }}</p>
                     <div class="mt-6 flex flex-wrap gap-2">
                         @foreach($contentData['tags'] ?? [] as $tag)
                             @if(trim(is_array($tag) ? ($tag['title'] ?? '') : $tag))
@@ -148,7 +148,7 @@
             </section>
 
         @elseif($section->section_type === 'hiw_physical_pack')
-            <section class="bg-[var(--cream)]/70 {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="bg-[var(--cream)]/70 {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="section grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
                     <div class="overflow-hidden rounded-xl bg-white border border-stone-200">
                         <img src="{{ $imageUrl ?: 'https://guided-gut-reset-lovable-app.lovable.app/assets/course-kit-DtVPc2tT.jpg' }}" alt="Physical pack" class="aspect-[4/3] h-full w-full object-cover">
@@ -165,7 +165,7 @@
             </section>
 
         @elseif($section->section_type === 'hiw_help')
-            <section class="section {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="section {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:items-center">
                     <div>
                         <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
@@ -183,7 +183,7 @@
             </section>
 
         @elseif($section->section_type === 'hiw_ready')
-            <section class="border-t border-stone-200 bg-[var(--cream)]/45 {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="border-t border-stone-200 bg-[var(--cream)]/45 {{ $bgClass ?? '' }}" style="{{ $styleAttr ?? '' }}">
                 <div class="section grid gap-10 md:grid-cols-2">
                     <div>
                         <div class="badge">{{ $contentData['col1_badge'] ?? 'Ready if relevant' }}</div>
@@ -201,7 +201,7 @@
             </section>
 
         @elseif($section->section_type === 'hiw_cta')
-            <section class="bg-[var(--ink)] text-center text-white {{ $bgClass }}" style="--btn-primary-color: {{ !empty($settings['button_primary_color']) ? $settings['button_primary_color'] : '#ffffff' }}; --btn-primary-text-color: {{ !empty($settings['button_primary_text_color']) ? $settings['button_primary_text_color'] : '#0b0f14' }}; --btn-secondary-color: {{ !empty($settings['button_secondary_color']) ? $settings['button_secondary_color'] : 'transparent' }}; --btn-secondary-text-color: {{ !empty($settings['button_secondary_text_color']) ? $settings['button_secondary_text_color'] : '#ffffff' }}; {{ $styleAttr }}">
+            <section class="bg-[var(--ink)] text-center text-white {{ $bgClass ?? '' }}" style="--btn-primary-color: {{ !empty($settings['button_primary_color']) ? $settings['button_primary_color'] : '#ffffff' }}; --btn-primary-text-color: {{ !empty($settings['button_primary_text_color']) ? $settings['button_primary_text_color'] : '#0b0f14' }}; --btn-secondary-color: {{ !empty($settings['button_secondary_color']) ? $settings['button_secondary_color'] : 'transparent' }}; --btn-secondary-text-color: {{ !empty($settings['button_secondary_text_color']) ? $settings['button_secondary_text_color'] : '#ffffff' }}; {{ $styleAttr }}">
                 <div class="section py-16">
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
                     <div class="mt-7 flex flex-wrap justify-center gap-3">
