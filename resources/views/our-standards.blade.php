@@ -167,12 +167,12 @@
             </section>
         
         @elseif($section->section_type === 'standards_cta')
-            <section class="bg-primary text-primary-foreground {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="bg-primary text-primary-foreground {{ $bgClass }}" style="--btn-primary-color: {{ !empty($settings['button_primary_color']) ? $settings['button_primary_color'] : '#ffffff' }}; --btn-primary-text-color: {{ !empty($settings['button_primary_text_color']) ? $settings['button_primary_text_color'] : '#0b0f14' }}; --btn-secondary-color: {{ !empty($settings['button_secondary_color']) ? $settings['button_secondary_color'] : 'transparent' }}; --btn-secondary-text-color: {{ !empty($settings['button_secondary_text_color']) ? $settings['button_secondary_text_color'] : '#ffffff' }}; {{ $styleAttr }}">
                 <div class="mx-auto w-full max-w-[1200px] px-5 sm:px-8 py-24 lg:py-32 text-center">
                     <h2 class="font-serif text-3xl md:text-4xl {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
                     <div class="mt-8 flex justify-center gap-4">
-                        <a href="{{ $contentData['button_1_url'] ?? '#' }}" class="btn-primary !bg-background !text-foreground hover:!bg-background/90">{{ $contentData['button_1'] ?? '' }}</a>
-                        <a href="{{ $contentData['button_2_url'] ?? '#' }}" class="btn-secondary !border-primary-foreground/30 !text-primary-foreground hover:!bg-primary-foreground/10">{{ $contentData['button_2'] ?? '' }}</a>
+                        <a href="{{ $contentData['button_1_url'] ?? '#' }}" class="btn-primary hover:">{{ $contentData['button_1'] ?? '' }}</a>
+                        <a href="{{ $contentData['button_2_url'] ?? '#' }}" class="btn-secondary hover:">{{ $contentData['button_2'] ?? '' }}</a>
                     </div>
                 </div>
             </section>

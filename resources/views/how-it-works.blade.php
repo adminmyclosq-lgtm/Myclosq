@@ -201,12 +201,12 @@
             </section>
 
         @elseif($section->section_type === 'hiw_cta')
-            <section class="bg-[var(--ink)] text-center text-white {{ $bgClass }}" style="{{ $styleAttr }}">
+            <section class="bg-[var(--ink)] text-center text-white {{ $bgClass }}" style="--btn-primary-color: {{ !empty($settings['button_primary_color']) ? $settings['button_primary_color'] : '#ffffff' }}; --btn-primary-text-color: {{ !empty($settings['button_primary_text_color']) ? $settings['button_primary_text_color'] : '#0b0f14' }}; --btn-secondary-color: {{ !empty($settings['button_secondary_color']) ? $settings['button_secondary_color'] : 'transparent' }}; --btn-secondary-text-color: {{ !empty($settings['button_secondary_text_color']) ? $settings['button_secondary_text_color'] : '#ffffff' }}; {{ $styleAttr }}">
                 <div class="section py-16">
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{{ $section->title }}</h2>
                     <div class="mt-7 flex flex-wrap justify-center gap-3">
-                        <a href="{{ $contentData['button_1_url'] ?? route('shop') }}" class="btn-primary !bg-white !text-[var(--ink)]">{{ $contentData['button_1'] ?? 'Shop' }}</a>
-                        <a href="{{ $contentData['button_2_url'] ?? url('/#fit') }}" class="btn-secondary !border-white/30 !text-white hover:!bg-white/10">{{ $contentData['button_2'] ?? 'Check Fit' }}</a>
+                        <a href="{{ $contentData['button_1_url'] ?? route('shop') }}" class="btn-primary">{{ $contentData['button_1'] ?? 'Shop' }}</a>
+                        <a href="{{ $contentData['button_2_url'] ?? url('/#fit') }}" class="btn-secondary hover:">{{ $contentData['button_2'] ?? 'Check Fit' }}</a>
                     </div>
                 </div>
             </section>

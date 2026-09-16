@@ -139,7 +139,7 @@
                         @endforeach
                     </div>
                     <div class="lg:col-span-2 mt-4">
-                        <a href="{{ $contentData['button_1_url'] ?? '#' }}" class="btn-secondary !border-primary-foreground/30 !text-primary-foreground hover:!bg-primary-foreground/10">{{ $contentData['button_1'] ?? 'Review Our Standards' }}</a>
+                        <a href="{{ $contentData['button_1_url'] ?? '#' }}" class="btn-secondary hover:">{{ $contentData['button_1'] ?? 'Review Our Standards' }}</a>
                     </div>
                 </div>
             </section>

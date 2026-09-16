@@ -85,7 +85,8 @@ class CmsController extends Controller {
                 $existingContent['settings'] = $content['settings'] ?? [];
                 $data['content'] = json_encode($existingContent);
             } else {
-                $content['settings'] = $existingContent['settings'] ?? [];
+                // Merge content modal settings (if any exist) with existing overall settings
+                $content['settings'] = array_merge($existingContent['settings'] ?? [], $content['settings'] ?? []);
                 $data['content'] = json_encode($content);
             }
         } else {

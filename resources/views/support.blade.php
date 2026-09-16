@@ -196,7 +196,7 @@
                     <h2 class="font-serif text-3xl md:text-4xl {{ $titleFont }} {{ $titleSize }}" style="{{ $titleColor }}">{{ $section->title }}</h2>
                     <p class="mx-auto mt-5 max-w-md text-[15px] text-primary-foreground/80 leading-relaxed {{ $bodyFont }} {{ $bodySize }}"15 style="{{ $bodyColor }}">{{ $section->subtitle }}</p>
                     <div class="mt-8">
-                        <a href="{{ $contentData['button_url'] ?? '/login' }}" class="btn-primary !bg-background !text-foreground hover:!bg-background/90">{{ $contentData['button'] ?? 'Log in' }}</a>
+                        <a href="{{ $contentData['button_url'] ?? '/login' }}" class="btn-primary hover:">{{ $contentData['button'] ?? 'Log in' }}</a>
                     </div>
                 </div>
             </section>

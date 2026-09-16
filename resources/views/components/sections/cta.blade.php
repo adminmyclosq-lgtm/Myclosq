@@ -37,7 +37,7 @@
             </div>
             <div class="flex flex-wrap gap-3 md:justify-end">
                 <a class="btn-primary" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ $contentData['primary_button_text'] ?? 'Shop Gut Reset' }}</a>
-                <a class="btn-secondary !border-white/30" href="{{ $contentData['secondary_button_url'] ?? '#fit' }}">{{ $contentData['secondary_button_text'] ?? 'Check Your Fit' }}</a>
+                <a class="btn-secondary" href="{{ $contentData['secondary_button_url'] ?? '#fit' }}">{{ $contentData['secondary_button_text'] ?? 'Check Your Fit' }}</a>
             </div>
         </div>
     </div>

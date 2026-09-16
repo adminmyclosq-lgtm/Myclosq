@@ -118,7 +118,7 @@
                             </ul></div>
                         @endforeach
                     </div>
-                    <a href="{{ $contentData['button_url'] ?? '#' }}" class="btn-secondary mt-8 !border-white/30 !text-white hover:!bg-white/10">{{ $contentData['button'] ?? 'See how it works' }}</a>
+                    <a href="{{ $contentData['button_url'] ?? '#' }}" class="btn-secondary mt-8 hover:">{{ $contentData['button'] ?? 'See how it works' }}</a>
                 </div>
             </section>
 
@@ -177,7 +177,7 @@
             </div></div></section>
         
         @elseif($section->section_type === 'product_cta')
-            <section class="bg-[var(--ink)] text-center text-white">
+            <section class="bg-[var(--ink)] text-center text-white" style="--btn-primary-color: {{ !empty($settings['button_primary_color']) ? $settings['button_primary_color'] : '#ffffff' }}; --btn-primary-text-color: {{ !empty($settings['button_primary_text_color']) ? $settings['button_primary_text_color'] : '#0b0f14' }}; --btn-secondary-color: {{ !empty($settings['button_secondary_color']) ? $settings['button_secondary_color'] : 'transparent' }}; --btn-secondary-text-color: {{ !empty($settings['button_secondary_text_color']) ? $settings['button_secondary_text_color'] : '#ffffff' }}; {{ $styleAttr }}">
                 <div class="section">
                     <h2 class="display-serif text-4xl leading-tight md:text-5xl">{!! $section->title !!}</h2>
                     <p class="mx-auto mt-4 max-w-md text-[14px] leading-7 text-white/80">{{ $section->subtitle }}</p>
@@ -191,10 +191,10 @@
                                 </div>
                                 <button type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition hover:bg-white/10" data-cart-remove data-cart-item="{{ $cartItem->id }}" aria-label="Remove {{ $product->name }} from cart"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14M10 10v6m4-6v6" /></svg></button>
                             @else
-                                <button data-add-cart="{{ $variant->id }}" data-product-add class="btn-primary !bg-white !text-[var(--ink)]">Buy Now</button>
+                                <button data-add-cart="{{ $variant->id }}" data-product-add class="btn-primary">Buy Now</button>
                             @endif
                         @endif
-                        <a href="{{ $contentData['button_2_url'] ?? '#fit' }}" class="btn-secondary !border-white/30 !text-white hover:!bg-white/10">{{ $contentData['button_2'] ?? 'Check Fit' }}</a>
+                        <a href="{{ $contentData['button_2_url'] ?? '#fit' }}" class="btn-secondary hover:">{{ $contentData['button_2'] ?? 'Check Fit' }}</a>
                     </div>
                 </div>
             </section>
