@@ -17,8 +17,8 @@
             $bottomStyle = $bottomSpacing !== '0px' ? "padding-bottom: $bottomSpacing;" : "";
             
             $bgColor = $settings['bg_color'] ?? '';
-            $bgClass = $bgColor && str_starts_with($bgColor, 'bg-') ? $bgColor : '';
-            $bgStyle = $bgColor && !str_starts_with($bgColor, 'bg-') ? "background-color: $bgColor;" : "";
+            $bgClass = is_string($bgColor) && $bgColor !== '' && str_starts_with($bgColor, 'bg-') ? $bgColor : '';
+            $bgStyle = is_string($bgColor) && $bgColor !== '' && !str_starts_with($bgColor, 'bg-') ? "background-color: $bgColor;" : "";
 
             $btnPrimaryVar = !empty($settings['button_primary_color']) ? "--btn-primary-color: {$settings['button_primary_color']};" : "";
             $btnPrimaryTextVar = !empty($settings['button_primary_text_color']) ? "--btn-primary-text-color: {$settings['button_primary_text_color']};" : "";
@@ -34,7 +34,7 @@
             $bodyFont = isset($settings['body_font_family']) ? $settings['body_font_family'] : '';
             $bodySize = isset($settings['body_font_size']) ? $settings['body_font_size'] : '';
             $bodyColor = isset($settings['body_font_color']) && $settings['body_font_color'] ? "color: {$settings['body_font_color']};" : '';
-        @php
+        @endphp
         @if($section->section_type === 'hiw_hero')
             <section class="border-b border-stone-200 bg-white {{ $bgClass }}" style="{{ $styleAttr }}">
                 <div class="section grid items-center gap-10 py-16 md:py-20 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
