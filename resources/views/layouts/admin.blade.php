@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ $title ?? ($isMyClosq ? 'My CLOSQ Admin' : 'Gut Reset Admin') }}</title>
+<title>{{ $title ?? (!empty($isMyClosq) ? 'My CLOSQ Admin' : 'Gut Reset Admin') }}</title>
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32x32.png') }}?v=2">
 <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon-16x16.png') }}?v=2">

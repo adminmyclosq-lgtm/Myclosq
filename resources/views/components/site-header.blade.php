@@ -29,8 +29,8 @@
         ['label' => 'Learn', 'url' => route('learn')],
         ['label' => 'Support', 'url' => route('support')],
     ];
-    $btnText = $headerContent['button_text'] ?? ($isMyClosq ? 'Shop My CLOSQ' : 'Shop Gut Reset');
-    if ($isMyClosq && $btnText === 'Shop Gut Reset') {
+    $btnText = $headerContent['button_text'] ?? (!empty($isMyClosq) ? 'Shop My CLOSQ' : 'Shop Gut Reset');
+    if (!empty($isMyClosq) && $btnText === 'Shop Gut Reset') {
         $btnText = 'Shop My CLOSQ';
     }
     $btnUrl = $headerContent['button_url'] ?? route('shop');

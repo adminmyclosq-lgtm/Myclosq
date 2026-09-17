@@ -1,5 +1,6 @@
 @props(['section' => null])
 @php
+    $isMyClosq = !empty($isMyClosq) || in_array(request()->getHost(), ['myclosq.com', 'www.myclosq.com']);
     $contentData = $section ? json_decode($section->content, true) : [];
     $settings = $contentData['settings'] ?? [];
     $topSpace = $settings['top_spacing'] ?? '80px';

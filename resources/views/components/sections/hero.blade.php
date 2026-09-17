@@ -4,6 +4,7 @@
     if (!is_array($content)) $content = [];
     $settings = $content['settings'] ?? [];
     
+    $isMyClosq = !empty($isMyClosq) || in_array(request()->getHost(), ['myclosq.com', 'www.myclosq.com']);
     $heroBadge = $content['badge'] ?? ($isMyClosq ? '30-Day Guided My CLOSQ' : '30-Day Guided Gut Reset');
     if ($isMyClosq && $heroBadge === '30-Day Guided Gut Reset') {
         $heroBadge = '30-Day Guided My CLOSQ';
