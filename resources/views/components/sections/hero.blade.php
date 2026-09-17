@@ -4,8 +4,11 @@
     if (!is_array($content)) $content = [];
     $settings = $content['settings'] ?? [];
     
-    $heroBadge = $content['badge'] ?? '30-Day Guided Gut Reset';
-    $button1 = $content['button_1'] ?? 'Explore the Reset';
+    $heroBadge = $content['badge'] ?? ($isMyClosq ? '30-Day Guided My CLOSQ' : '30-Day Guided Gut Reset');
+    if ($isMyClosq && $heroBadge === '30-Day Guided Gut Reset') {
+        $heroBadge = '30-Day Guided My CLOSQ';
+    }
+    $button1 = $content['button_1'] ?? ($isMyClosq ? 'Explore My CLOSQ' : 'Explore the Reset');
     $button2 = $content['button_2'] ?? 'Check Your Fit';
     
     // Spacing

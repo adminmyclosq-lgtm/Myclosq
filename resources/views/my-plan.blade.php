@@ -44,7 +44,7 @@
             <aside class="h-fit rounded-2xl border border-stone-200 bg-[#f3f0e9] p-9"><h2 class="display-serif text-3xl">Why we ask</h2><p class="mt-7 text-[17px] leading-8 text-stone-600">Your selection keeps the next questions focused. At Day 30, your Gut Response Brief will reflect what you wanted to understand, what you reported across the course and what remains uncertain.</p><p class="mt-7 text-[17px] italic leading-8 text-stone-500">Note: Selecting an area does not mean the product is expected or guaranteed to change it.</p></aside>
         </form>
     @else
-        <div class="mx-auto max-w-2xl rounded-2xl border border-stone-200 bg-[#fcfbf7] p-10 text-center"><h1 class="display-serif text-5xl leading-tight">Activate your course first.</h1><p class="mt-5 text-[17px] leading-8 text-stone-600">Your starting-point plan becomes available after you activate a Guided Wellness product.</p><a href="{{ route('shop') }}" class="btn-primary mt-8">Shop Gut Reset</a></div>
+        <div class="mx-auto max-w-2xl rounded-2xl border border-stone-200 bg-[#fcfbf7] p-10 text-center"><h1 class="display-serif text-5xl leading-tight">Activate your course first.</h1><p class="mt-5 text-[17px] leading-8 text-stone-600">Your starting-point plan becomes available after you activate a Guided Wellness product.</p><a href="{{ route('shop') }}" class="btn-primary mt-8">{{ $isMyClosq ? 'Shop My CLOSQ' : 'Shop Gut Reset' }}</a></div>
     @endif
 </div>
 

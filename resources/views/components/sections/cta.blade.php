@@ -36,7 +36,7 @@
                 <p class="mt-4 max-w-2xl text-white/80 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>{{ $section->subtitle ?? 'Start the course and receive your Gut Response Brief at Day 30.' }}</p>
             </div>
             <div class="flex flex-wrap gap-3 md:justify-end">
-                <a class="btn-primary" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ $contentData['primary_button_text'] ?? 'Shop Gut Reset' }}</a>
+                <a class="btn-primary" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ ($isMyClosq && ($contentData['primary_button_text'] ?? 'Shop Gut Reset') === 'Shop Gut Reset') ? 'Shop My CLOSQ' : ($contentData['primary_button_text'] ?? ($isMyClosq ? 'Shop My CLOSQ' : 'Shop Gut Reset')) }}</a>
                 <a class="btn-secondary" href="{{ $contentData['secondary_button_url'] ?? '#fit' }}">{{ $contentData['secondary_button_text'] ?? 'Check Your Fit' }}</a>
             </div>
         </div>

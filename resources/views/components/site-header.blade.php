@@ -29,7 +29,10 @@
         ['label' => 'Learn', 'url' => route('learn')],
         ['label' => 'Support', 'url' => route('support')],
     ];
-    $btnText = $headerContent['button_text'] ?? 'Shop Gut Reset';
+    $btnText = $headerContent['button_text'] ?? ($isMyClosq ? 'Shop My CLOSQ' : 'Shop Gut Reset');
+    if ($isMyClosq && $btnText === 'Shop Gut Reset') {
+        $btnText = 'Shop My CLOSQ';
+    }
     $btnUrl = $headerContent['button_url'] ?? route('shop');
     $btnColor = $headerContent['settings']['button_primary_color'] ?? '#587762';
 @endphp

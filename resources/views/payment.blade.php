@@ -10,7 +10,7 @@
                 <div class="flex items-center justify-between"><div><div class="text-sm text-stone-500">Order</div><div class="font-bold">{{ $order->order_number }}</div></div><span id="status-pill" class="rounded-full bg-amber-50 px-3 py-1 text-sm text-amber-700">Payment pending</span></div>
                 <button id="pay-button" class="btn-primary mt-8 w-full">Pay ₹{{ number_format($order->grand_total,2) }}</button>
                 <p id="payment-status" class="mt-4 text-center text-sm text-stone-500"></p>
-                <p class="mt-5 text-center text-xs text-stone-400">Payment is processed by Razorpay. Gut Reset does not store your card details.</p>
+                <p class="mt-5 text-center text-xs text-stone-400">Payment is processed by Razorpay. {{ $isMyClosq ? 'My CLOSQ' : 'Gut Reset' }} does not store your card details.</p>
             </div>
         </div>
         <aside class="card h-fit">
@@ -37,7 +37,7 @@
    button.disabled=true; status.textContent='Opening secure payment…';
    new Razorpay({
      key:data.key_id, amount:Math.round(data.amount*100), currency:data.currency,
-     name:'Gut Reset', description:'Gut Reset order '+data.order_number, order_id:data.gateway_order_id,
+     name:'{{ $isMyClosq ? "My CLOSQ" : "Gut Reset" }}', description:'{{ $isMyClosq ? "My CLOSQ" : "Gut Reset" }} order '+data.order_number, order_id:data.gateway_order_id,
      handler:async result=>{
        status.textContent='Verifying your payment…';
        const verify=await fetch('/api/v1/orders/{{ $order->id }}/payment/verify',{
