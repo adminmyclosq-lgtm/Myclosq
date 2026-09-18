@@ -3,13 +3,21 @@
     $content = is_string($section->content) ? json_decode($section->content, true) : ($section->content ?? []);
     if (!is_array($content)) $content = [];
     $settings = $content['settings'] ?? [];
+    $isMyClosq = !empty($isMyClosq) || in_array(request()->getHost(), ['myclosq.com', 'www.myclosq.com']);
     
     $badge = $content['badge'] ?? 'Standout experience';
-    $cards = $content['cards'] ?? [
-        ['title' => 'The daily capsule', 'text' => 'A gut-support supplement designed to support baseline gut health, taken once daily.'],
-        ['title' => 'The guided experience', 'text' => 'Eight components that guide you through a 30-day process, observing signals and coming to an honest read.'],
-        ['title' => 'Take it daily.', 'text' => 'Check in lightly. Know what changed.']
-    ];
+    $cards = $content['cards'] ?? [];
+    // Default fallback cards
+    if (empty($cards)) {
+        $cards = [
+            ['title' => 'The daily capsule', 'text' => 'A gut-support supplement designed to support baseline gut health, taken once daily.'],
+            ['title' => 'The guided experience', 'text' => 'Eight components that guide you through a 30-day process, observing signals and coming to an honest read.'],
+        ];
+    }
+    // On myclosq, always ensure the third card "Your response brief" is present
+    if ($isMyClosq && count($cards) < 3) {
+        $cards[] = ['title' => 'Your response brief', 'text' => 'At Day 30, receive a personal Gut Response Brief — a clear read of what changed and what to do next.'];
+    }
     
     $topStyle = isset($settings['top_spacing']) && $settings['top_spacing'] ? "padding-top: {$settings['top_spacing']};" : "padding-top: 80px;";
     $bottomStyle = isset($settings['bottom_spacing']) && $settings['bottom_spacing'] ? "padding-bottom: {$settings['bottom_spacing']};" : "padding-bottom: 80px;";

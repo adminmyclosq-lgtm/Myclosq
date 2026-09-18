@@ -1,13 +1,16 @@
 @props(['section' => null])
 @php
+    $isMyClosq = !empty($isMyClosq) || in_array(request()->getHost(), ['myclosq.com', 'www.myclosq.com']);
     $contentData = $section ? json_decode($section->content, true) : [];
     $settings = $contentData['settings'] ?? [];
     $topSpace = $settings['top_spacing'] ?? '80px';
     $bottomSpace = $settings['bottom_spacing'] ?? '80px';
-    $bgColor = $settings['bg_color'] ?? 'bg-[var(--cream)]';
+    $bgColor = $isMyClosq ? '#ffffff' : ($settings['bg_color'] ?? 'bg-[var(--cream)]');
     $eyebrow = $contentData['eyebrow'] ?? 'What you receive';
     $title = $section->title ?? 'Everything needed to start correctly and return easily.';
-    $subtitle = $section->subtitle ?? "The Capsule Bottle — discreetly labelled, tightly designed for one capsule daily.\nCourse Companion — a concise activation card and course guide.\nGuided Course Access — permanent bottle QR to start or return to your guided course.";
+    // Fix potential Windows-1252 em-dash encoding corruption (ΓÇö → —)
+    $rawSubtitle = $section->subtitle ?? "The Capsule Bottle \u2014 discreetly labelled, tightly designed for one capsule daily.\nCourse Companion \u2014 a concise activation card and course guide.\nGuided Course Access \u2014 permanent bottle QR to start or return to your guided course.";
+    $subtitle = str_replace(["\xC3\x82\xC3\x87\xC3\xB6", "\u00c3\u0082\u00c3\u0087\u00c3\u00b6", chr(0xCE).chr(0x93).chr(0xC3).chr(0xB6), 'ΓÇö'], '—', $rawSubtitle);
     $listItems = explode("\n", $subtitle);
 @endphp
 <section class="{{ !str_starts_with($bgColor??'', '#') ? $bgColor : '' }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }}; {{ str_starts_with($bgColor??'', '#') ? 'background-color: '.$bgColor.';' : '' }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_primary_text_color']) ? '--btn-primary-text-color: '.$settings['button_primary_text_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }} {{ !empty($settings['button_secondary_text_color']) ? '--btn-secondary-text-color: '.$settings['button_secondary_text_color'].';' : '' }}" id="section-{{ $section->id ?? 'new' }}">

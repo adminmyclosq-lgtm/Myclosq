@@ -29,6 +29,7 @@
 </main>
 
 <footer class="bg-[var(--ink)] text-white">
+    @unless(!empty($isMyClosq))
     <div class="section {{ !empty($isMyClosq) ? 'max-w-xl' : 'grid gap-10 md:grid-cols-[1.6fr_2.4fr]' }}">
         <div>
             <div class="display-serif text-2xl leading-tight">Guided Wellness</div>
@@ -55,6 +56,7 @@
         </div>
         @endunless
     </div>
+    @endunless
     <div class="border-t border-white/15 py-5 text-center text-[11px] text-white/60">© 2026 Kurate Wellness Private Limited. All rights reserved.</div>
 </footer>
 </body>

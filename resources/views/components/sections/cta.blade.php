@@ -12,9 +12,14 @@
     $outerBgStyle = str_starts_with($outerBgColor, '#') ? "background-color: $outerBgColor;" : '';
 
     // Inner Card background color
-    $innerBgColor = !empty($settings['inner_bg_color']) ? $settings['inner_bg_color'] : 'bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)]';
-    // If they cleared it, default to gradient
-    if(empty($settings['inner_bg_color'])) $innerBgColor = 'bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)]';
+    if ($isMyClosq) {
+        // Softer sage/warm-cream palette for myclosq
+        $innerBgColor = 'bg-[linear-gradient(135deg,#3d5a4c_0%,#4a6b59_55%,#5a7a68_100%)]';
+    } else {
+        $innerBgColor = !empty($settings['inner_bg_color']) ? $settings['inner_bg_color'] : 'bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)]';
+        // If they cleared it, default to gradient
+        if(empty($settings['inner_bg_color'])) $innerBgColor = 'bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)]';
+    }
     $innerBgClass = !str_starts_with($innerBgColor, '#') ? $innerBgColor : '';
     $innerBgStyle = str_starts_with($innerBgColor, '#') ? "background-color: $innerBgColor;" : '';
 
