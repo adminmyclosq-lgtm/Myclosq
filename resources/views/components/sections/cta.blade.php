@@ -13,15 +13,17 @@
 
     // Inner Card background color
     if ($isMyClosq) {
-        // Softer sage/warm-cream palette for myclosq
-        $innerBgColor = 'bg-[linear-gradient(135deg,#3d5a4c_0%,#4a6b59_55%,#5a7a68_100%)]';
+        // Softer sage/warm-cream palette for myclosq — use inline style (no Tailwind build needed)
+        $innerBgColor = '#4a6b59'; // fallback solid
+        $innerBgClass = '';
+        $innerBgStyle = 'background: linear-gradient(135deg, #3d5a4c 0%, #4a6b59 55%, #5a7a68 100%);';
     } else {
         $innerBgColor = !empty($settings['inner_bg_color']) ? $settings['inner_bg_color'] : 'bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)]';
         // If they cleared it, default to gradient
         if(empty($settings['inner_bg_color'])) $innerBgColor = 'bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)]';
+        $innerBgClass = !str_starts_with($innerBgColor, '#') ? $innerBgColor : '';
+        $innerBgStyle = str_starts_with($innerBgColor, '#') ? "background-color: $innerBgColor;" : '';
     }
-    $innerBgClass = !str_starts_with($innerBgColor, '#') ? $innerBgColor : '';
-    $innerBgStyle = str_starts_with($innerBgColor, '#') ? "background-color: $innerBgColor;" : '';
 
     // Eyebrow background
     $eyebrowBg = !empty($settings['eyebrow_bg_color']) ? $settings['eyebrow_bg_color'] : 'rgba(255,255,255,0.1)';

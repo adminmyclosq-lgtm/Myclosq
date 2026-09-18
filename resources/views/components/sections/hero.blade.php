@@ -29,7 +29,7 @@
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
                 <a class="btn-primary" href="{{ !empty($isMyClosq) ? '#how-it-works' : route('shop') }}">{{ $button1 }}</a>
-                <a class="btn-secondary" href="#fit" style="{{ $isMyClosq ? 'border: 1.5px solid var(--ink); color: var(--ink); background: transparent;' : '' }}">{{ $button2 }}</a>
+                <a class="btn-secondary" href="#fit" @if($isMyClosq) style="border: 1.5px solid var(--ink) !important; border-color: var(--ink) !important; color: var(--ink); background: transparent;" @endif>{{ $button2 }}</a>
             </div>
             <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-medium uppercase tracking-[0.14em] text-stone-500">
                 <span>· 30 capsules</span>
