@@ -28,7 +28,7 @@
 
     $styleAttr = trim("padding-top: {$topSpace}; padding-bottom: {$bottomSpace}; $outerBgStyle --btn-primary-color: {$btnPriBg}; --btn-primary-text-color: {$btnPriText}; --btn-secondary-color: {$btnSecBg}; --btn-secondary-text-color: {$btnSecText};");
 @endphp
-<section class="section {{ $outerBgClass }}" style="{{ $styleAttr }}" id="section-{{ $section->id ?? 'new' }}">
+<section class="section {{ $outerBgClass }}" style="{{ $styleAttr }}" id="fit">
     <div class="rounded-[2rem] {{ $innerBgClass }} px-6 py-12 text-white md:px-12 md:py-16" style="{{ $innerBgStyle }}">
         <div class="grid gap-8 md:grid-cols-[1.25fr_.75fr] md:items-end">
             <div>
@@ -37,7 +37,7 @@
                 <p class="mt-4 max-w-2xl text-white/80 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }}" @endif>{{ $section->subtitle ?? 'Start the course and receive your Gut Response Brief at Day 30.' }}</p>
             </div>
             <div class="flex flex-wrap gap-3 md:justify-end">
-                <a class="btn-primary" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ ($isMyClosq && ($contentData['primary_button_text'] ?? 'Shop Gut Reset') === 'Shop Gut Reset') ? 'Shop My CLOSQ' : ($contentData['primary_button_text'] ?? ($isMyClosq ? 'Shop My CLOSQ' : 'Shop Gut Reset')) }}</a>
+                <a class="btn-primary" href="{{ !empty($isMyClosq) ? '#how-it-works' : ($contentData['primary_button_url'] ?? route('shop')) }}">{{ ($isMyClosq && ($contentData['primary_button_text'] ?? 'Shop Gut Reset') === 'Shop Gut Reset') ? 'Shop My CLOSQ' : ($contentData['primary_button_text'] ?? ($isMyClosq ? 'Shop My CLOSQ' : 'Shop Gut Reset')) }}</a>
                 <a class="btn-secondary" href="{{ $contentData['secondary_button_url'] ?? '#fit' }}">{{ $contentData['secondary_button_text'] ?? 'Check Your Fit' }}</a>
             </div>
         </div>

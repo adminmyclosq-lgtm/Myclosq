@@ -28,7 +28,7 @@
                 {{ $section->subtitle ?? 'A 30-day guided gut-support capsule course. Take one capsule daily, complete a few short course moments, and receive a personal Gut Response Brief showing what changed and what to do next.' }}
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
-                <a class="btn-primary" href="{{ route('shop') }}">{{ $button1 }}</a>
+                <a class="btn-primary" href="{{ !empty($isMyClosq) ? '#how-it-works' : route('shop') }}">{{ $button1 }}</a>
                 <a class="btn-secondary" href="#fit">{{ $button2 }}</a>
             </div>
             <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-medium uppercase tracking-[0.14em] text-stone-500">

@@ -29,14 +29,8 @@ $myClosqDomains = ['myclosq.com', 'www.myclosq.com'];
 foreach ($myClosqDomains as $domain) {
     Route::domain($domain)->group(function () use ($domain) {
         Route::get('/', [HomeController::class,'index'])->name($domain.'.home');
-        Route::get('/shop', [ShopController::class,'index'])->name($domain.'.shop');
-        Route::get('/how-it-works', [HomeController::class,'howItWorks'])->name($domain.'.how-it-works');
-        Route::view('/our-standards', 'our-standards')->name($domain.'.our-standards');
-        Route::view('/learn', 'learn')->name($domain.'.learn');
-        Route::view('/support', 'support')->name($domain.'.support');
-        Route::get('/product/{product:slug}', [ShopController::class,'show'])->name($domain.'.product.show');
         
-        // Block all other routes on this domain
+        // Block all other routes on this domain - only home page is available
         Route::any('{any}', function () {
             abort(404);
         })->where('any', '.*');

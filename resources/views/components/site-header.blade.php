@@ -41,20 +41,21 @@
         <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold tracking-tight text-foreground">
             <img src="{{ asset('images/closq-logo.png') }}" alt="CLOS.Q Logo" class="h-10 w-auto object-contain">
         </a>
+        @unless($isMyClosq)
         <nav class="hidden items-center gap-7 text-sm md:flex">
-            @unless($isMyClosq)
-                @auth
-                    @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
-                        <a href="{{ route('my-brief') }}">My Brief</a>
-                    @endunless
-                @endauth
-            @endunless
+            @auth
+                @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
+                    <a href="{{ route('my-brief') }}">My Brief</a>
+                @endunless
+            @endauth
             @foreach($navItems as $item)
                 <a href="{{ url($item['url'] ?? '#') }}">{{ $item['label'] ?? '' }}</a>
             @endforeach
             <a href="{{ url($btnUrl) }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: {{ $btnColor }};">{{ $btnText }}</a>
         </nav>
+        @endunless
         <div class="flex items-center gap-3 text-sm">
+            @unless($isMyClosq)
             <details class="group relative md:hidden">
                 <summary class="inline-flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-stone-200 bg-white text-[var(--ink)] [&::-webkit-details-marker]:hidden" aria-label="Open menu">
                     <svg class="h-5 w-5 group-open:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" /></svg>
@@ -64,19 +65,18 @@
                     @foreach($navItems as $item)
                         <a href="{{ url($item['url'] ?? '#') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">{{ $item['label'] ?? '' }}</a>
                     @endforeach
-                    @unless($isMyClosq)
-                        @auth
-                            @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
-                                <a href="{{ route('my-brief') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">My Brief</a>
-                            @endunless
-                            <a href="{{ route($accountRoute) }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Account</a>
-                        @else
-                            <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a>
-                        @endauth
-                    @endunless
+                    @auth
+                        @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
+                            <a href="{{ route('my-brief') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">My Brief</a>
+                        @endunless
+                        <a href="{{ route($accountRoute) }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Account</a>
+                    @else
+                        <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a>
+                    @endauth
                     <a href="{{ url($btnUrl) }}" class="mt-1 block rounded-lg px-4 py-3 text-center font-medium text-white" style="background-color: {{ $btnColor }};">{{ $btnText }}</a>
                 </nav>
             </details>
+            @endunless
             @unless($isMyClosq)
             <div class="group relative">
                 <a href="{{ route('cart') }}" class="inline-flex items-center gap-1.5 font-semibold text-[var(--ink)]" aria-label="Cart, {{ $headerCartItemCount }} item{{ $headerCartItemCount === 1 ? '' : 's' }}">
