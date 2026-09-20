@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class CommercialIntent extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'commercial_intents';
     protected $guarded = [];
 

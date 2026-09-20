@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class GriScore extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'gri_scores';
     protected $guarded = [];
 

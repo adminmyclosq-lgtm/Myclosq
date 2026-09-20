@@ -16,10 +16,10 @@
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="section {{ $settings['bg_color'] ?? '' }}" id="learn" style="{{ $topStyle }} {{ $bottomStyle }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}">
+<section class="section {{ $settings['bg_color'] ?? '' }}" id="learn" style="{{ $topStyle }} {{ $bottomStyle }}">
     <div class="max-w-3xl">
         <span class="badge">{{ $badge }}</span>
-        <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}" @endif>{!! $section->title ?? 'Understand your gut — and how to judge a trial.' !!}</h2>
+        <h2 class="display-serif mt-4 text-4xl leading-tight">{!! $section->title ?? 'Understand your gut — and how to judge a trial.' !!}</h2>
     </div>
     <div class="mt-10 grid gap-5 md:grid-cols-3">
         @foreach ($cards as $item)

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class SafetyFlag extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'safety_flags';
     protected $guarded = [];
 

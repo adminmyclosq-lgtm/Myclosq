@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class GutSignalCheckpoint extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'gut_signal_checkpoints';
     protected $guarded = [];
 

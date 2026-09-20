@@ -9,6 +9,9 @@ use App\Models\MilestoneCheckin;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\ResetProfile;
+use App\Models\ResetReentryRequest;
+use App\Models\SafetyFlag;
+use App\Models\Testimonial;
 use App\Models\Shipment;
 use App\Models\WhatsappContact;
 use App\Models\WhatsappMessage;
@@ -106,9 +109,13 @@ class Phase2DAnalyticsService
         return [
             'active'=>$active,
             'completed'=>ResetProfile::where('status','completed')->count(),
-            'safety_flags'=>ResetProfile::where('safety_flag_active',true)->count(),
+            'safety_flags'=>SafetyFlag::where('manual_review_required',true)->count(),
             'manual_review'=>ResetProfile::where('manual_review_required',true)->count(),
-            'day0'=>ResetProfile::where('current_reset_day',0)->whereIn('status',['active','started','in_progress'])->count(),
+            'dropoffs'=>ResetProfile::where('status','dropoff')->count(),
+            'paused'=>ResetProfile::where('status','paused')->count(),
+            'reentry_pending'=>ResetReentryRequest::where('status','pending')->count(),
+            'testimonials_pending'=>Testimonial::where('moderation_status','pending')->count(),
+            'day0'=>ResetProfile::where('current_reset_day',0)->whereIn('status',['created','active','started','in_progress'])->count(),
             'day30'=>ResetProfile::where('current_reset_day',30)->whereIn('status',['active','started','in_progress'])->count(),
             'day_distribution'=>$dayRows,
             'today_total'=>$todayTotal,

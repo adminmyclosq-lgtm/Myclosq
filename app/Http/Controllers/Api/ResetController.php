@@ -11,8 +11,10 @@ class ResetController extends Controller
 {
     public function show(Request $request)
     {
+        $profile = $request->user()->activeResetProfile ?? $request->user()->resetProfile;
+
         return response()->json(
-            $request->user()->resetProfile?->load([
+            $profile?->load([
                 'day0Baseline','gutSignalCheckpoints','dailyAdherence',
                 'milestoneCheckins','griScores','grsScores','finalClassification'
             ])
@@ -21,7 +23,7 @@ class ResetController extends Controller
 
     public function checkin(CheckinRequest $request, GutResetService $service)
     {
-        $profile = $request->user()->resetProfile;
+        $profile = $request->user()->activeResetProfile ?? $request->user()->resetProfile;
         abort_unless($profile, 404, 'Reset profile not found.');
 
         return response()->json(

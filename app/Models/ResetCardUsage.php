@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ResetCardUsage extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'reset_card_usage';
     protected $guarded = [];
 

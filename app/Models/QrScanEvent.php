@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class QrScanEvent extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'qr_scan_events';
     protected $guarded = [];
 

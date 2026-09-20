@@ -33,8 +33,12 @@ class OrderAutomationService
             default => null,
         };
 
+        if ($shipment->status === 'delivered') {
+            app(ResetJourneyService::class)->createCycleFromDelivery($order->user);
+        }
+
         if ($template) {
-            $this->dispatchTemplate($order->user,$template,[
+            $this->dispatchTemplate($order->user, $template, [
                 $order->order_number,
                 $shipment->tracking_number ?? '',
             ]);

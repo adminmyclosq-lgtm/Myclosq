@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class DropoffEvent extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'dropoff_events';
     protected $guarded = [];
 

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AdminNote extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'admin_notes';
     protected $guarded = [];
 

@@ -28,4 +28,6 @@ class Day0Baseline extends Model
 
     public function priorityAreas() { return $this->hasMany(Day0PriorityArea::class, 'day0_baseline_id')->orderBy('priority_rank'); }
 
+    public function triggers() { return $this->hasMany(Day0Trigger::class, 'day0_baseline_id')->orderBy('trigger_rank'); }
+
 }

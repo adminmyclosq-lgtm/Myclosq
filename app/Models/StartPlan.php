@@ -14,6 +14,8 @@ class StartPlan extends Model
     protected function casts(): array
     {
         return [
+            'selected_start_date' => 'date',
+            'actual_start_date' => 'date',
             'daily_reminder_enabled' => 'boolean',
             'milestone_reminder_enabled' => 'boolean',
             'missed_day_rule_confirmed' => 'boolean',

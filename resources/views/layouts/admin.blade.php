@@ -2,11 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ $title ?? (!empty($isMyClosq) ? 'My CLOSQ Admin' : 'Gut Reset Admin') }}</title>
-<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32x32.png') }}?v=2">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon-16x16.png') }}?v=2">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/apple-touch-icon.png') }}?v=2">
+<title>{{ $title ?? 'Gut Reset Admin' }}</title>
 @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="bg-stone-50 flex flex-col h-screen overflow-hidden">
@@ -14,7 +10,8 @@
 <header class="w-full border-b border-stone-200 bg-white text-stone-600 flex items-center justify-between px-5 py-3 text-sm select-none relative z-50 shrink-0 md:px-8">
     <div class="flex items-center gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-3 font-semibold tracking-tight text-[var(--ink)]">
-            <img src="{{ asset('images/closq-logo.png') }}" alt="CLOS.Q Logo" class="h-10 w-auto object-contain">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ink)] text-xs font-bold text-white">GW</span>
+            <span>Guided Wellness</span>
         </a>
         <a href="{{ route('home') }}" class="hidden font-medium text-stone-600 transition hover:text-[var(--ink)] md:inline-flex">Home</a>
         <span class="hidden border-l border-stone-200 pl-4 text-xs font-medium uppercase tracking-[.14em] text-stone-500 lg:inline">Admin</span>
@@ -46,12 +43,12 @@
     </details>
 </header>
 
-<div class="flex min-h-0 flex-1 flex-col overflow-hidden md:flex-row">
-<aside class="w-full shrink-0 overflow-y-auto border-b border-stone-200 bg-white md:w-64 md:border-b-0 md:border-r" style="height: 100%; max-height: 100%;">
+<div class="flex min-h-0 flex-1 overflow-hidden">
+<aside class="max-h-56 w-full shrink-0 overflow-y-auto border-r bg-white md:max-h-none md:w-64">
 <nav class="space-y-1 p-4 text-sm font-medium text-stone-600">
 @foreach([
 ['Dashboard','admin.dashboard'],['Products','admin.products.index'],['Orders','admin.orders.index'],['Customers','admin.customers.index'],
-['Inventory','admin.inventory.index'],['Shipping','admin.shipping.index'],['Coupons','admin.coupons.index'],['Media','admin.media.index'],['CMS','admin.cms.index'],['Global CMS','admin.cms.global'],['Payments','admin.payments.index'],['Fulfilment','admin.fulfilment.index'],['WhatsApp','admin.whatsapp.dashboard'],['Day 0–30','admin.reset.operations']
+['Inventory','admin.inventory.index'],['Shipping','admin.shipping.index'],['Coupons','admin.coupons.index'],['Media','admin.media.index'],['CMS','admin.cms.index'],['Payments','admin.payments.index'],['Fulfilment','admin.fulfilment.index'],['WhatsApp','admin.whatsapp.dashboard'],['Day 0–30','admin.reset.operations']
 ] as $item)
 <a class="block rounded-lg px-3 py-2 hover:bg-stone-100 hover:text-stone-900 transition-colors {{ request()->routeIs($item[1].'*') ? 'bg-stone-100 text-stone-900' : '' }}" href="{{ route($item[1]) }}">{{ $item[0] }}</a>
 @endforeach

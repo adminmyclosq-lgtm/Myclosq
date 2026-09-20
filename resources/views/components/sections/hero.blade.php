@@ -4,12 +4,8 @@
     if (!is_array($content)) $content = [];
     $settings = $content['settings'] ?? [];
     
-    $isMyClosq = !empty($isMyClosq) || in_array(request()->getHost(), ['myclosq.com', 'www.myclosq.com']);
-    $heroBadge = $content['badge'] ?? ($isMyClosq ? '30-Day Guided My CLOSQ' : '30-Day Guided Gut Reset');
-    if ($isMyClosq && $heroBadge === '30-Day Guided Gut Reset') {
-        $heroBadge = '30-Day Guided My CLOSQ';
-    }
-    $button1 = $content['button_1'] ?? ($isMyClosq ? 'Explore My CLOSQ' : 'Explore the Reset');
+    $heroBadge = $content['badge'] ?? '30-Day Guided Gut Reset';
+    $button1 = $content['button_1'] ?? 'Explore the Reset';
     $button2 = $content['button_2'] ?? 'Check Your Fit';
     
     // Spacing
@@ -19,17 +15,17 @@
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="relative overflow-hidden {{ !str_starts_with($bgColor??'', '#') ? $bgColor : '' }}" style="{{ $topStyle }} {{ $bottomStyle }} {{ str_starts_with($bgColor??'', '#') ? 'background-color: '.$bgColor.';' : '' }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}">
+<section class="relative overflow-hidden {{ $bgColor }}" style="{{ $topStyle }} {{ $bottomStyle }}">
     <div class="section !py-0 grid items-center gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
         <div class="max-w-xl animate-[fadeIn_.7s_ease-out_both]">
             <span class="badge">{{ $heroBadge }}</span>
-            <h1 class="mt-5 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-5xl leading-[1.02] md:text-6xl lg:text-7xl' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}" @endif>{!! $section->title ?? 'Take it daily.<br>Check in lightly.<br>Know what changed.' !!}</h1>
-            <p class="mt-6 max-w-md leading-7 text-stone-600 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}" @endif>
+            <h1 class="display-serif mt-5 text-5xl leading-[1.02] md:text-6xl lg:text-7xl">{!! $section->title ?? 'Take it daily.<br>Check in lightly.<br>Know what changed.' !!}</h1>
+            <p class="mt-6 max-w-md text-[15px] leading-7 text-stone-600">
                 {{ $section->subtitle ?? 'A 30-day guided gut-support capsule course. Take one capsule daily, complete a few short course moments, and receive a personal Gut Response Brief showing what changed and what to do next.' }}
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
-                <a class="btn-primary" href="{{ !empty($isMyClosq) ? '#how-it-works' : route('shop') }}">{{ $button1 }}</a>
-                <a class="btn-secondary" href="#fit" @if($isMyClosq) style="border: 1.5px solid var(--ink) !important; border-color: var(--ink) !important; color: var(--ink); background: transparent;" @endif>{{ $button2 }}</a>
+                <a class="btn-primary" href="{{ route('shop') }}">{{ $button1 }}</a>
+                <a class="btn-secondary" href="#fit">{{ $button2 }}</a>
             </div>
             <div class="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-medium uppercase tracking-[0.14em] text-stone-500">
                 <span>· 30 capsules</span>

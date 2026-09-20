@@ -13,9 +13,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withProviders([\App\Providers\ShipmentServiceProvider::class])
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [
-            \App\Http\Middleware\DomainBrandingMiddleware::class,
-        ]);
         $middleware->statefulApi();
         $middleware->alias([
             'admin.permission' => \App\Http\Middleware\AdminPermission::class,

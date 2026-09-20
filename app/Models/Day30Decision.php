@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Day30Decision extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'day30_decisions';
     protected $guarded = [];
 

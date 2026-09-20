@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Day0PriorityArea extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'day0_priority_areas';
     protected $guarded = [];
 

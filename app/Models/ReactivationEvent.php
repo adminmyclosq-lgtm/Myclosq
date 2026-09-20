@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ReactivationEvent extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'reactivation_events';
     protected $guarded = [];
 

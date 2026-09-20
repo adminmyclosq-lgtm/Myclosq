@@ -61,9 +61,19 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function resetProfiles(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ResetProfile::class);
+    }
+
     public function resetProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(ResetProfile::class);
+        return $this->hasOne(ResetProfile::class)->latestOfMany();
+    }
+
+    public function activeResetProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(ResetProfile::class)->whereIn('status', ['created', 'active', 'started', 'in_progress', 'paused', 'dropoff'])->latestOfMany();
     }
 
     public function whatsappContact(): \Illuminate\Database\Eloquent\Relations\HasOne

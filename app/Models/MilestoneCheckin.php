@@ -24,4 +24,6 @@ class MilestoneCheckin extends Model
 
     public function resetProfile() { return $this->belongsTo(ResetProfile::class, 'reset_profile_id'); }
 
+    public function answers() { return $this->hasMany(MilestoneAnswer::class, 'milestone_checkin_id'); }
+
 }

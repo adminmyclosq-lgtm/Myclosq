@@ -46,24 +46,22 @@ button:disabled {
 
 .btn-primary {
     @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium transition shadow-[0_1px_2px_rgba(0,0,0,0.06)];
-    background-color: var(--btn-primary-color, var(--ink)) !important;
-    color: var(--btn-primary-text-color, white) !important;
+    background: var(--ink);
+    color: white;
 }
 .btn-primary:hover { opacity: .9; }
 
 .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium transition;
-    background-color: var(--btn-secondary-color, transparent) !important;
-    border-color: var(--btn-secondary-color, transparent) !important;
-    border-width: 1px;
-    color: var(--btn-secondary-text-color, var(--ink)) !important;
+    @apply inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-medium transition;
+    border-color: color-mix(in srgb, var(--ink) 25%, transparent);
+    color: var(--ink);
 }
 .btn-secondary:hover {
-    opacity: .9;
+    background-color: rgba(24, 53, 44, 0.05);
 }
 
 .section {
-    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+    @apply mx-auto w-full max-w-[1200px] px-5 py-20 sm:px-8 md:py-24;
 }
 
 .card {

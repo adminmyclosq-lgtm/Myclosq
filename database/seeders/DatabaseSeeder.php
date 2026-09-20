@@ -120,7 +120,9 @@ class DatabaseSeeder extends Seeder
             ['name'=>'order_delivered','meta_template_name'=>'gutreset_order_delivered','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset order {{1}} has been delivered.','status'=>'draft'],
             ['name'=>'daily_checkin','meta_template_name'=>'gutreset_daily_checkin','language_code'=>'en','category'=>'UTILITY','body'=>'Gut Reset Day {{1}} check-in: reply YES when your check-in is complete.','status'=>'draft'],
             ['name'=>'daily_followup','meta_template_name'=>'gutreset_daily_followup','language_code'=>'en','category'=>'UTILITY','body'=>'Thanks for completing Day {{1}}. Keep going with your Gut Reset journey.','status'=>'draft'],
+            ['name'=>'day30_review','meta_template_name'=>'gutreset_day30_review','language_code'=>'en','category'=>'UTILITY','body'=>'Your Day 30 review is ready. Complete your final response here: {{1}}','status'=>'draft'],
             ['name'=>'day30_complete','meta_template_name'=>'gutreset_day30_complete','language_code'=>'en','category'=>'UTILITY','body'=>'Your 30-day Gut Reset is complete. Your Day-30 response summary is ready for review.','status'=>'draft'],
+            ['name'=>'reactivation_prompt','meta_template_name'=>'gutreset_reactivation_prompt','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset Day {{1}} check-in is waiting. Reply YES to record today’s completion.','status'=>'draft'],
         ];
         foreach ($templates as $template) {
             DB::table('whatsapp_templates')->updateOrInsert(

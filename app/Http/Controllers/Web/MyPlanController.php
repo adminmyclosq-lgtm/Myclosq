@@ -3,46 +3,46 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\Day0Baseline;
+use App\Services\ResetJourneyService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class MyPlanController extends Controller
 {
-    public function show(Request $request)
+    public function show(Request $request, ResetJourneyService $journey)
     {
-        $profile = $request->user()->resetProfile()
-            ->with(['day0Baseline.priorityAreas', 'dailyAdherence', 'day30Decision'])
-            ->first();
-        $completedDays = $profile
-            ? $profile->dailyAdherence->where('response_status', 'completed')->pluck('reset_day')->all()
-            : [];
-        $currentDay = $profile ? min(30, max((int) $profile->current_reset_day, empty($completedDays) ? 0 : max($completedDays))) : 0;
-        $selectedAreas = $profile?->day0Baseline?->priorityAreas->pluck('priority_area')->all() ?? [];
+        $user = $request->user();
+        $active = $journey->activeProfile($user);
+        $latest = $journey->latestProfile($user);
 
-        return view('my-plan', compact('profile', 'currentDay', 'selectedAreas'));
+        if ($latest && $latest->status === 'completed') {
+            return redirect()->route('reset.reentry');
+        }
+
+        if ($active) {
+            $profile = $active;
+            $selectedAreas = $active->day0Baseline?->priorityAreas()->pluck('priority_area')->all() ?? [];
+            $readOnly = !empty($active->day0Baseline) && $active->status !== 'created';
+
+            return view('my-plan', compact('profile', 'selectedAreas', 'readOnly'));
+        }
+
+        return redirect()->route('shop');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, ResetJourneyService $journey)
     {
-        $data = $request->validate([
-            'priority_areas' => ['required', 'array', 'min:1', 'max:3'],
-            'priority_areas.*' => ['required', 'string', 'in:bloating,gas_burping,heaviness,acidity,regularity,comfort'],
-        ]);
-        $profile = $request->user()->resetProfile;
-        abort_unless($profile, 404, 'Reset profile not found.');
+        $user = $request->user();
+        $active = $journey->activeProfile($user);
+        $latest = $journey->latestProfile($user);
 
-        DB::transaction(function () use ($profile, $data) {
-            $baseline = Day0Baseline::firstOrCreate(['reset_profile_id' => $profile->id]);
-            $baseline->priorityAreas()->delete();
-            foreach ($data['priority_areas'] as $index => $area) {
-                $baseline->priorityAreas()->create([
-                    'priority_area' => $area,
-                    'priority_rank' => $index + 1,
-                ]);
-            }
-        });
+        if ($latest && $latest->status === 'completed') {
+            return redirect()->route('reset.reentry');
+        }
 
-        return redirect()->route('my-plan')->with('success', 'Your focus areas have been saved.');
+        if ($active) {
+            return redirect()->route('my-plan')->with('success', 'Your plan is already active for this cycle.');
+        }
+
+        return redirect()->route('shop');
     }
 }

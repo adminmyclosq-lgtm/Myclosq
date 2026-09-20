@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Testimonial extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'testimonials';
     protected $guarded = [];
 

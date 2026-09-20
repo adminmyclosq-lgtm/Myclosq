@@ -21,6 +21,11 @@ class AuthController extends Controller
         Auth::login($result['user'], false);
         $request->session()->regenerate();
 
+        if (session()->has('pending_reset_qr')) {
+            $qrCode = session()->pull('pending_reset_qr');
+            return redirect()->route('reset.activate', ['qrCode' => $qrCode]);
+        }
+
         $isAdmin = $result['user']->roles()->whereIn('code', [
             'SUPER_ADMIN','CONTENT_ADMIN','PRODUCT_ADMIN','ORDER_ADMIN','FULFILMENT_ADMIN',
             'CUSTOMER_SUPPORT','MARKETING_ADMIN','RESET_ADMIN','ANALYST'

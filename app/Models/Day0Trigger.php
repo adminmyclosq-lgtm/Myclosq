@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Day0Trigger extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'day0_triggers';
     protected $guarded = [];
 

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\ResetProfile;
 
 class DevelopmentSeeder extends Seeder
 {
@@ -45,5 +46,14 @@ class DevelopmentSeeder extends Seeder
             $customer->roles()->syncWithoutDetaching([$customerRole]);
         }
         $customer->customerProfile()->updateOrCreate([], ['first_name'=>'Demo','last_name'=>'Customer','display_name'=>'Demo Customer']);
+
+        ResetProfile::firstOrCreate(
+            ['user_id' => $customer->id, 'cycle_number' => 1],
+            [
+                'source_channel' => 'development_seed',
+                'current_reset_day' => 0,
+                'status' => 'created',
+            ]
+        );
     }
 }

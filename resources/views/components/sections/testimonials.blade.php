@@ -7,7 +7,7 @@
     $bgColor = $settings['bg_color'] ?? 'bg-white';
     $items = isset($contentData['items']) && is_array($contentData['items']) ? $contentData['items'] : [];
 @endphp
-<section class="{{ !str_starts_with($bgColor??'', '#') ? $bgColor : '' }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }}; {{ str_starts_with($bgColor??'', '#') ? 'background-color: '.$bgColor.';' : '' }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_primary_text_color']) ? '--btn-primary-text-color: '.$settings['button_primary_text_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }} {{ !empty($settings['button_secondary_text_color']) ? '--btn-secondary-text-color: '.$settings['button_secondary_text_color'].';' : '' }}" id="section-{{ $section->id ?? 'new' }}">
+<section class="{{ $bgColor }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }};" id="section-{{ $section->id ?? 'new' }}">
     <div class="section grid gap-10 md:grid-cols-2 md:items-center">
         <div>
             @if($contentData['eyebrow'] ?? '')
@@ -15,8 +15,8 @@
             @else
                 <span class="badge">Day 30</span>
             @endif
-            <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_primary_text_color']) ? '--btn-primary-text-color: '.$settings['button_primary_text_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }} {{ !empty($settings['button_secondary_text_color']) ? '--btn-secondary-text-color: '.$settings['button_secondary_text_color'].';' : '' }}" @endif>{{ $section->title ?? 'Your Gut Response Brief at Day 30.' }}</h2>
-            <p class="mt-4 leading-7 text-stone-600 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_primary_text_color']) ? '--btn-primary-text-color: '.$settings['button_primary_text_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }} {{ !empty($settings['button_secondary_text_color']) ? '--btn-secondary-text-color: '.$settings['button_secondary_text_color'].';' : '' }}" @endif>{{ $section->subtitle ?? 'At the end of the 30 days you receive a personal Gut Response Brief. It is the read after your capsule course and a few short course moments.' }}</p>
+            <h2 class="display-serif mt-4 text-4xl leading-tight">{{ $section->title ?? 'Your Gut Response Brief at Day 30.' }}</h2>
+            <p class="mt-4 leading-7 text-stone-600">{{ $section->subtitle ?? 'At the end of the 30 days you receive a personal Gut Response Brief. It is the read after your capsule course and a few short course moments.' }}</p>
             @if($contentData['primary_button_text'] ?? '')
                 <a class="mt-6 inline-flex text-sm font-semibold text-[var(--ink)] underline decoration-stone-400 underline-offset-4" href="{{ $contentData['primary_button_url'] ?? '#' }}">{{ $contentData['primary_button_text'] }}</a>
             @else

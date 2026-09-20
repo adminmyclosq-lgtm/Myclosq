@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class UnusualEvent extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'unusual_events';
     protected $guarded = [];
 

@@ -24,18 +24,8 @@ use App\Http\Controllers\Web\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Web\Admin\FulfilmentController as AdminFulfilmentController;
 use App\Http\Controllers\Web\Admin\WhatsAppDashboardController;
 use App\Http\Controllers\Web\Admin\ResetOperationsController;
+use App\Http\Controllers\Web\ResetJourneyController;
 
-$myClosqDomains = ['myclosq.com', 'www.myclosq.com'];
-foreach ($myClosqDomains as $domain) {
-    Route::domain($domain)->group(function () use ($domain) {
-        Route::get('/', [HomeController::class,'index'])->name($domain.'.home');
-        
-        // Block all other routes on this domain - only home page is available
-        Route::any('{any}', function () {
-            abort(404);
-        })->where('any', '.*');
-    });
-}
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/shop', [ShopController::class,'index'])->name('shop');
@@ -53,7 +43,22 @@ Route::get('/register', [AuthController::class,'showRegister'])->name('register'
 Route::post('/register', [AuthController::class,'register'])->middleware('guest')->name('register.post');
 Route::post('/logout', [AuthController::class,'logout'])->middleware('auth')->name('logout');
 
+Route::get('/reset/activate/{qrCode:code}', [ResetJourneyController::class, 'activateFromQr'])->name('reset.activate');
+
 Route::middleware('auth')->group(function() {
+    Route::get('/reset', [ResetJourneyController::class, 'home'])->name('reset.home');
+    Route::get('/reset/day0', [ResetJourneyController::class, 'day0'])->name('reset.day0');
+    Route::post('/reset/day0', [ResetJourneyController::class, 'storeDay0'])->name('reset.day0.store');
+    Route::get('/reset/day/{day}', [ResetJourneyController::class, 'day'])->whereNumber('day')->name('reset.day');
+    Route::post('/reset/day/{day}', [ResetJourneyController::class, 'storeDay'])->whereNumber('day')->name('reset.day.store');
+    Route::post('/reset/day/{day}/unusual', [ResetJourneyController::class, 'unusual'])->whereNumber('day')->name('reset.day.unusual');
+    Route::post('/reset/day/{day}/positive', [ResetJourneyController::class, 'positive'])->whereNumber('day')->name('reset.day.positive');
+    Route::get('/reset/report/{cycle?}', [ResetJourneyController::class, 'report'])->whereNumber('cycle')->name('reset.report');
+    Route::get('/reset/testimonial', [ResetJourneyController::class, 'testimonial'])->name('reset.testimonial');
+    Route::post('/reset/testimonial', [ResetJourneyController::class, 'storeTestimonial'])->name('reset.testimonial.store');
+    Route::get('/reset/re-entry', [ResetJourneyController::class, 'reentry'])->name('reset.reentry');
+    Route::post('/reset/re-entry', [ResetJourneyController::class, 'storeReentry'])->name('reset.reentry.store');
+
     Route::get('/cart', [CartController::class,'index'])->name('cart');
     Route::get('/checkout', [CheckoutController::class,'show'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class,'store'])->name('checkout.store');
@@ -93,7 +98,6 @@ Route::middleware('auth')->group(function() {
         Route::post('/media',[AdminMediaController::class,'store'])->name('media.store');
 
         Route::get('/cms',[AdminCmsController::class,'index'])->name('cms.index');
-        Route::get('/cms/global',[AdminCmsController::class,'global'])->name('cms.global');
         Route::put('/cms/{page}',[AdminCmsController::class,'update'])->name('cms.update');
         Route::get('/cms/{page}/sections',[AdminCmsController::class,'sections'])->name('cms.sections');
         Route::post('/cms/{page}/sections',[AdminCmsController::class,'storeSection'])->name('cms.sections.store');
@@ -116,6 +120,13 @@ Route::middleware('auth')->group(function() {
         Route::post('/orders/{order}/create-shipment',[AdminFulfilmentController::class,'create'])->name('orders.create-shipment');
         Route::get('/whatsapp',[WhatsAppDashboardController::class,'index'])->name('whatsapp.dashboard');
         Route::get('/reset-operations',[ResetOperationsController::class,'index'])->name('reset.operations');
+        Route::get('/reset-operations/profiles/{resetProfile}',[ResetOperationsController::class,'show'])->name('reset.profiles.show');
+        Route::get('/reset-operations/re-entry',[ResetOperationsController::class,'reentry'])->name('reset.reentry');
+        Route::post('/reset-operations/re-entry/{reentryRequest}/approve',[ResetOperationsController::class,'approveReentry'])->name('reset.reentry.approve');
+        Route::post('/reset-operations/re-entry/{reentryRequest}/reject',[ResetOperationsController::class,'rejectReentry'])->name('reset.reentry.reject');
+        Route::post('/reset-operations/safety/{safetyFlag}/resolve',[ResetOperationsController::class,'resolveSafety'])->name('reset.safety.resolve');
+        Route::get('/reset-operations/testimonials',[ResetOperationsController::class,'testimonials'])->name('reset.testimonials');
+        Route::post('/reset-operations/testimonials/{testimonial}',[ResetOperationsController::class,'moderateTestimonial'])->name('reset.testimonials.moderate');
         Route::post('/whatsapp/templates',[AdminWhatsAppTemplateController::class,'store'])->name('whatsapp.templates.store');
     });
 });

@@ -14,32 +14,7 @@
         <input type="hidden" name="section_type" value="{{ $section->section_type }}">
         
         <div class="space-y-5">
-            @if($section->section_type === 'header')
-                <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button Text</label>
-                    <input name="content[button_text]" value="{{ $contentData['button_text'] ?? 'Shop Gut Reset' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                </div>
-                <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button URL</label>
-                    <input name="content[button_url]" value="{{ $contentData['button_url'] ?? '/shop' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                </div>
-                <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase mb-2 flex items-center justify-between">
-                        <span>Navigation Items</span>
-                        <button type="button" class="text-xs font-bold text-[var(--ink)] hover:underline" onclick="cloneFieldRow(this)">+ Add Link</button>
-                    </label>
-                    <div class="space-y-2 clone-container">
-                        @php $items = !empty($contentData['nav_items']) ? $contentData['nav_items'] : [['label'=>'Home','url'=>'/'],['label'=>'How It Works','url'=>'/how-it-works'],['label'=>'Our Standards','url'=>'/our-standards'],['label'=>'Learn','url'=>'/learn'],['label'=>'Support','url'=>'/support']]; @endphp
-                        @foreach($items as $i => $item)
-                        <div class="flex gap-2 items-center clone-row">
-                            <input name="content[nav_items][{{$i}}][label]" value="{{ $item['label'] ?? '' }}" placeholder="Label" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                            <input name="content[nav_items][{{$i}}][url]" value="{{ $item['url'] ?? '' }}" placeholder="URL (e.g. /shop)" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                            <button type="button" class="text-stone-400 hover:text-red-500 px-1" onclick="if(this.closest('.clone-container').children.length > 1) this.closest('.clone-row').remove()">&times;</button>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            @elseif($section->section_type === 'hero')
+            @if($section->section_type === 'hero')
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
                     <input name="content[badge]" value="{{ $contentData['badge'] ?? '30-Day Guided Gut Reset' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
@@ -62,6 +37,7 @@
                         <input name="content[button_2]" value="{{ $contentData['button_2'] ?? 'Check Your Fit' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                     </div>
                 </div>
+
             @elseif($section->section_type === 'problem')
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
@@ -76,20 +52,14 @@
                     <textarea name="subtitle" rows="3" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
                 </div>
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase mb-2 flex items-center justify-between">
-                        <span>Bullet Points</span>
-                        <button type="button" class="text-xs font-bold text-[var(--ink)] hover:underline" onclick="cloneFieldRow(this)">+ Add Bullet</button>
-                    </label>
-                    <div class="space-y-2 clone-container">
-                        @php $items = !empty($contentData['cards']) ? $contentData['cards'] : ['No clear starting point', 'Real-life disruptions get read as failure', 'The most recent moment becomes the impression']; @endphp
-                        @foreach($items as $i => $item)
-                        <div class="flex gap-2 items-center clone-row">
-                            <input name="content[cards][]" value="{{ is_array($item) ? ($item['title'] ?? '') : $item }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm" placeholder="Bullet">
-                            <button type="button" class="text-stone-400 hover:text-red-500 px-1" onclick="if(this.closest('.clone-container').children.length > 1) this.closest('.clone-row').remove()">&times;</button>
-                        </div>
-                        @endforeach
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Bullet Points</label>
+                    <div class="space-y-2">
+                        @for($i=0; $i<3; $i++)
+                        <input name="content[cards][{{$i}}]" value="{{ is_array($contentData['cards'][$i] ?? '') ? ($contentData['cards'][$i]['title'] ?? '') : ($contentData['cards'][$i] ?? '') }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm" placeholder="Bullet {{ $i+1 }}">
+                        @endfor
                     </div>
                 </div>
+
             @elseif($section->section_type === 'features')
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
@@ -100,21 +70,17 @@
                     <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-serif">{{ $section->title }}</textarea>
                 </div>
                 <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase mb-2 flex items-center justify-between">
-                        <span>Feature Cards</span>
-                        <button type="button" class="text-xs font-bold text-[var(--ink)] hover:underline" onclick="cloneFieldRow(this)">+ Add Card</button>
-                    </label>
-                    <div class="space-y-4 clone-container">
-                        @php $items = !empty($contentData['cards']) ? $contentData['cards'] : [['title'=>'','text'=>'']]; @endphp
-                        @foreach($items as $i => $item)
-                        <div class="p-3 bg-stone-50 border border-stone-200 rounded-md relative clone-row">
-                            <button type="button" class="absolute top-2 right-2 text-stone-400 hover:text-red-500" onclick="if(this.closest('.clone-container').children.length > 1) this.closest('.clone-row').remove()">&times;</button>
-                            <input name="content[cards][{{$i}}][title]" value="{{ $item['title'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm font-bold mb-2" placeholder="Card Title">
-                            <textarea name="content[cards][{{$i}}][text]" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm" placeholder="Card Description">{{ $item['text'] ?? '' }}</textarea>
+                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Feature Cards (3 items)</label>
+                    <div class="space-y-4">
+                        @for($i=0; $i<3; $i++)
+                        <div class="p-3 bg-stone-50 border border-stone-200 rounded-md">
+                            <input name="content[cards][{{$i}}][title]" value="{{ $contentData['cards'][$i]['title'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm font-bold mb-2" placeholder="Card {{ $i+1 }} Title">
+                            <textarea name="content[cards][{{$i}}][text]" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm" placeholder="Card {{ $i+1 }} Description">{{ $contentData['cards'][$i]['text'] ?? '' }}</textarea>
                         </div>
-                        @endforeach
+                        @endfor
                     </div>
                 </div>
+
             @elseif($section->section_type === 'standards')
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
@@ -142,6 +108,7 @@
                         @endfor
                     </div>
                 </div>
+
             @elseif($section->section_type === 'showcase')
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Eyebrow Text</label>
@@ -159,6 +126,7 @@
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Footer / Button Text</label>
                     <input name="content[primary_button_text]" value="{{ $contentData['primary_button_text'] ?? 'Take 30. Spend 15. Know your gut.' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                 </div>
+
             @elseif(str_starts_with($section->section_type, 'support_') || str_starts_with($section->section_type, 'standards_') || str_starts_with($section->section_type, 'learn_') || str_starts_with($section->section_type, 'product_'))
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Title</label>
@@ -214,53 +182,6 @@
                         </div>
                     @endif
                 @endforeach
-            @elseif($section->section_type === 'cta')
-                <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Title</label>
-                    <textarea name="title" rows="2" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->title }}</textarea>
-                </div>
-                <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Subtitle</label>
-                    <textarea name="subtitle" rows="3" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">{{ $section->subtitle }}</textarea>
-                </div>
-                <div>
-                    <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Eyebrow Text</label>
-                    <input name="content[eyebrow]" value="{{ $contentData['eyebrow'] ?? 'Start the course' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                </div>
-                <div class="grid grid-cols-2 gap-4 border-t border-stone-100 pt-4 mt-2">
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Eyebrow Background</label>
-                        <div class="mt-2 flex items-center gap-3">
-                            <input type="color" id="picker_eyebrow_bg_{{$section->id}}" value="{{ $contentData['settings']['eyebrow_bg_color'] ?? '#ffffff' }}" oninput="document.getElementById('input_eyebrow_bg_{{$section->id}}').value = this.value" class="h-9 w-12 cursor-pointer rounded border border-stone-300 p-0.5 bg-white">
-                            <input type="text" id="input_eyebrow_bg_{{$section->id}}" name="content[settings][eyebrow_bg_color]" value="{{ $contentData['settings']['eyebrow_bg_color'] ?? '' }}" onchange="document.getElementById('picker_eyebrow_bg_{{$section->id}}').value = this.value || '#ffffff'" class="w-full max-w-[150px] h-9 rounded-md border border-stone-300 px-3 text-sm font-mono" placeholder="rgba/hex">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Inner Card Background</label>
-                        <div class="mt-2 flex items-center gap-3">
-                            <input type="color" id="picker_inner_bg_{{$section->id}}" value="{{ $contentData['settings']['inner_bg_color'] ?? '#284a3e' }}" oninput="document.getElementById('input_inner_bg_{{$section->id}}').value = this.value" class="h-9 w-12 cursor-pointer rounded border border-stone-300 p-0.5 bg-white">
-                            <input type="text" id="input_inner_bg_{{$section->id}}" name="content[settings][inner_bg_color]" value="{{ $contentData['settings']['inner_bg_color'] ?? '' }}" onchange="document.getElementById('picker_inner_bg_{{$section->id}}').value = this.value || '#284a3e'" class="w-full max-w-[150px] h-9 rounded-md border border-stone-300 px-3 text-sm font-mono" placeholder="Gradient or Hex">
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4 border-t border-stone-100 pt-4 mt-2">
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button Text</label>
-                        <input name="content[primary_button_text]" value="{{ $contentData['primary_button_text'] ?? 'Shop Gut Reset' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Primary Button URL</label>
-                        <input name="content[primary_button_url]" value="{{ $contentData['primary_button_url'] ?? url('/shop') }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button Text</label>
-                        <input name="content[secondary_button_text]" value="{{ $contentData['secondary_button_text'] ?? 'Check Your Fit' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button URL</label>
-                        <input name="content[secondary_button_url]" value="{{ $contentData['secondary_button_url'] ?? '#fit' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                    </div>
-                </div>
 
             @elseif(str_starts_with($section->section_type, 'hiw_'))
                 <div>
@@ -285,6 +206,7 @@
                         <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Secondary Button URL</label><input type="text" name="content[button_2_url]" value="{{ $contentData['button_2_url'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
                     </div>
                 @endif
+
                 @if($section->section_type === 'hiw_help')
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div><label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Left Button Text</label><input type="text" name="content[button]" value="{{ $contentData['button'] ?? '' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm"></div>
@@ -306,24 +228,19 @@
                         </div>
                     </div>
                 @endif
+
                 @if(in_array($section->section_type, ['hiw_honest_read', 'hiw_physical_pack']))
                     @php $limit = $section->section_type === 'hiw_honest_read' ? 5 : 3; @endphp
                     <div class="mt-4">
-                        <label class="text-xs font-semibold text-stone-600 uppercase mb-2 flex items-center justify-between">
-                            <span>Bullet Points</span>
-                            <button type="button" class="text-xs font-bold text-[var(--ink)] hover:underline" onclick="cloneFieldRow(this)">+ Add Bullet</button>
-                        </label>
-                        <div class="space-y-2 clone-container">
-                            @php $items = !empty($contentData['cards']) ? $contentData['cards'] : array_fill(0, $limit, ''); @endphp
-                            @foreach($items as $i => $item)
-                            <div class="flex gap-2 items-center clone-row">
-                                <input type="text" name="content[cards][]" value="{{ is_array($item) ? ($item['title'] ?? '') : $item }}" placeholder="Bullet line" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
-                                <button type="button" class="text-stone-400 hover:text-red-500 px-1" onclick="if(this.closest('.clone-container').children.length > 1) this.closest('.clone-row').remove()">&times;</button>
-                            </div>
-                            @endforeach
+                        <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">{{ $limit }} Bullet Points</label>
+                        <div class="space-y-2">
+                            @for($i = 0; $i < $limit; $i++)
+                                <input type="text" name="content[cards][{{$i}}]" value="{{ (is_array($contentData['cards'][$i] ?? '')) ? ($contentData['cards'][$i]['title'] ?? '') : ($contentData['cards'][$i] ?? '') }}" placeholder="Bullet line {{$i+1}}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                            @endfor
                         </div>
                     </div>
                 @endif
+
                 @if($section->section_type === 'hiw_personal_brief')
                     <div class="mt-4">
                         <label class="text-xs font-semibold text-stone-600 uppercase block mb-2">Outcome Tags (Up to 5)</label>
@@ -334,41 +251,29 @@
                         </div>
                     </div>
                 @endif
+
                 @if(in_array($section->section_type, ['hiw_product_layer', 'hiw_ready']))
                     @php $titleKey = $section->section_type === 'hiw_ready' ? 'badge' : 'title'; @endphp
                     <div class="grid lg:grid-cols-2 gap-6 bg-stone-50 p-4 rounded-xl border border-stone-200 mt-4">
                         <div>
-                            <div class="mb-2 flex items-center justify-between">
-                                <input type="text" name="content[col1_{{$titleKey}}]" value="{{ $contentData["col1_{$titleKey}"] ?? '' }}" placeholder="Column 1 Title/Badge" class="w-full max-w-[200px] rounded-md border border-stone-300 px-3 py-2 text-sm font-bold">
-                                <button type="button" class="text-xs font-bold text-[var(--ink)] hover:underline ml-2" onclick="cloneFieldRow(this)">+ Add Line</button>
-                            </div>
-                            <div class="space-y-2 clone-container">
-                                @php $items1 = !empty($contentData['col1_items']) ? $contentData['col1_items'] : ['', '', '']; @endphp
-                                @foreach($items1 as $item)
-                                <div class="flex gap-2 items-center clone-row">
-                                    <input type="text" name="content[col1_items][]" value="{{ $item }}" placeholder="Line item" class="w-full rounded-md border border-stone-300 px-3 py-2 text-xs">
-                                    <button type="button" class="text-stone-400 hover:text-red-500 px-1" onclick="if(this.closest('.clone-container').children.length > 1) this.closest('.clone-row').remove()">&times;</button>
-                                </div>
-                                @endforeach
+                            <div class="mb-2"><input type="text" name="content[col1_{{$titleKey}}]" value="{{ $contentData["col1_{$titleKey}"] ?? '' }}" placeholder="Column 1 Title/Badge" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-bold"></div>
+                            <div class="space-y-2">
+                                @for($i = 0; $i < 3; $i++)
+                                    <input type="text" name="content[col1_items][{{$i}}]" value="{{ $contentData['col1_items'][$i] ?? '' }}" placeholder="Line item {{$i+1}}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-xs">
+                                @endfor
                             </div>
                         </div>
                         <div>
-                            <div class="mb-2 flex items-center justify-between">
-                                <input type="text" name="content[col2_{{$titleKey}}]" value="{{ $contentData["col2_{$titleKey}"] ?? '' }}" placeholder="Column 2 Title/Badge" class="w-full max-w-[200px] rounded-md border border-stone-300 px-3 py-2 text-sm font-bold">
-                                <button type="button" class="text-xs font-bold text-[var(--ink)] hover:underline ml-2" onclick="cloneFieldRow(this)">+ Add Line</button>
-                            </div>
-                            <div class="space-y-2 clone-container">
-                                @php $items2 = !empty($contentData['col2_items']) ? $contentData['col2_items'] : ['', '', '']; @endphp
-                                @foreach($items2 as $item)
-                                <div class="flex gap-2 items-center clone-row">
-                                    <input type="text" name="content[col2_items][]" value="{{ $item }}" placeholder="Line item" class="w-full rounded-md border border-stone-300 px-3 py-2 text-xs">
-                                    <button type="button" class="text-stone-400 hover:text-red-500 px-1" onclick="if(this.closest('.clone-container').children.length > 1) this.closest('.clone-row').remove()">&times;</button>
-                                </div>
-                                @endforeach
+                            <div class="mb-2"><input type="text" name="content[col2_{{$titleKey}}]" value="{{ $contentData["col2_{$titleKey}"] ?? '' }}" placeholder="Column 2 Title/Badge" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-bold"></div>
+                            <div class="space-y-2">
+                                @for($i = 0; $i < 3; $i++)
+                                    <input type="text" name="content[col2_items][{{$i}}]" value="{{ $contentData['col2_items'][$i] ?? '' }}" placeholder="Line item {{$i+1}}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-xs">
+                                @endfor
                             </div>
                         </div>
                     </div>
                 @endif
+
             @else
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Title</label>
@@ -383,6 +288,7 @@
                     <textarea name="content" rows="4" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm font-mono bg-stone-50">{{ is_string($section->content) && str_starts_with(trim($section->content), '{') ? $section->content : (is_array($contentData) ? json_encode($contentData, JSON_PRETTY_PRINT) : '{}') }}</textarea>
                 </div>
             @endif
+
             @if(!in_array($section->section_type, ['rich_text', 'spacer', 'faq', 'features', 'standards']))
             <div class="border-t border-stone-200 pt-6 mt-6">
                 <label class="text-xs font-semibold text-stone-600 uppercase block mb-4">Media / Image Upload</label>
@@ -394,13 +300,12 @@
                     @endif
                     <div class="flex-1 w-full relative">
                         <input type="file" name="image" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="this.nextElementSibling.querySelector('span.filename').innerText = this.files[0].name">
-                        <div class="border-2 border-dashed border-stone-300 rounded-xl bg-stone-50/50 hover:bg-stone-50 transition p-6 flex flex-col items-center justify-center text-center h-auto min-h-[8rem]">
+                        <div class="border-2 border-dashed border-stone-300 rounded-xl bg-stone-50/50 hover:bg-stone-50 transition p-6 flex flex-col items-center justify-center text-center h-32">
                             <svg class="h-6 w-6 text-stone-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
                             </svg>
                             <span class="text-sm font-semibold text-stone-700 filename">Click or drag image here</span>
                             <span class="text-xs text-stone-500 mt-1">PNG, JPG, WEBP up to 5MB</span>
-                            <div class="mt-3 text-xs text-red-500 font-medium border-t border-red-500/30 pt-2 w-full">Note: Please maintain a 4:3 aspect ratio (e.g., 1200x900px) across all sections to ensure visual consistency.</div>
                         </div>
                     </div>
                 </div>
@@ -413,22 +318,3 @@
         </div>
     </form>
 </dialog>
-<script>
-    if (typeof window.cloneFieldRow === 'undefined') {
-        window.cloneFieldRow = function(btn) {
-            const container = btn.closest('div').parentElement.querySelector('.clone-container');
-            if (!container || container.children.length === 0) return;
-            const clone = container.lastElementChild.cloneNode(true);
-            const inputs = clone.querySelectorAll('input, textarea');
-            inputs.forEach(input => {
-                input.value = '';
-                if (input.name.match(/\[(\d+)\]/)) {
-                    input.name = input.name.replace(/\[(\d+)\]/, function(match, p1) {
-                        return '[' + (parseInt(p1) + 1) + ']';
-                    });
-                }
-            });
-            container.appendChild(clone);
-        }
-    }
-</script>

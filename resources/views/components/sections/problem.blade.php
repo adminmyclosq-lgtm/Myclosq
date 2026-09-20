@@ -13,7 +13,7 @@
     
     if (!empty($settings['hidden'])) return;
 @endphp
-<section class="border-t border-border/60 {{ !str_starts_with($bgColor??'', '#') ? $bgColor : '' }}" style="{{ $topStyle }} {{ $bottomStyle }} {{ str_starts_with($bgColor??'', '#') ? 'background-color: '.$bgColor.';' : '' }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}">
+<section class="border-t border-border/60 {{ $bgColor }}" style="{{ $topStyle }} {{ $bottomStyle }}">
     <div class="section grid gap-10 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:items-center">
         <div class="overflow-hidden rounded-2xl bg-cream">
             @if($section->media)
@@ -26,8 +26,8 @@
         </div>
         <div>
             <div class="badge mb-4">{{ $badge }}</div>
-            <h2 class="{{ $settings['title_font_family'] ?? 'font-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-[1.1] md:text-5xl' }} text-foreground" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}" @endif>{!! $section->title ?? 'Most gut resets leave you guessing.' !!}</h2>
-            <p class="mt-6 max-w-md leading-relaxed text-foreground/70 {{ $settings['body_font_family'] ?? '' }} {{ $settings['body_font_size'] ?? 'text-[15px]' }}" @if(!empty($settings['body_font_color'])) style="color: {{ $settings['body_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }}" @endif>{{ $section->subtitle }}</p>
+            <h2 class="font-serif text-4xl leading-[1.1] text-foreground md:text-5xl">{!! $section->title ?? 'Most gut resets leave you guessing.' !!}</h2>
+            <p class="mt-6 max-w-md text-[15px] leading-relaxed text-foreground/70">{{ $section->subtitle }}</p>
             
             @if(!empty($cards))
             <ul class="mt-8 space-y-4 text-[14px] text-foreground/75">

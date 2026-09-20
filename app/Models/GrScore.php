@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class GrScore extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
     protected $table = 'grs_scores';
     protected $guarded = [];
 

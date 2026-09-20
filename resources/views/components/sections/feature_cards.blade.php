@@ -7,14 +7,14 @@
     $bgColor = $settings['bg_color'] ?? 'bg-[var(--cream)]';
     $items = isset($contentData['items']) && is_array($contentData['items']) ? $contentData['items'] : [];
 @endphp
-<section class="{{ !str_starts_with($bgColor??'', '#') ? $bgColor : '' }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }}; {{ str_starts_with($bgColor??'', '#') ? 'background-color: '.$bgColor.';' : '' }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_primary_text_color']) ? '--btn-primary-text-color: '.$settings['button_primary_text_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }} {{ !empty($settings['button_secondary_text_color']) ? '--btn-secondary-text-color: '.$settings['button_secondary_text_color'].';' : '' }}" id="section-{{ $section->id ?? 'new' }}">
+<section class="{{ $bgColor }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }};" id="section-{{ $section->id ?? 'new' }}">
     <div class="section">
         @if($contentData['eyebrow'] ?? '')
             <span class="badge">{{ $contentData['eyebrow'] }}</span>
         @else
             <span class="badge">Check your fit</span>
         @endif
-        <h2 class="mt-4 {{ $settings['title_font_family'] ?? 'display-serif' }} {{ $settings['title_font_size'] ?? 'text-4xl leading-tight' }}" @if(!empty($settings['title_font_color'])) style="color: {{ $settings['title_font_color'] }} {{ !empty($settings['button_primary_color']) ? '--btn-primary-color: '.$settings['button_primary_color'].';' : '' }} {{ !empty($settings['button_primary_text_color']) ? '--btn-primary-text-color: '.$settings['button_primary_text_color'].';' : '' }} {{ !empty($settings['button_secondary_color']) ? '--btn-secondary-color: '.$settings['button_secondary_color'].';' : '' }} {{ !empty($settings['button_secondary_text_color']) ? '--btn-secondary-text-color: '.$settings['button_secondary_text_color'].';' : '' }}" @endif>{{ $section->title ?? 'Is this likely to be right for you?' }}</h2>
+        <h2 class="display-serif mt-4 text-4xl leading-tight">{{ $section->title ?? 'Is this likely to be right for you?' }}</h2>
         <div class="mt-10 grid gap-6 md:grid-cols-2">
             @if(count($items) > 0)
                 @foreach($items as $item)
