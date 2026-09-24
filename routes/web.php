@@ -28,11 +28,12 @@ use App\Http\Controllers\Web\ResetJourneyController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('home');
-Route::get('/shop', [ShopController::class,'index'])->name('shop');
-Route::get('/how-it-works', [HomeController::class,'howItWorks'])->name('how-it-works');
-Route::view('/our-standards', 'our-standards')->name('our-standards');
-Route::view('/learn', 'learn')->name('learn');
-Route::view('/support', 'support')->name('support');
+// Staging: all public pages redirect to home
+Route::get('/shop', fn() => redirect('/'))->name('shop');
+Route::get('/how-it-works', fn() => redirect('/'))->name('how-it-works');
+Route::get('/our-standards', fn() => redirect('/'))->name('our-standards');
+Route::get('/learn', fn() => redirect('/'))->name('learn');
+Route::get('/support', fn() => redirect('/'))->name('support');
 Route::get('/product/{product:slug}', [ShopController::class,'show'])->name('product.show');
 Route::get('/mybrief', [MyBriefController::class, 'show'])->middleware('auth')->name('my-brief');
 Route::get('/my-plan', [MyPlanController::class, 'show'])->middleware('auth')->name('my-plan');
