@@ -32,30 +32,12 @@
         ? ucwords(strtolower(str_replace('_', ' ', (string) $primaryRole->code)))
         : 'User';
 @endphp
-<header class="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
-    <div class="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-5 h-16 sm:px-8">
+<header class="sticky top-0 z-40 border-b border-border/60 backdrop-blur" style="background-color: #F8F5EC; border-bottom-color: rgba(180,160,120,0.2);">
+    <div class="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-6 px-5 py-3 sm:px-8">
         <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold tracking-tight text-foreground">
-            @if(!empty($headerLogo))
-                <img src="{{ $headerLogo->url }}" alt="Guided Wellness" class="h-10 w-10 rounded-full object-cover">
-                <span>Guided Wellness</span>
-            @else
-                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--ink)] text-sm font-bold text-white">GW</span>
-                <span>Guided Wellness</span>
-            @endif
+            <img src="https://www.myclosq.com/images/closq-logo.png" alt="CLOS.Q Logo" class="h-10 w-auto object-contain">
         </a>
-        <nav class="hidden items-center gap-7 text-sm md:flex">
-            @auth
-                @unless(auth()->user()?->hasRole('SUPER_ADMIN'))
-                    <a href="{{ route('my-brief') }}">My Brief</a>
-                @endunless
-            @endauth
-            <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('how-it-works') }}">How It Works</a>
-            <a href="{{ route('our-standards') }}">Our Standards</a>
-            <a href="{{ route('learn') }}">Learn</a>
-            <a href="{{ route('support') }}">Support</a>
-            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Myclosq</a>
-        </nav>
+        {{-- Staging: nav hidden --}}
         <div class="flex items-center gap-3 text-sm">
             <details class="group relative md:hidden">
                 <summary class="inline-flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-stone-200 bg-white text-[var(--ink)] [&::-webkit-details-marker]:hidden" aria-label="Open menu">
