@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
     <title>{{ $title ?? 'Gut Reset' }}</title>
     <script>
         window.AppRoutes = {
@@ -74,7 +75,7 @@
                         @php($mobileAccountRoute = auth()->user()?->hasRole('SUPER_ADMIN') ? 'admin.dashboard' : 'account')
                         <a href="{{ route($mobileAccountRoute) }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Account</a>
                     @else
-                        <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a>
+                        <!-- <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a> -->
                     @endauth
                     <a href="{{ route('shop') }}" class="mt-1 block rounded-lg bg-[#587762] px-4 py-3 text-center font-medium text-white">Shop Gut Reset</a>
                 </nav>
@@ -131,7 +132,7 @@
                     </div>
                 </details>
             @else
-                <a href="{{ route('login') }}" class="hidden items-center gap-1.5 font-semibold text-[var(--ink)] md:inline-flex"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path stroke-linecap="round" d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg>Login</a>
+                <!-- <a href="{{ route('login') }}" class="hidden items-center gap-1.5 font-semibold text-[var(--ink)] md:inline-flex"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path stroke-linecap="round" d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg>Login</a> -->
             @endauth
         </div>
     </div>
