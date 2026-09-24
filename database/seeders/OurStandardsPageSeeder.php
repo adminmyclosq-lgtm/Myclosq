@@ -40,7 +40,7 @@ class OurStandardsPageSeeder extends Seeder
             [
                 'section_type' => 'standards_formulation',
                 'title' => 'Ingredients & Formulation',
-                'subtitle' => 'Selected product: 30-Day Gut Reset',
+                'subtitle' => 'Selected product: 30-Day Myclosq',
                 'content' => []
             ],
             [
@@ -110,7 +110,7 @@ class OurStandardsPageSeeder extends Seeder
                 'title' => 'Understand the product before you begin.',
                 'subtitle' => '',
                 'content' => [
-                    'button_1' => 'View the 30-Day Gut Reset',
+                    'button_1' => 'View the 30-Day Myclosq',
                     'button_1_url' => '/shop',
                     'button_2' => 'See How It Works',
                     'button_2_url' => '/how-it-works'

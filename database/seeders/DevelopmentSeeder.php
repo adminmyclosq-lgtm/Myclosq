@@ -18,7 +18,7 @@ class DevelopmentSeeder extends Seeder
         }
 
         $admin = User::firstOrCreate(
-            ['email'=>'admin@gutreset.local'],
+            ['email'=>'admin@myclosq.local'],
             [
                 'uuid'=>(string) Str::uuid(),
                 'password_hash'=>Hash::make('ChangeMe!123'),
@@ -30,10 +30,10 @@ class DevelopmentSeeder extends Seeder
         if ($adminRole) {
             $admin->roles()->syncWithoutDetaching([$adminRole]);
         }
-        $admin->customerProfile()->updateOrCreate([], ['first_name'=>'Gut Reset','last_name'=>'Admin','display_name'=>'Gut Reset Admin']);
+        $admin->customerProfile()->updateOrCreate([], ['first_name'=>'Myclosq','last_name'=>'Admin','display_name'=>'Myclosq Admin']);
 
         $customer = User::firstOrCreate(
-            ['email'=>'customer@gutreset.local'],
+            ['email'=>'customer@myclosq.local'],
             [
                 'uuid'=>(string) Str::uuid(),
                 'password_hash'=>Hash::make('ChangeMe!123'),

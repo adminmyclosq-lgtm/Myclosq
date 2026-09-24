@@ -1,9 +1,9 @@
 -- PHASE 1B — CANONICAL MYSQL 8 DDL
--- 30-Day Gut Reset + Commerce + CMS + WhatsApp + Admin
+-- 30-Day Myclosq + Commerce + CMS + WhatsApp + Admin
 -- Generated from the Phase 1 logical schema
 
-CREATE DATABASE IF NOT EXISTS gut_reset CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE gut_reset;
+CREATE DATABASE IF NOT EXISTS my_closq CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE my_closq;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

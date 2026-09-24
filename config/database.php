@@ -8,7 +8,7 @@ return [
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3308'),
-            'database' => env('DB_DATABASE', 'gut_reset'),
+            'database' => env('DB_DATABASE', 'my_closq'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root123'),
             'unix_socket' => env('DB_SOCKET', ''),

@@ -1,4 +1,4 @@
-# Gut Reset — Phase 1C + Phase 2A/2B/2C/2D Local Project
+# Myclosq — Phase 1C + Phase 2A/2B/2C/2D Local Project
 
 This is the complete source package for local UI/UX and functional finalisation before Phase 3 external integrations.
 
@@ -52,20 +52,20 @@ npm run build
         ↓
 Apache VirtualHost → public/
         ↓
-http://gutreset.local
+http://myclosq.local
 ```
 
 ## Demo credentials
 
 Admin:
 
-`admin@gutreset.local`
+`admin@myclosq.local`
 
 `ChangeMe!123`
 
 Customer:
 
-`customer@gutreset.local`
+`customer@myclosq.local`
 
 `ChangeMe!123`
 

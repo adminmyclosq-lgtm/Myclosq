@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('system_settings')->updateOrInsert(
             ['setting_group'=>'site','setting_key'=>'site_name'],
-            ['setting_value'=>'Gut Reset','value_type'=>'string','is_public'=>1,'is_encrypted'=>0,'description'=>'Public site name','updated_at'=>now()]
+            ['setting_value'=>'Myclosq','value_type'=>'string','is_public'=>1,'is_encrypted'=>0,'description'=>'Public site name','updated_at'=>now()]
         );
 
         DB::table('system_settings')->updateOrInsert(
@@ -113,16 +113,16 @@ class DatabaseSeeder extends Seeder
 
 
         $templates = [
-            ['name'=>'order_paid','meta_template_name'=>'gutreset_order_paid','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset order {{1}} is paid. Total ₹{{2}}.','status'=>'draft'],
-            ['name'=>'order_packed','meta_template_name'=>'gutreset_order_packed','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset order {{1}} has been packed.','status'=>'draft'],
-            ['name'=>'order_dispatched','meta_template_name'=>'gutreset_order_dispatched','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset order {{1}} is on the way. Tracking: {{2}}','status'=>'draft'],
-            ['name'=>'order_out_for_delivery','meta_template_name'=>'gutreset_order_out_for_delivery','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset order {{1}} is out for delivery. Tracking: {{2}}','status'=>'draft'],
-            ['name'=>'order_delivered','meta_template_name'=>'gutreset_order_delivered','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset order {{1}} has been delivered.','status'=>'draft'],
-            ['name'=>'daily_checkin','meta_template_name'=>'gutreset_daily_checkin','language_code'=>'en','category'=>'UTILITY','body'=>'Gut Reset Day {{1}} check-in: reply YES when your check-in is complete.','status'=>'draft'],
-            ['name'=>'daily_followup','meta_template_name'=>'gutreset_daily_followup','language_code'=>'en','category'=>'UTILITY','body'=>'Thanks for completing Day {{1}}. Keep going with your Gut Reset journey.','status'=>'draft'],
-            ['name'=>'day30_review','meta_template_name'=>'gutreset_day30_review','language_code'=>'en','category'=>'UTILITY','body'=>'Your Day 30 review is ready. Complete your final response here: {{1}}','status'=>'draft'],
-            ['name'=>'day30_complete','meta_template_name'=>'gutreset_day30_complete','language_code'=>'en','category'=>'UTILITY','body'=>'Your 30-day Gut Reset is complete. Your Day-30 response summary is ready for review.','status'=>'draft'],
-            ['name'=>'reactivation_prompt','meta_template_name'=>'gutreset_reactivation_prompt','language_code'=>'en','category'=>'UTILITY','body'=>'Your Gut Reset Day {{1}} check-in is waiting. Reply YES to record today’s completion.','status'=>'draft'],
+            ['name'=>'order_paid','meta_template_name'=>'myclosq_order_paid','language_code'=>'en','category'=>'UTILITY','body'=>'Your Myclosq order {{1}} is paid. Total ₹{{2}}.','status'=>'draft'],
+            ['name'=>'order_packed','meta_template_name'=>'myclosq_order_packed','language_code'=>'en','category'=>'UTILITY','body'=>'Your Myclosq order {{1}} has been packed.','status'=>'draft'],
+            ['name'=>'order_dispatched','meta_template_name'=>'myclosq_order_dispatched','language_code'=>'en','category'=>'UTILITY','body'=>'Your Myclosq order {{1}} is on the way. Tracking: {{2}}','status'=>'draft'],
+            ['name'=>'order_out_for_delivery','meta_template_name'=>'myclosq_order_out_for_delivery','language_code'=>'en','category'=>'UTILITY','body'=>'Your Myclosq order {{1}} is out for delivery. Tracking: {{2}}','status'=>'draft'],
+            ['name'=>'order_delivered','meta_template_name'=>'myclosq_order_delivered','language_code'=>'en','category'=>'UTILITY','body'=>'Your Myclosq order {{1}} has been delivered.','status'=>'draft'],
+            ['name'=>'daily_checkin','meta_template_name'=>'myclosq_daily_checkin','language_code'=>'en','category'=>'UTILITY','body'=>'Myclosq Day {{1}} check-in: reply YES when your check-in is complete.','status'=>'draft'],
+            ['name'=>'daily_followup','meta_template_name'=>'myclosq_daily_followup','language_code'=>'en','category'=>'UTILITY','body'=>'Thanks for completing Day {{1}}. Keep going with your Myclosq journey.','status'=>'draft'],
+            ['name'=>'day30_review','meta_template_name'=>'myclosq_day30_review','language_code'=>'en','category'=>'UTILITY','body'=>'Your Day 30 review is ready. Complete your final response here: {{1}}','status'=>'draft'],
+            ['name'=>'day30_complete','meta_template_name'=>'myclosq_day30_complete','language_code'=>'en','category'=>'UTILITY','body'=>'Your 30-day Myclosq is complete. Your Day-30 response summary is ready for review.','status'=>'draft'],
+            ['name'=>'reactivation_prompt','meta_template_name'=>'myclosq_reactivation_prompt','language_code'=>'en','category'=>'UTILITY','body'=>'Your Myclosq Day {{1}} check-in is waiting. Reply YES to record today’s completion.','status'=>'draft'],
         ];
         foreach ($templates as $template) {
             DB::table('whatsapp_templates')->updateOrInsert(

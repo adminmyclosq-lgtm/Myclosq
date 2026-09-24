@@ -1,9 +1,9 @@
 -- PHASE 1B — CANONICAL MYSQL 8 DDL
--- 30-Day Gut Reset + Commerce + CMS + WhatsApp + Admin
+-- 30-Day Myclosq + Commerce + CMS + WhatsApp + Admin
 -- Generated from the Phase 1 logical schema
 
-CREATE DATABASE IF NOT EXISTS gut_reset CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE gut_reset;
+CREATE DATABASE IF NOT EXISTS my_closq CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE my_closq;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -1496,7 +1496,7 @@ FROM shipping_methods WHERE code = 'EXPRESS';
 INSERT INTO system_settings
 (setting_group, setting_key, setting_value, value_type, is_public, is_encrypted, description)
 VALUES
-('site', 'site_name', 'Gut Reset', 'string', TRUE, FALSE, 'Public site name'),
+('site', 'site_name', 'Myclosq', 'string', TRUE, FALSE, 'Public site name'),
 ('site', 'default_currency', 'INR', 'string', TRUE, FALSE, 'Default ecommerce currency'),
 ('commerce', 'free_shipping_threshold', '0.00', 'decimal', TRUE, FALSE, 'Default free shipping threshold'),
 ('reset', 'reset_duration_days', '30', 'integer', FALSE, FALSE, 'Duration of the guided reset'),
@@ -1505,11 +1505,11 @@ VALUES
 INSERT INTO whatsapp_templates
 (name, meta_template_name, language_code, category, body, variables_json, status, is_active)
 VALUES
-('Reset Welcome', 'gut_reset_welcome', 'en', 'UTILITY',
- 'Welcome to your Gut Reset journey.', JSON_ARRAY(), 'draft', TRUE),
-('Daily Check-in', 'gut_reset_daily_checkin', 'en', 'UTILITY',
+('Reset Welcome', 'my_closq_welcome', 'en', 'UTILITY',
+ 'Welcome to your Myclosq journey.', JSON_ARRAY(), 'draft', TRUE),
+('Daily Check-in', 'my_closq_daily_checkin', 'en', 'UTILITY',
  'Your Day {{day}} check-in is ready.', JSON_ARRAY('day'), 'draft', TRUE),
-('Milestone Check-in', 'gut_reset_milestone_checkin', 'en', 'UTILITY',
+('Milestone Check-in', 'my_closq_milestone_checkin', 'en', 'UTILITY',
  'Your Day {{day}} milestone check-in is ready.', JSON_ARRAY('day'), 'draft', TRUE);
 
 INSERT INTO notification_templates

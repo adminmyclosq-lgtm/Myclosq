@@ -1,9 +1,9 @@
 ---
-name: Guided Gut Reset Guidelines
-description: Strict guidelines and tech stack definitions for the Guided Gut Reset project.
+name: Guided Myclosq Guidelines
+description: Strict guidelines and tech stack definitions for the Guided Myclosq project.
 ---
 
-# Guided Gut Reset - Project Instructions and Guidelines
+# Guided Myclosq - Project Instructions and Guidelines
 
 ## 1. Technology Stack
 - **Backend Framework:** Laravel 11
@@ -12,7 +12,7 @@ description: Strict guidelines and tech stack definitions for the Guided Gut Res
 - **Database:** SQL (MySQL/MariaDB via Laravel Eloquent/Query Builder)
 
 ## 2. Design and Reference Material
-- **Reference Application:** [Guided Gut Reset Lovable App](https://guided-gut-reset-lovable-app.lovable.app/)
+- **Reference Application:** [Guided Myclosq Lovable App](https://guided-gut-reset-lovable-app.lovable.app/)
 - **Objective:** Replicate the look, feel, and functionality of each page from the reference app identically.
 - **Aesthetics:** The design must strictly adhere to the premium, clean, and dynamic feel of the reference app. Modern web design practices, appropriate color palettes, smooth micro-animations, and fully responsive layouts are mandatory.
 

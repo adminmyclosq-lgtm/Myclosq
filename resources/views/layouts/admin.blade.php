@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ $title ?? 'Gut Reset Admin' }}</title>
+<title>{{ $title ?? 'Myclosq Admin' }}</title>
 @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="bg-stone-50 flex flex-col h-screen overflow-hidden">

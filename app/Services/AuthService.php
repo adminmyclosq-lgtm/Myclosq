@@ -34,7 +34,7 @@ class AuthService
             'marketing_opt_in' => (bool) ($data['marketing_opt_in'] ?? false),
         ]);
 
-        $token = $user->createToken('gutreset-web')->plainTextToken;
+        $token = $user->createToken('myclosq-web')->plainTextToken;
 
         return compact('user','token');
     }
@@ -50,7 +50,7 @@ class AuthService
         }
 
         $user->update(['last_login_at' => now()]);
-        $token = $user->createToken('gutreset-web')->plainTextToken;
+        $token = $user->createToken('myclosq-web')->plainTextToken;
 
         return compact('user','token');
     }

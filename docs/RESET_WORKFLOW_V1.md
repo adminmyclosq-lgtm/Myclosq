@@ -1,4 +1,4 @@
-# Gut Reset — Day 0–30 Workflow Integration v1
+# Myclosq — Day 0–30 Workflow Integration v1
 
 ## Scope
 

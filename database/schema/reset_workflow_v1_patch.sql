@@ -1,4 +1,4 @@
--- Gut Reset Day 0–30 workflow v1 supplemental schema patch
+-- Myclosq Day 0–30 workflow v1 supplemental schema patch
 -- Apply this AFTER importing database/schema/phase1c_final_production_mysql.sql
 -- when you are managing schema changes directly in MySQL instead of Laravel migrations.
 

@@ -22,7 +22,7 @@
             <div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
                 <div>
                     <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Shop</div>
-                    <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('shop') }}">30-Day Gut Reset</a>
+                    <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('shop') }}">30-Day Myclosq</a>
                     <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ route('how-it-works') }}">How It Works</a>
                 </div>
                 <div>

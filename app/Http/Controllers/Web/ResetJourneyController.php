@@ -326,7 +326,7 @@ class ResetJourneyController extends Controller
     {
         if (!$request->user()) {
             $request->session()->put('pending_reset_qr', $qrCode->code);
-            return redirect()->route('login')->with('success', 'Please sign in to activate your 30-day Gut Reset.');
+            return redirect()->route('login')->with('success', 'Please sign in to activate your 30-day Myclosq.');
         }
 
         abort_unless($qrCode->is_active, 404);

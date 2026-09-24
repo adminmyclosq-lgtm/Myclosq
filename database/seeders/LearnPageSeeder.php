@@ -87,12 +87,12 @@ class LearnPageSeeder extends Seeder
             [
                 'section_type' => 'learn_cta',
                 'title' => 'A product trial should lead to a clearer decision.',
-                'subtitle' => 'The 30-Day Gut Reset combines the daily capsule, a few guided moments and a personal Gut Response Brief.',
+                'subtitle' => 'The 30-Day Myclosq combines the daily capsule, a few guided moments and a personal Gut Response Brief.',
                 'content' => [
                     'badge' => 'Ready when you are',
                     'button_1' => 'See How It Works',
                     'button_1_url' => '/how-it-works',
-                    'button_2' => 'View the 30-Day Gut Reset',
+                    'button_2' => 'View the 30-Day Myclosq',
                     'button_2_url' => '/shop'
                 ]
             ],

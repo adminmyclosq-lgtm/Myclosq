@@ -23,10 +23,10 @@
             <a href="{{ url('/#standards') }}">Our Standards</a>
             <a href="{{ url('/#learn') }}">Learn</a>
             <a href="{{ url('/#faq') }}">Support</a>
-            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Gut Reset</a>
+            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Myclosq</a>
         </nav>
         <div class="flex items-center gap-3 text-sm">
-            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 md:hidden" style="background-color: #587762;">Shop Gut Reset</a>
+            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 md:hidden" style="background-color: #587762;">Shop Myclosq</a>
             <a href="{{ route('cart') }}" class="inline-flex items-center gap-1.5 font-semibold text-[var(--ink)]" aria-label="Cart, {{ $headerCartItemCount }} item{{ $headerCartItemCount === 1 ? '' : 's' }}">
                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-1.1 2.2A1 1 0 0 0 6.8 17H19M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" /></svg>
                 <span data-cart-count>{{ $headerCartItemCount }}</span>

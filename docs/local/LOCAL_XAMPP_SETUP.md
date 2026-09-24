@@ -1,4 +1,4 @@
-# Gut Reset — Local Visual Studio Code + XAMPP Setup
+# Myclosq — Local Visual Studio Code + XAMPP Setup
 
 This package is intended for local UI/UX and functional finalisation before Phase 3 external integrations.
 
@@ -36,7 +36,7 @@ Check the database engine bundled with your XAMPP distribution. The Phase 1C sch
 
 Extract the ZIP to:
 
-`C:\xampp\htdocs\gutreset`
+`C:\xampp\htdocs\myclosq`
 
 Open that folder in VS Code.
 
@@ -54,7 +54,7 @@ Do not start Redis for the local visual-testing setup. The local `.env` uses `QU
 Open a VS Code terminal:
 
 ```powershell
-cd C:\xampp\htdocs\gutreset
+cd C:\xampp\htdocs\myclosq
 composer install
 ```
 
@@ -69,7 +69,7 @@ php artisan key:generate
 
 The local database name is:
 
-`gut_reset`
+`my_closq`
 
 The default XAMPP MySQL username is:
 
@@ -99,7 +99,7 @@ C:\xampp\mysql\bin\mysql.exe -u root < database\schema\phase1c_final_production_
 
 The SQL creates:
 
-`gut_reset`
+`my_closq`
 
 and all **66 Phase 1C business tables**.
 
@@ -117,7 +117,7 @@ The development seeder creates:
 
 Email:
 
-`admin@gutreset.local`
+`admin@myclosq.local`
 
 Password:
 
@@ -127,7 +127,7 @@ Password:
 
 Email:
 
-`customer@gutreset.local`
+`customer@myclosq.local`
 
 Password:
 
@@ -190,17 +190,17 @@ Add:
 
 ```apache
 <VirtualHost *:80>
-    ServerName gutreset.local
-    DocumentRoot "C:/xampp/htdocs/gutreset/public"
+    ServerName myclosq.local
+    DocumentRoot "C:/xampp/htdocs/myclosq/public"
 
-    <Directory "C:/xampp/htdocs/gutreset/public">
+    <Directory "C:/xampp/htdocs/myclosq/public">
         AllowOverride All
         Require all granted
         Options Indexes FollowSymLinks
     </Directory>
 
-    ErrorLog "logs/gutreset-error.log"
-    CustomLog "logs/gutreset-access.log" common
+    ErrorLog "logs/myclosq-error.log"
+    CustomLog "logs/myclosq-access.log" common
 </VirtualHost>
 ```
 
@@ -215,7 +215,7 @@ Open Notepad as Administrator and edit:
 Add:
 
 ```text
-127.0.0.1 gutreset.local
+127.0.0.1 myclosq.local
 ```
 
 Restart Apache.
@@ -224,43 +224,43 @@ Restart Apache.
 
 Customer storefront:
 
-`http://gutreset.local/`
+`http://myclosq.local/`
 
 Shop:
 
-`http://gutreset.local/shop`
+`http://myclosq.local/shop`
 
 Login:
 
-`http://gutreset.local/login`
+`http://myclosq.local/login`
 
 Register:
 
-`http://gutreset.local/register`
+`http://myclosq.local/register`
 
 Customer account:
 
-`http://gutreset.local/account`
+`http://myclosq.local/account`
 
 Admin:
 
-`http://gutreset.local/admin`
+`http://myclosq.local/admin`
 
 Admin payments:
 
-`http://gutreset.local/admin/payments`
+`http://myclosq.local/admin/payments`
 
 Admin fulfilment:
 
-`http://gutreset.local/admin/fulfilment`
+`http://myclosq.local/admin/fulfilment`
 
 Admin WhatsApp:
 
-`http://gutreset.local/admin/whatsapp`
+`http://myclosq.local/admin/whatsapp`
 
 Admin Day 0–30:
 
-`http://gutreset.local/admin/reset-operations`
+`http://myclosq.local/admin/reset-operations`
 
 ## 15. Alternative: Laravel development server
 

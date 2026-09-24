@@ -26,7 +26,7 @@
         </div>
         <div>
             <div class="badge mb-4">{{ $badge }}</div>
-            <h2 class="font-serif text-4xl leading-[1.1] text-foreground md:text-5xl">{!! $section->title ?? 'Most gut resets leave you guessing.' !!}</h2>
+            <h2 class="font-serif text-4xl leading-[1.1] text-foreground md:text-5xl">{!! $section->title ?? 'Most myclosqs leave you guessing.' !!}</h2>
             <p class="mt-6 max-w-md text-[15px] leading-relaxed text-foreground/70">{{ $section->subtitle }}</p>
             
             @if(!empty($cards))

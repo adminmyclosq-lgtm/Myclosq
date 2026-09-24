@@ -15,7 +15,7 @@
 
     <div class="grid gap-7 lg:grid-cols-[1.25fr_.75fr]">
         <section class="rounded-3xl bg-[#204b34] p-8 text-white md:p-12">
-            <div class="text-[11px] font-semibold uppercase tracking-[.2em] text-white/60">30-Day Gut Reset</div>
+            <div class="text-[11px] font-semibold uppercase tracking-[.2em] text-white/60">30-Day Myclosq</div>
             <h1 class="display-serif mt-7 max-w-3xl text-5xl leading-[1.02] md:text-7xl">
                 {{ $profile?->status === 'completed' ? 'Your reset is complete.' : ($currentDay ? 'Continue your reset.' : 'Start with a clear baseline.') }}
             </h1>

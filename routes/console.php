@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::call(fn()=>app(\App\Services\GutResetService::class)->processDailyWorkflows())
-    ->name('gutreset-daily-workflow')
+    ->name('myclosq-daily-workflow')
     ->dailyAt(env('GUTRESET_DAILY_WORKFLOW_TIME','09:00'))
     ->withoutOverlapping();
 

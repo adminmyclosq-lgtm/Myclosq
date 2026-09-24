@@ -29,8 +29,8 @@ class RazorpayPaymentGateway implements PaymentGatewayInterface
             'currency' => $payment->currency,
             'receipt' => $order->order_number,
             'notes' => [
-                'gutreset_order_id' => (string) $order->id,
-                'gutreset_order_uuid' => (string) $order->uuid,
+                'myclosq_order_id' => (string) $order->id,
+                'myclosq_order_uuid' => (string) $order->uuid,
             ],
         ]);
 

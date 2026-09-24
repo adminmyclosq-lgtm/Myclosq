@@ -17,7 +17,7 @@
             @if($section->section_type === 'hero')
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Badge Text</label>
-                    <input name="content[badge]" value="{{ $contentData['badge'] ?? '30-Day Guided Gut Reset' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
+                    <input name="content[badge]" value="{{ $contentData['badge'] ?? '30-Day Guided Myclosq' }}" class="w-full rounded-md border border-stone-300 px-3 py-2 text-sm">
                 </div>
                 <div>
                     <label class="text-xs font-semibold text-stone-600 uppercase block mb-1">Heading</label>

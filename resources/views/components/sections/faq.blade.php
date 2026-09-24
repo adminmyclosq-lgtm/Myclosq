@@ -29,7 +29,7 @@
             @else
                 <div class="card">
                     <div class="font-semibold">Is this a probiotic?</div>
-                    <p class="mt-3 text-sm leading-6 text-stone-600">The 30-Day Gut Reset is a gut-support capsule formulated with targeted botanicals and fibre-focused ingredients. We focus on strengthening the response, not naming a category.</p>
+                    <p class="mt-3 text-sm leading-6 text-stone-600">The 30-Day Myclosq is a gut-support capsule formulated with targeted botanicals and fibre-focused ingredients. We focus on strengthening the response, not naming a category.</p>
                 </div>
                 <div class="card">
                     <div class="font-semibold">How does the course last 30 days?</div>

@@ -1,8 +1,8 @@
 {
   "$schema": "https://getcomposer.org/schema.json",
-  "name": "gutreset/gutreset",
+  "name": "myclosq/myclosq",
   "type": "project",
-  "description": "Gut Reset — Laravel 13 ecommerce, guided 30-day reset and WhatsApp workflow platform.",
+  "description": "Myclosq — Laravel 13 ecommerce, guided 30-day reset and WhatsApp workflow platform.",
   "keywords": ["laravel", "gut-reset", "ecommerce", "whatsapp"],
   "license": "proprietary",
   "require": {

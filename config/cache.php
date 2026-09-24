@@ -8,5 +8,5 @@ return [
         'database' => ['driver'=>'database','connection'=>env('DB_CACHE_CONNECTION'),'table'=>env('DB_CACHE_TABLE','cache'),'lock_connection'=>env('DB_CACHE_LOCK_CONNECTION'),'lock_table'=>env('DB_CACHE_LOCK_TABLE','cache_locks')],
         'redis' => ['driver'=>'redis','connection'=>'cache','lock_connection'=>'default'],
     ],
-    'prefix' => env('CACHE_PREFIX', 'gutreset_cache_'),
+    'prefix' => env('CACHE_PREFIX', 'myclosq_cache_'),
 ];

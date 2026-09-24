@@ -10,7 +10,7 @@
             <a id="plan" href="{{ $currentDay > 0 ? '#progress' : route('my-plan') }}" class="mt-8 inline-flex min-h-20 min-w-64 flex-col items-center justify-center rounded-xl bg-[#204b34] px-8 text-center text-[16px] font-semibold text-white shadow-[0_3px_8px_rgba(20,45,31,.18)] transition hover:bg-[#173d29]"><span>{{ $currentDay > 0 ? 'View My Progress' : 'Set My Starting Point' }}</span><span class="mt-1 text-[13px] font-medium text-white/75">{{ $currentDay > 0 ? 'Day '.$currentDay.' of 30' : 'Around 2 minutes' }}</span></a>
             @if($currentDay === 0)<p class="mt-4 text-[14px] text-stone-600">Already taken your first capsule? <a class="underline decoration-[#204b34] underline-offset-4" href="#progress">Continue Honestly</a></p>@endif
         </section>
-        <div class="min-h-[360px] overflow-hidden rounded-2xl bg-[#ddd2c2] lg:min-h-0 lg:aspect-[1/1.03]"><img src="https://guided-gut-reset-lovable-app.lovable.app/assets/hero-product-CftTmpl1.jpg" alt="Guided Wellness 30-Day Gut Reset bottle and carton" class="h-full w-full object-cover"></div>
+        <div class="min-h-[360px] overflow-hidden rounded-2xl bg-[#ddd2c2] lg:min-h-0 lg:aspect-[1/1.03]"><img src="https://guided-gut-reset-lovable-app.lovable.app/assets/hero-product-CftTmpl1.jpg" alt="Guided Wellness 30-Day Myclosq bottle and carton" class="h-full w-full object-cover"></div>
     </div>
 
     <section id="progress" class="mt-10 grid gap-7 lg:grid-cols-[1.3fr_.7fr]">

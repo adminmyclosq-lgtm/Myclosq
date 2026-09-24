@@ -15,7 +15,7 @@
                 <p class="mt-4 max-w-2xl text-white/80">{{ $section->subtitle ?? 'Start the course and receive your Gut Response Brief at Day 30.' }}</p>
             </div>
             <div class="flex flex-wrap gap-3 md:justify-end">
-                <a class="btn-primary !bg-white !text-[var(--ink)]" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ $contentData['primary_button_text'] ?? 'Shop Gut Reset' }}</a>
+                <a class="btn-primary !bg-white !text-[var(--ink)]" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ $contentData['primary_button_text'] ?? 'Shop Myclosq' }}</a>
                 <a class="btn-secondary !border-white !text-white hover:bg-white/10" href="{{ $contentData['secondary_button_url'] ?? '#fit' }}">{{ $contentData['secondary_button_text'] ?? 'Check Your Fit' }}</a>
             </div>
         </div>

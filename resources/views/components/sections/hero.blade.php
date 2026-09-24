@@ -4,7 +4,7 @@
     if (!is_array($content)) $content = [];
     $settings = $content['settings'] ?? [];
     
-    $heroBadge = $content['badge'] ?? '30-Day Guided Gut Reset';
+    $heroBadge = $content['badge'] ?? '30-Day Guided Myclosq';
     $button1 = $content['button_1'] ?? 'Explore the Reset';
     $button2 = $content['button_2'] ?? 'Check Your Fit';
     
@@ -35,9 +35,9 @@
         </div>
         <div class="animate-[fadeIn_.8s_ease-out_.1s_both] overflow-hidden rounded-xl bg-[var(--sand)] shadow-[0_20px_60px_-30px_rgba(35,55,40,.35)]">
             @if($section->media)
-                <img src="{{ $section->media->storage_path ? asset('storage/'.$section->media->storage_path) : $section->media->url }}" alt="{{ strip_tags($section->title ?? '30-Day Gut Reset') }}" class="aspect-[4/3] h-full w-full object-cover lg:aspect-auto lg:min-h-[520px]">
+                <img src="{{ $section->media->storage_path ? asset('storage/'.$section->media->storage_path) : $section->media->url }}" alt="{{ strip_tags($section->title ?? '30-Day Myclosq') }}" class="aspect-[4/3] h-full w-full object-cover lg:aspect-auto lg:min-h-[520px]">
             @else
-                <img src="https://guided-gut-reset-lovable-app.lovable.app/assets/hero-product-CftTmpl1.jpg" alt="30-Day Gut Reset" class="aspect-[4/3] h-full w-full object-cover lg:aspect-auto lg:min-h-[520px]">
+                <img src="https://guided-gut-reset-lovable-app.lovable.app/assets/hero-product-CftTmpl1.jpg" alt="30-Day Myclosq" class="aspect-[4/3] h-full w-full object-cover lg:aspect-auto lg:min-h-[520px]">
             @endif
         </div>
     </div>

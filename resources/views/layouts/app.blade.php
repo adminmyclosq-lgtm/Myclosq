@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow">
-    <title>{{ $title ?? 'Gut Reset' }}</title>
+    <title>{{ $title ?? 'Myclosq' }}</title>
     <script>
         window.AppRoutes = {
             cartItems: @json(url('/api/v1/cart/items')),
@@ -54,7 +54,7 @@
             <a href="{{ route('our-standards') }}">Our Standards</a>
             <a href="{{ route('learn') }}">Learn</a>
             <a href="{{ route('support') }}">Support</a>
-            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Gut Reset</a>
+            <a href="{{ route('shop') }}" class="inline-flex shrink-0 items-center justify-center rounded-full px-5 py-2.5 text-sm font-medium text-white transition hover:opacity-90" style="background-color: #587762;">Shop Myclosq</a>
         </nav>
         <div class="flex items-center gap-3 text-sm">
             <details class="group relative md:hidden">
@@ -77,7 +77,7 @@
                     @else
                         <!-- <a href="{{ route('login') }}" class="block rounded-lg px-4 py-3 font-medium hover:bg-stone-50">Login</a> -->
                     @endauth
-                    <a href="{{ route('shop') }}" class="mt-1 block rounded-lg bg-[#587762] px-4 py-3 text-center font-medium text-white">Shop Gut Reset</a>
+                    <a href="{{ route('shop') }}" class="mt-1 block rounded-lg bg-[#587762] px-4 py-3 text-center font-medium text-white">Shop Myclosq</a>
                 </nav>
             </details>
             <div class="group relative">
@@ -151,7 +151,7 @@
         <div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
             <div>
                 <div class="text-[11px] font-medium uppercase tracking-[.16em] text-white/60">Shop</div>
-                <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('shop') }}">30-Day Gut Reset</a>
+                <a class="mt-3 block text-[13px] text-white/85 hover:text-white" href="{{ route('shop') }}">30-Day Myclosq</a>
                 <a class="mt-2 block text-[13px] text-white/85 hover:text-white" href="{{ route('how-it-works') }}">How It Works</a>
             </div>
             <div>

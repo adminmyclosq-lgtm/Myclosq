@@ -66,7 +66,7 @@
             </form>
         @endif
     @else
-        <div class="mx-auto max-w-2xl rounded-2xl border border-stone-200 bg-[#fcfbf7] p-10 text-center"><h1 class="display-serif text-5xl leading-tight">Activate your course first.</h1><p class="mt-5 text-[17px] leading-8 text-stone-600">Your starting-point plan becomes available after you activate a Guided Wellness product.</p><a href="{{ route('shop') }}" class="btn-primary mt-8">Shop Gut Reset</a></div>
+        <div class="mx-auto max-w-2xl rounded-2xl border border-stone-200 bg-[#fcfbf7] p-10 text-center"><h1 class="display-serif text-5xl leading-tight">Activate your course first.</h1><p class="mt-5 text-[17px] leading-8 text-stone-600">Your starting-point plan becomes available after you activate a Guided Wellness product.</p><a href="{{ route('shop') }}" class="btn-primary mt-8">Shop Myclosq</a></div>
     @endif
 </div>
 
