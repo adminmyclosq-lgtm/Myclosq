@@ -32,7 +32,11 @@ class AuthController extends Controller
         ])->exists();
 
         if ($isAdmin) {
-            return redirect()->intended(route('admin.dashboard'))->with('success','Welcome back.');
+            $intended = session()->pull('url.intended');
+            if ($intended && str_contains($intended, '/admin')) {
+                return redirect()->to($intended)->with('success', 'Welcome back.');
+            }
+            return redirect()->route('admin.dashboard')->with('success', 'Welcome back.');
         }
 
         return redirect()->intended(route('home'))->with('success','Welcome back.');

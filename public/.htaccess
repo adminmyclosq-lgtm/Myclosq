@@ -5,7 +5,7 @@
 
     RewriteEngine On
 
-    RewriteBase /gutreset/
+    # RewriteBase /gutreset/
 
     # Never rewrite the front controller itself.
     RewriteRule ^index\.php$ - [L]

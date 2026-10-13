@@ -25,6 +25,24 @@ class AdminExcelExportService
         ]);
     }
 
+    public function downloadCsv(string $filename, array $headings, iterable $rows): StreamedResponse
+    {
+        return response()->streamDownload(function () use ($headings, $rows): void {
+            $handle = fopen('php://output', 'w');
+            fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($handle, $headings);
+
+            foreach ($rows as $row) {
+                fputcsv($handle, array_values((array) $row));
+            }
+
+            fclose($handle);
+        }, $filename.'.csv', [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'.csv"',
+        ]);
+    }
+
     private function writeRow(array $values): void
     {
         echo '<Row>';

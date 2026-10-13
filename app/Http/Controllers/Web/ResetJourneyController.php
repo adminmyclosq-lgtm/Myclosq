@@ -250,10 +250,16 @@ class ResetJourneyController extends Controller
     {
         $user = $request->user();
         $profile = $cycle
-            ? $user->resetProfiles()->where('cycle_number', $cycle)->firstOrFail()
+            ? $user->resetProfiles()->where('cycle_number', $cycle)->first()
             : ($this->journey->latestProfile($user));
 
-        abort_unless($profile, 404, 'No reset cycle is available yet.');
+        $history = $user->resetProfiles()->latest('cycle_number')->get();
+        $currentDay = $profile ? ($profile->status === 'completed' ? 30 : (int) $profile->current_reset_day) : 0;
+
+        if (!$profile || ($profile->status !== 'completed' && !$profile->day30Decision)) {
+            return view('reset.report-empty', compact('profile', 'history', 'currentDay'));
+        }
+
         $profile->load([
             'day0Baseline.priorityAreas', 'day0Baseline.triggers', 'startPlan',
             'dailyAdherence', 'resetCardUsage', 'gutSignalCheckpoints',
@@ -265,8 +271,6 @@ class ResetJourneyController extends Controller
         $gri = $profile->griScores->sortByDesc('id')->first();
         $grs = $profile->grsScores->sortByDesc('id')->first();
         $completedDays = $profile->dailyAdherence->where('response_status', 'completed')->pluck('reset_day')->all();
-        $history = $user->resetProfiles()->latest('cycle_number')->get();
-        $currentDay = $profile->status === 'completed' ? 30 : (int) $profile->current_reset_day;
 
         return view('reset.report', compact('profile', 'gri', 'grs', 'completedDays', 'history', 'currentDay'));
     }

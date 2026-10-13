@@ -24,6 +24,10 @@ use App\Http\Controllers\Web\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Web\Admin\FulfilmentController as AdminFulfilmentController;
 use App\Http\Controllers\Web\Admin\WhatsAppDashboardController;
 use App\Http\Controllers\Web\Admin\ResetOperationsController;
+use App\Http\Controllers\Web\Admin\AddressAnalyticsController;
+use App\Http\Controllers\Web\Admin\AnalyticsController as AdminAnalyticsController;
+use App\Http\Controllers\Web\Admin\CampaignController as AdminCampaignController;
+use App\Http\Controllers\Web\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Web\ResetJourneyController;
 
 
@@ -33,6 +37,10 @@ Route::get('/how-it-works', [HomeController::class,'howItWorks'])->name('how-it-
 Route::view('/our-standards', 'our-standards')->name('our-standards');
 Route::view('/learn', 'learn')->name('learn');
 Route::view('/support', 'support')->name('support');
+Route::view('/privacy-policy', 'legal.privacy')->name('privacy-policy');
+Route::view('/refund-policy', 'legal.refund')->name('refund-policy');
+Route::view('/shipping-policy', 'legal.shipping')->name('shipping-policy');
+Route::view('/terms-of-service', 'legal.terms')->name('terms-of-service');
 Route::get('/product/{product:slug}', [ShopController::class,'show'])->name('product.show');
 Route::get('/mybrief', [MyBriefController::class, 'show'])->middleware('auth')->name('my-brief');
 Route::get('/my-plan', [MyPlanController::class, 'show'])->middleware('auth')->name('my-plan');
@@ -54,6 +62,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/reset/day/{day}/unusual', [ResetJourneyController::class, 'unusual'])->whereNumber('day')->name('reset.day.unusual');
     Route::post('/reset/day/{day}/positive', [ResetJourneyController::class, 'positive'])->whereNumber('day')->name('reset.day.positive');
     Route::get('/reset/report/{cycle?}', [ResetJourneyController::class, 'report'])->whereNumber('cycle')->name('reset.report');
+    Route::get('/report', [ResetJourneyController::class, 'report'])->name('report');
     Route::get('/reset/testimonial', [ResetJourneyController::class, 'testimonial'])->name('reset.testimonial');
     Route::post('/reset/testimonial', [ResetJourneyController::class, 'storeTestimonial'])->name('reset.testimonial.store');
     Route::get('/reset/re-entry', [ResetJourneyController::class, 'reentry'])->name('reset.reentry');
@@ -79,9 +88,21 @@ Route::middleware('auth')->group(function() {
         Route::delete('/products/{product}',[AdminProductController::class,'destroy'])->name('products.destroy');
 
         Route::get('/orders',[AdminOrderController::class,'index'])->name('orders.index');
+        Route::get('/orders/locations/cascading',[AdminOrderController::class,'locationsCascading'])->name('orders.locations.cascading');
         Route::get('/orders/export',[AdminOrderController::class,'export'])->name('orders.export');
+        Route::post('/orders/bulk-action',[AdminOrderController::class,'bulkAction'])->name('orders.bulk-action');
         Route::get('/orders/{order}',[AdminOrderController::class,'show'])->name('orders.show');
         Route::put('/orders/{order}',[AdminOrderController::class,'update'])->name('orders.update');
+        Route::patch('/orders/{order}/source',[AdminOrderController::class,'updateSource'])->name('orders.update-source');
+        Route::patch('/orders/{order}/fulfilment',[AdminOrderController::class,'updateFulfilment'])->name('orders.update-fulfilment');
+        Route::post('/orders/{order}/cancel',[AdminOrderController::class,'cancel'])->name('orders.cancel');
+        Route::post('/orders/{order}/refund',[AdminOrderController::class,'refund'])->name('orders.refund');
+        Route::post('/orders/{order}/mark-as-paid',[AdminOrderController::class,'markAsPaid'])->name('orders.mark-as-paid');
+        Route::post('/orders/{order}/note',[AdminOrderController::class,'addNote'])->name('orders.note');
+        Route::patch('/orders/{order}/address',[AdminOrderController::class,'updateAddress'])->name('orders.update-address');
+        Route::get('/orders/{order}/invoice',[AdminOrderController::class,'invoice'])->name('orders.invoice');
+        Route::post('/orders/{order}/returns',[AdminOrderController::class,'storeReturn'])->name('orders.returns.store');
+        Route::patch('/orders/{order}/returns/{return}',[AdminOrderController::class,'updateReturn'])->name('orders.returns.update');
 
         Route::get('/customers',[AdminCustomerController::class,'index'])->name('customers.index');
         Route::get('/customers/export',[AdminCustomerController::class,'export'])->name('customers.export');
@@ -90,6 +111,9 @@ Route::middleware('auth')->group(function() {
         Route::get('/shipping',[AdminShippingController::class,'index'])->name('shipping.index');
         Route::post('/shipping',[AdminShippingController::class,'store'])->name('shipping.store');
         Route::post('/shipping/{shippingMethod}/rates',[AdminShippingController::class,'rate'])->name('shipping.rate');
+        Route::get('/analytics/shipping-locations', [AddressAnalyticsController::class, 'index'])->name('analytics.shipping-locations');
+        Route::get('/analytics/shipping-locations/heatmap', [AddressAnalyticsController::class, 'heatmap'])->name('analytics.shipping-locations.heatmap');
+        Route::get('/analytics/shipping-locations/geojson', [AddressAnalyticsController::class, 'geojson'])->name('analytics.shipping-locations.geojson');
 
         Route::get('/coupons',[AdminCouponController::class,'index'])->name('coupons.index');
         Route::post('/coupons',[AdminCouponController::class,'store'])->name('coupons.store');
@@ -128,5 +152,21 @@ Route::middleware('auth')->group(function() {
         Route::get('/reset-operations/testimonials',[ResetOperationsController::class,'testimonials'])->name('reset.testimonials');
         Route::post('/reset-operations/testimonials/{testimonial}',[ResetOperationsController::class,'moderateTestimonial'])->name('reset.testimonials.moderate');
         Route::post('/whatsapp/templates',[AdminWhatsAppTemplateController::class,'store'])->name('whatsapp.templates.store');
+
+        // Analytics Routes
+        Route::get('/analytics/overview', [AdminAnalyticsController::class, 'overview'])->name('analytics.overview');
+        Route::get('/analytics/sales', [AdminAnalyticsController::class, 'sales'])->name('analytics.sales');
+        Route::get('/analytics/customers', [AdminAnalyticsController::class, 'customers'])->name('analytics.customers');
+        Route::get('/analytics/marketing', [AdminAnalyticsController::class, 'marketing'])->name('analytics.marketing');
+
+        // Marketing Campaigns
+        Route::get('/marketing/campaigns', [AdminCampaignController::class, 'index'])->name('marketing.campaigns');
+        Route::post('/marketing/campaigns', [AdminCampaignController::class, 'store'])->name('marketing.campaigns.store');
+
+        // Settings Routes
+        Route::get('/settings/users', [AdminSettingsController::class, 'users'])->name('settings.users');
+        Route::get('/settings/roles', [AdminSettingsController::class, 'roles'])->name('settings.roles');
+        Route::get('/settings/system', [AdminSettingsController::class, 'system'])->name('settings.system');
+        Route::post('/settings/clear-cache', [AdminSettingsController::class, 'clearCache'])->name('settings.clear-cache');
     });
 });

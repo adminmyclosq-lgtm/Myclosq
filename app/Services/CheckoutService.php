@@ -80,29 +80,17 @@ class CheckoutService
                 'placed_at'=>now(),
             ]);
 
-            $addressData = [
-                'address_type' => 'shipping',
-                'recipient_name' => $shippingAddress['recipient_name'],
-                'phone' => $shippingAddress['phone'],
-                'address_line1' => $shippingAddress['address_line1'],
-                'address_line2' => $shippingAddress['address_line2'] ?? null,
-                'city' => $shippingAddress['city'],
-                'state' => $shippingAddress['state'],
-                'postal_code' => $shippingAddress['postal_code'],
-                'country' => $shippingAddress['country'] ?? 'India',
-            ];
+            $addressService = app(AddressService::class);
+            $addressService->snapshotOrderAddresses($order, $shippingAddress, $billingAddress);
 
             $defaultAddress = CustomerAddress::where('user_id', $userId)
                 ->where('is_default', true)
                 ->first();
 
             if ($defaultAddress) {
-                $defaultAddress->update($addressData);
-            } else {
-                CustomerAddress::create($addressData + [
-                    'user_id' => $userId,
-                    'is_default' => true,
-                ]);
+                $defaultAddress->update(app(AddressValidationService::class)->sanitize($shippingAddress));
+            } elseif ($cart->user) {
+                $addressService->saveCustomerAddress($cart->user, $shippingAddress, true);
             }
 
             foreach($items as $item) {

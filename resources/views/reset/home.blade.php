@@ -57,7 +57,7 @@
         </aside>
     </div>
 
-    <div class="mt-8 grid gap-7 lg:grid-cols-[1.2fr_.8fr]">
+    <div id="progress" class="mt-8 grid gap-7 lg:grid-cols-[1.2fr_.8fr]">
         <section class="rounded-3xl border border-stone-200 bg-white p-7 md:p-9">
             <div class="flex flex-wrap items-end justify-between gap-4">
                 <div><div class="text-[11px] font-semibold uppercase tracking-[.18em] text-stone-500">Progress</div><h2 class="display-serif mt-2 text-4xl">Day {{ $currentDay }} of 30</h2></div>
