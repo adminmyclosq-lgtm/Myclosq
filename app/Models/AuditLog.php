@@ -10,6 +10,7 @@ class AuditLog extends Model
     use HasFactory;
     protected $table = 'audit_logs';
     protected $guarded = [];
+    public const UPDATED_AT = null;
 
     protected function casts(): array
     {

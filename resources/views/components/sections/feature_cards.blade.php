@@ -1,53 +1,56 @@
 @props(['section' => null])
 @php
-    $contentData = $section ? json_decode($section->content, true) : [];
-    $settings = $contentData['settings'] ?? [];
-    $topSpace = $settings['top_spacing'] ?? '80px';
-    $bottomSpace = $settings['bottom_spacing'] ?? '80px';
-    $bgColor = $settings['bg_color'] ?? 'bg-[var(--cream)]';
-    $items = isset($contentData['items']) && is_array($contentData['items']) ? $contentData['items'] : [];
+    $cms = \App\Services\CmsSectionHelper::parse($section);
+    $content = $cms['content'];
+    
+    $items = isset($content['items']) && is_array($content['items']) ? $content['items'] : [];
+    if (empty($items)) {
+        $items = [
+            [
+                'title' => 'May be relevant',
+                'description' => "Seeking structured gut-health support\nStruggle with supplement consistency\nWant a more informed read\nValue data-driven personal insight"
+            ],
+            [
+                'title' => 'Speak to a doctor first',
+                'description' => "Pregnancy or breast-feeding\nDiagnosed gastrointestinal condition\nTaking prescription medications\nUnder medical supervision for chronic issues"
+            ]
+        ];
+    }
 @endphp
-<section class="{{ $bgColor }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }};" id="section-{{ $section->id ?? 'new' }}">
-    <div class="section">
-        @if($contentData['eyebrow'] ?? '')
-            <span class="badge">{{ $contentData['eyebrow'] }}</span>
-        @else
-            <span class="badge">Check your fit</span>
+<section id="{{ $cms['anchorId'] }}" class="{{ $cms['visibility'] }}" style="{{ $cms['style'] }}">
+    <div class="section {{ $cms['containerWidth'] }} {{ $cms['alignment'] }}">
+        <span class="badge" style="{{ !empty($cms['textColor']) ? 'border-color: currentColor; color: inherit;' : '' }}">{{ $content['badge'] ?? ($content['eyebrow'] ?? 'Check your fit') }}</span>
+        <h2 class="display-serif mt-4 text-2xl sm:text-3xl md:text-4xl leading-tight break-words {{ $cms['fontFamily'] }}" style="{{ $cms['headingStyle'] }}">
+            {{ $section->title ?? 'Is this likely to be right for you?' }}
+        </h2>
+        @if($section && $section->subtitle)
+            <p class="mt-3 sm:mt-4 text-stone-600 max-w-2xl leading-relaxed text-sm sm:text-base break-words" style="{{ $cms['bodyStyle'] }}">{{ $section->subtitle }}</p>
         @endif
-        <h2 class="display-serif mt-4 text-4xl leading-tight">{{ $section->title ?? 'Is this likely to be right for you?' }}</h2>
-        <div class="mt-10 grid gap-6 md:grid-cols-2">
-            @if(count($items) > 0)
-                @foreach($items as $item)
-                    <div class="card">
-                        <h3 class="font-bold">{{ $item['title'] ?? '' }}</h3>
-                        @php $lines = explode("\n", $item['description'] ?? ''); @endphp
-                        <ul class="mt-4 space-y-3 text-stone-600">
-                            @foreach($lines as $line)
-                                @if(trim($line)) <li>· {{ $line }}</li> @endif
-                            @endforeach
-                        </ul>
-                    </div>
-                @endforeach
-            @else
-                <div class="card">
-                    <h3 class="font-bold">May be relevant</h3>
-                    <ul class="mt-4 space-y-3 text-stone-600">
-                        <li>· Seeking structured gut-health support</li>
-                        <li>· Struggle with supplement consistency</li>
-                        <li>· Want a more informed read</li>
-                        <li>· Value data-driven personal insight</li>
+        
+        <div class="mt-8 sm:mt-10 grid gap-5 sm:gap-6 md:grid-cols-2">
+            @foreach($items as $item)
+                <div class="card rounded-2xl bg-white p-5 sm:p-7 border border-stone-200/90 shadow-sm">
+                    <h3 class="font-bold text-lg text-stone-900">{{ $item['title'] ?? '' }}</h3>
+                    @php 
+                        $lines = is_array($item['description'] ?? '') 
+                            ? $item['description'] 
+                            : explode("\n", (string) ($item['description'] ?? '')); 
+                    @endphp
+                    <ul class="mt-4 sm:mt-5 space-y-2.5 sm:space-y-3 text-stone-600 text-sm">
+                        @foreach($lines as $line)
+                            @if(!empty(trim($line))) 
+                                <li class="flex items-start gap-2.5">
+                                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ink)]"></span>
+                                    <span>{{ ltrim(trim($line), '·- ') }}</span>
+                                </li> 
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
-                <div class="card">
-                    <h3 class="font-bold">Speak to a doctor first</h3>
-                    <ul class="mt-4 space-y-3 text-stone-600">
-                        <li>· Pregnancy or breast-feeding</li>
-                        <li>· Diagnosed gastrointestinal condition</li>
-                        <li>· Currently taking prescription medication</li>
-                        <li>· Severe, sudden or new abdominal symptoms</li>
-                    </ul>
-                </div>
-            @endif
+            @endforeach
         </div>
+
+        <!-- Dynamic Action Buttons -->
+        <x-sections.partials.buttons :buttons="$content['buttons'] ?? []" :cms="$cms" />
     </div>
 </section>

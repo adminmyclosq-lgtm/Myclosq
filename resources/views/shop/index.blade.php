@@ -3,7 +3,7 @@
 <div class="section">
     <div class="flex flex-wrap items-end justify-between gap-4">
         <div><span class="badge">Shop</span><h1 class="serif mt-4 text-5xl">30-Day Gut Reset</h1></div>
-        <form><input name="search" value="{{ request('search') }}" class="rounded-full border px-5 py-3" placeholder="Search products"><button class="btn-primary ml-2">Search</button></form>
+        <form class="flex w-full sm:w-auto items-center gap-2"><input name="search" value="{{ request('search') }}" class="flex-1 sm:w-64 rounded-full border px-5 py-3 text-sm outline-none focus:border-[var(--ink)]" placeholder="Search products"><button class="btn-primary shrink-0">Search</button></form>
     </div>
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @foreach($products as $product)

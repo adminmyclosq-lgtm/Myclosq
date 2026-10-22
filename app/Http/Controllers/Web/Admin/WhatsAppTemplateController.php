@@ -31,4 +31,25 @@ class WhatsAppTemplateController extends Controller
         WhatsappTemplate::create($data);
         return back()->with('success','WhatsApp template saved.');
     }
+
+    public function update(Request $request, WhatsappTemplate $template)
+    {
+        $data=$request->validate([
+            'name'=>'required|max:120',
+            'meta_template_name'=>'required|max:150',
+            'language_code'=>'required|max:20',
+            'category'=>'required|max:50',
+            'body'=>'nullable|string',
+            'status'=>'required|max:30',
+        ]);
+        $data['updated_by']=auth()->id();
+        $template->update($data);
+        return back()->with('success','WhatsApp template updated successfully.');
+    }
+
+    public function destroy(WhatsappTemplate $template)
+    {
+        $template->delete();
+        return back()->with('success','WhatsApp template deleted successfully.');
+    }
 }

@@ -36,7 +36,7 @@
 @else
     {{-- Full Website Footer: Logged Out Public Website --}}
     <footer class="bg-[var(--ink)] text-white">
-        <div class="section grid gap-10 md:grid-cols-[1.6fr_2.4fr]">
+        <div class="section py-10 md:py-16 grid gap-8 sm:gap-10 md:grid-cols-[1.6fr_2.4fr]">
             <div>
                 <div class="display-serif text-2xl leading-tight">Guided Wellness</div>
                 <p class="mt-3 max-w-sm text-[13px] leading-6 text-white/70">Redefining the supplement experience through transparency, guidance, and respect for biological complexity.</p>

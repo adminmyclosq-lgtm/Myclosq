@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth scroll-pt-24">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +17,7 @@
 <body class="min-h-screen bg-background text-foreground">
     <x-site-header />
 
-<main>
+<main class="overflow-x-clip">
     @yield('content')
 </main>
 

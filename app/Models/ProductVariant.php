@@ -23,6 +23,7 @@ class ProductVariant extends Model
     public function prices() { return $this->hasMany(ProductPrice::class); }
     public function images() { return $this->hasMany(ProductImage::class); }
     public function inventory() { return $this->hasMany(Inventory::class); }
+    public function batches() { return $this->hasMany(ProductBatch::class, 'product_variant_id'); }
 
     public function currentPrice()
     {

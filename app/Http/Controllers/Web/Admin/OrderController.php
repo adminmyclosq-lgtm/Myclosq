@@ -462,7 +462,7 @@ class OrderController extends Controller
     /**
      * Initiate and process an order refund.
      */
-    public function refund(Request $request, Order $order)
+    public function refund(Request $request, Order $order, InventoryService $inventory)
     {
         $user = $request->user();
         if (!($user->hasRole('SUPER_ADMIN') || $user->hasPermission('ORDER_REFUND'))) {
@@ -489,6 +489,7 @@ class OrderController extends Controller
             'amount' => ['nullable', 'numeric', 'min:0.01', 'max:'.$refundableBalance],
             'mode' => ['required', 'string', 'in:online,manual'],
             'reason' => ['required', 'string', 'max:500'],
+            'restock' => ['nullable', 'boolean'],
         ]);
 
         $refundAmount = $data['refund_type'] === 'full' ? $refundableBalance : round((float)$data['amount'], 2);
@@ -499,7 +500,7 @@ class OrderController extends Controller
                 : back()->withErrors(['error' => $msg]);
         }
 
-        DB::transaction(function () use ($order, $refundAmount, $data) {
+        DB::transaction(function () use ($order, $refundAmount, $data, $inventory) {
             $payment = $order->payments()->latest('id')->first();
             if (!$payment) {
                 $payment = $order->payments()->create([
@@ -542,12 +543,25 @@ class OrderController extends Controller
                 'payment_status' => $newPaymentStatus,
             ]);
 
+            // AUTOMATION: Release / restore inventory if restock requested
+            if (!empty($data['restock'])) {
+                foreach ($order->orderItems as $item) {
+                    if ($item->product_variant_id) {
+                        try {
+                            $inventory->release($item->product_variant_id, $item->quantity, 'order_refund', $order->id);
+                        } catch (\Throwable $e) {
+                            // Inventory might not be managed for variant
+                        }
+                    }
+                }
+            }
+
             $order->statusHistory()->create([
                 'status_type' => 'payment_status',
                 'old_status' => $order->payment_status,
                 'new_status' => $newPaymentStatus,
                 'changed_by' => auth()->id(),
-                'remarks' => "Refund of ₹{$refundAmount} processed ({$data['mode']}): {$data['reason']}",
+                'remarks' => "Refund of ₹{$refundAmount} processed ({$data['mode']})" . (!empty($data['restock']) ? " [Items Restocked]" : "") . ": {$data['reason']}",
                 'created_at' => now(),
             ]);
         });
@@ -707,6 +721,9 @@ class OrderController extends Controller
                 'remarks' => 'Order marked as paid by administrator',
                 'created_at' => now(),
             ]);
+
+            // AUTOMATION: Reduce Inventory on Paid Order
+            app(\App\Services\InventoryService::class)->reduceStockForOrder($order);
         });
 
         if ($request->wantsJson() || $request->ajax()) {
@@ -951,6 +968,11 @@ class OrderController extends Controller
                 'remarks' => "Return #{$returnNumber} recorded ({$data['reason']}) - Outcome: {$data['outcome']}",
                 'created_at' => now(),
             ]);
+
+            // AUTOMATION: Restore stock if return is approved/refunded
+            if (in_array($data['status'], ['approved', 'completed']) || $data['outcome'] === 'refunded') {
+                app(\App\Services\InventoryService::class)->restoreStockForReturn($orderReturn);
+            }
         });
 
         if ($request->wantsJson() || $request->ajax()) {

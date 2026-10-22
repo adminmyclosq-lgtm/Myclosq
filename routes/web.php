@@ -83,9 +83,19 @@ Route::middleware('auth')->group(function() {
         Route::get('/products/export',[AdminProductController::class,'export'])->name('products.export');
         Route::get('/products/create',[AdminProductController::class,'create'])->name('products.create');
         Route::post('/products',[AdminProductController::class,'store'])->name('products.store');
+        Route::post('/products/bulk-action',[AdminProductController::class,'bulkAction'])->name('products.bulk-action');
+        Route::get('/products/{product}',[AdminProductController::class,'show'])->name('products.show');
         Route::get('/products/{product}/edit',[AdminProductController::class,'edit'])->name('products.edit');
         Route::put('/products/{product}',[AdminProductController::class,'update'])->name('products.update');
         Route::delete('/products/{product}',[AdminProductController::class,'destroy'])->name('products.destroy');
+        Route::post('/products/{product}/duplicate',[AdminProductController::class,'duplicate'])->name('products.duplicate');
+        Route::post('/products/{product}/archive',[AdminProductController::class,'archive'])->name('products.archive');
+        Route::post('/products/{product}/restore',[AdminProductController::class,'restore'])->name('products.restore');
+        Route::post('/products/{product}/inventory/adjust',[AdminProductController::class,'adjustInventory'])->name('products.inventory.adjust');
+        Route::post('/products/{product}/images/reorder',[AdminProductController::class,'reorderImages'])->name('products.images.reorder');
+        Route::post('/products/{product}/images/upload',[AdminProductController::class,'uploadImageAjax'])->name('products.images.upload');
+        Route::post('/products/{product}/images/make-primary',[AdminProductController::class,'makePrimaryImage'])->name('products.images.make-primary');
+        Route::delete('/products/{product}/images/{image}',[AdminProductController::class,'deleteImage'])->name('products.images.delete');
 
         Route::get('/orders',[AdminOrderController::class,'index'])->name('orders.index');
         Route::get('/orders/locations/cascading',[AdminOrderController::class,'locationsCascading'])->name('orders.locations.cascading');
@@ -106,7 +116,12 @@ Route::middleware('auth')->group(function() {
 
         Route::get('/customers',[AdminCustomerController::class,'index'])->name('customers.index');
         Route::get('/customers/export',[AdminCustomerController::class,'export'])->name('customers.export');
+        Route::post('/customers/bulk-action',[AdminCustomerController::class,'bulkAction'])->name('customers.bulk-action');
         Route::get('/customers/{user}',[AdminCustomerController::class,'show'])->name('customers.show');
+        Route::post('/customers/{user}/tags',[AdminCustomerController::class,'updateTags'])->name('customers.tags');
+        Route::post('/customers/{user}/status',[AdminCustomerController::class,'updateStatus'])->name('customers.status');
+        Route::post('/customers/{user}/notes',[AdminCustomerController::class,'storeNote'])->name('customers.notes.store');
+        Route::delete('/customers/{user}/notes/{note}',[AdminCustomerController::class,'destroyNote'])->name('customers.notes.destroy');
 
         Route::get('/shipping',[AdminShippingController::class,'index'])->name('shipping.index');
         Route::post('/shipping',[AdminShippingController::class,'store'])->name('shipping.store');
@@ -115,25 +130,46 @@ Route::middleware('auth')->group(function() {
         Route::get('/analytics/shipping-locations/heatmap', [AddressAnalyticsController::class, 'heatmap'])->name('analytics.shipping-locations.heatmap');
         Route::get('/analytics/shipping-locations/geojson', [AddressAnalyticsController::class, 'geojson'])->name('analytics.shipping-locations.geojson');
 
-        Route::get('/coupons',[AdminCouponController::class,'index'])->name('coupons.index');
-        Route::post('/coupons',[AdminCouponController::class,'store'])->name('coupons.store');
+        // Coupons & Promotions Module
+        Route::get('/coupons', [AdminCouponController::class, 'index'])->name('coupons.index');
+        Route::get('/coupons/create', [AdminCouponController::class, 'create'])->name('coupons.create');
+        Route::post('/coupons', [AdminCouponController::class, 'store'])->name('coupons.store');
+        Route::get('/coupons/export', [AdminCouponController::class, 'export'])->name('coupons.export');
+        Route::post('/coupons/bulk-action', [AdminCouponController::class, 'bulkAction'])->name('coupons.bulk-action');
+        Route::get('/coupons/{coupon}', [AdminCouponController::class, 'show'])->name('coupons.show');
+        Route::get('/coupons/{coupon}/edit', [AdminCouponController::class, 'edit'])->name('coupons.edit');
+        Route::put('/coupons/{coupon}', [AdminCouponController::class, 'update'])->name('coupons.update');
+        Route::delete('/coupons/{coupon}', [AdminCouponController::class, 'destroy'])->name('coupons.destroy');
+        Route::post('/coupons/{coupon}/toggle-status', [AdminCouponController::class, 'toggleStatus'])->name('coupons.toggle-status');
 
         Route::get('/media',[AdminMediaController::class,'index'])->name('media.index');
         Route::post('/media',[AdminMediaController::class,'store'])->name('media.store');
+        Route::delete('/media/{media}',[AdminMediaController::class,'destroy'])->name('media.destroy');
 
         Route::get('/cms',[AdminCmsController::class,'index'])->name('cms.index');
+        Route::post('/cms',[AdminCmsController::class,'storePage'])->name('cms.store');
         Route::put('/cms/{page}',[AdminCmsController::class,'update'])->name('cms.update');
+        Route::delete('/cms/{page}',[AdminCmsController::class,'destroyPage'])->name('cms.destroy');
         Route::get('/cms/{page}/sections',[AdminCmsController::class,'sections'])->name('cms.sections');
+        Route::get('/cms/{page}/preview',[AdminCmsController::class,'preview'])->name('cms.preview');
         Route::post('/cms/{page}/sections',[AdminCmsController::class,'storeSection'])->name('cms.sections.store');
         Route::post('/cms/{page}/sections/reorder',[AdminCmsController::class,'reorderSections'])->name('cms.sections.reorder');
         Route::put('/cms/sections/{section}',[AdminCmsController::class,'updateSection'])->name('cms.sections.update');
+        Route::post('/cms/sections/{section}/toggle-active',[AdminCmsController::class,'toggleSectionActive'])->name('cms.sections.toggle');
         Route::post('/cms/sections/{section}/duplicate',[AdminCmsController::class,'duplicateSection'])->name('cms.sections.duplicate');
         Route::delete('/cms/sections/{section}',[AdminCmsController::class,'destroySection'])->name('cms.sections.destroy');
+        Route::get('/cms/media/picker',[AdminCmsController::class,'mediaPicker'])->name('cms.media.picker');
+        Route::post('/cms/media/upload',[AdminCmsController::class,'uploadMedia'])->name('cms.media.upload');
 
         Route::get('/inventory',[AdminInventoryController::class,'index'])->name('inventory.index');
         Route::get('/inventory/export',[AdminInventoryController::class,'export'])->name('inventory.export');
+        Route::get('/inventory/history',[AdminInventoryController::class,'history'])->name('inventory.history');
+        Route::get('/inventory/{inventory}',[AdminInventoryController::class,'show'])->name('inventory.show');
         Route::post('/inventory/{inventory}/adjust',[AdminInventoryController::class,'adjust'])->name('inventory.adjust');
         Route::get('/whatsapp/templates',[AdminWhatsAppTemplateController::class,'index'])->name('whatsapp.templates');
+        Route::post('/whatsapp/templates',[AdminWhatsAppTemplateController::class,'store'])->name('whatsapp.templates.store');
+        Route::put('/whatsapp/templates/{template}',[AdminWhatsAppTemplateController::class,'update'])->name('whatsapp.templates.update');
+        Route::delete('/whatsapp/templates/{template}',[AdminWhatsAppTemplateController::class,'destroy'])->name('whatsapp.templates.destroy');
         Route::get('/payments',[AdminPaymentController::class,'index'])->name('payments.index');
         Route::get('/payments/export',[AdminPaymentController::class,'export'])->name('payments.export');
         Route::get('/payments/{payment}',[AdminPaymentController::class,'show'])->name('payments.show');
@@ -151,11 +187,15 @@ Route::middleware('auth')->group(function() {
         Route::post('/reset-operations/safety/{safetyFlag}/resolve',[ResetOperationsController::class,'resolveSafety'])->name('reset.safety.resolve');
         Route::get('/reset-operations/testimonials',[ResetOperationsController::class,'testimonials'])->name('reset.testimonials');
         Route::post('/reset-operations/testimonials/{testimonial}',[ResetOperationsController::class,'moderateTestimonial'])->name('reset.testimonials.moderate');
-        Route::post('/whatsapp/templates',[AdminWhatsAppTemplateController::class,'store'])->name('whatsapp.templates.store');
 
         // Analytics Routes
         Route::get('/analytics/overview', [AdminAnalyticsController::class, 'overview'])->name('analytics.overview');
         Route::get('/analytics/sales', [AdminAnalyticsController::class, 'sales'])->name('analytics.sales');
+        Route::get('/analytics/sales/data', [AdminAnalyticsController::class, 'salesData'])->name('analytics.sales.data');
+        Route::get('/analytics/sales/export', [AdminAnalyticsController::class, 'salesExport'])->name('analytics.sales.export');
+        Route::get('/analytics/products', [AdminAnalyticsController::class, 'products'])->name('analytics.products');
+        Route::get('/analytics/products/data', [AdminAnalyticsController::class, 'productsData'])->name('analytics.products.data');
+        Route::get('/analytics/products/export', [AdminAnalyticsController::class, 'productsExport'])->name('analytics.products.export');
         Route::get('/analytics/customers', [AdminAnalyticsController::class, 'customers'])->name('analytics.customers');
         Route::get('/analytics/marketing', [AdminAnalyticsController::class, 'marketing'])->name('analytics.marketing');
 
@@ -165,8 +205,17 @@ Route::middleware('auth')->group(function() {
 
         // Settings Routes
         Route::get('/settings/users', [AdminSettingsController::class, 'users'])->name('settings.users');
+        Route::post('/settings/users', [AdminSettingsController::class, 'storeUser'])->name('settings.users.store');
+        Route::put('/settings/users/{user}/role', [AdminSettingsController::class, 'updateUserRole'])->name('settings.users.update-role');
         Route::get('/settings/roles', [AdminSettingsController::class, 'roles'])->name('settings.roles');
+        Route::post('/settings/roles/permissions', [AdminSettingsController::class, 'syncRolesPermissions'])->name('settings.roles.sync-permissions');
         Route::get('/settings/system', [AdminSettingsController::class, 'system'])->name('settings.system');
         Route::post('/settings/clear-cache', [AdminSettingsController::class, 'clearCache'])->name('settings.clear-cache');
     });
 });
+
+// Dynamic CMS Public Pages Catch-All
+Route::get('/{slug}', [HomeController::class, 'showPage'])
+    ->where('slug', '[a-zA-Z0-9\-_]+')
+    ->name('cms.page');
+

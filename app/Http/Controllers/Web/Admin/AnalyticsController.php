@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\DB;
 
 class AnalyticsController extends Controller
 {
+    public function __construct(
+        protected \App\Services\SalesAnalyticsService $salesAnalyticsService,
+        protected \App\Services\ProductAnalyticsService $productAnalyticsService,
+        protected \App\Services\AdminExcelExportService $excelExportService
+    ) {}
+
     /**
      * Business Overview Dashboard.
      */
@@ -62,47 +68,163 @@ class AnalyticsController extends Controller
     }
 
     /**
-     * Sales Analytics.
+     * Enterprise Sales Analytics Dashboard.
      */
     public function sales(Request $request)
     {
-        $days = (int) $request->get('days', 30);
-        $startDate = now()->subDays($days)->startOfDay();
+        $filters = $request->all();
+        if (empty($filters['date_preset'])) {
+            $filters['date_preset'] = 'last_30_days';
+        }
 
-        $grossSales = (float) Order::where('created_at', '>=', $startDate)->sum('grand_total');
-        $netSales = (float) Order::where('payment_status', 'paid')->where('created_at', '>=', $startDate)->sum('grand_total')
-            - (float) Order::where('created_at', '>=', $startDate)->sum('refund_amount');
-
-        $topProducts = OrderItem::join('orders', 'order_items.order_id', '=', 'orders.id')
-            ->where('orders.payment_status', 'paid')
-            ->where('orders.created_at', '>=', $startDate)
-            ->select(
-                'order_items.product_name_snapshot',
-                'order_items.sku_snapshot',
-                DB::raw('SUM(order_items.quantity) as units_sold'),
-                DB::raw('SUM(order_items.line_total) as total_revenue')
-            )
-            ->groupBy('order_items.product_name_snapshot', 'order_items.sku_snapshot')
-            ->orderByDesc('total_revenue')
-            ->limit(10)
-            ->get();
-
-        $paymentGateways = Payment::where('created_at', '>=', $startDate)
-            ->select(
-                DB::raw("COALESCE(gateway, 'manual') as gateway"),
-                DB::raw('COUNT(id) as count'),
-                DB::raw('SUM(amount) as total')
-            )
-            ->groupBy('gateway')
-            ->get();
+        $dashboardData = $this->salesAnalyticsService->getDashboardData($filters);
+        $filterOptions = $this->salesAnalyticsService->getFilterDropdownOptions();
 
         return view('admin.analytics.sales', compact(
-            'grossSales',
-            'netSales',
-            'topProducts',
-            'paymentGateways',
-            'days'
+            'dashboardData',
+            'filterOptions',
+            'filters'
         ));
+    }
+
+    /**
+     * AJAX endpoint for live BI dashboard filter updates.
+     */
+    public function salesData(Request $request)
+    {
+        $filters = $request->all();
+        $skipCache = $request->boolean('refresh', false);
+
+        $data = $this->salesAnalyticsService->getDashboardData($filters, $skipCache);
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * Export Sales Analytics table data to CSV / Excel.
+     */
+    public function salesExport(Request $request)
+    {
+        $filters = $request->all();
+        $data = $this->salesAnalyticsService->getDashboardData($filters);
+        $tableData = $data['sales_table'] ?? [];
+        $format = strtolower($request->get('format', 'csv'));
+
+        $headings = [
+            'Product Name',
+            'SKU',
+            'Units Sold',
+            'Revenue (INR)',
+            'Average Selling Price (INR)',
+            'Orders Count',
+            'Refund Amount (INR)',
+            'Growth Rate (%)',
+            'Catalog Share (%)',
+        ];
+
+        $rows = array_map(function ($item) {
+            return [
+                $item['product'] ?? '',
+                $item['sku'] ?? '',
+                $item['units_sold'] ?? 0,
+                $item['revenue'] ?? 0,
+                $item['average_price'] ?? 0,
+                $item['orders'] ?? 0,
+                $item['refunds'] ?? 0,
+                ($item['growth'] ?? 0) . '%',
+                ($item['conversion_share'] ?? 0) . '%',
+            ];
+        }, $tableData);
+
+        $filename = 'sales_analytics_' . now()->format('Y_m_d_His');
+
+        if ($format === 'excel' || $format === 'xls') {
+            return $this->excelExportService->download($filename, $headings, $rows);
+        }
+
+        return $this->excelExportService->downloadCsv($filename, $headings, $rows);
+    }
+
+    /**
+     * Enterprise Product Analytics Dashboard.
+     */
+    public function products(Request $request)
+    {
+        $filters = $request->all();
+        if (empty($filters['date_preset'])) {
+            $filters['date_preset'] = 'last_30_days';
+        }
+
+        $dashboardData = $this->productAnalyticsService->getDashboardData($filters);
+        $filterOptions = $this->productAnalyticsService->getFilterDropdownOptions();
+
+        return view('admin.analytics.products', compact(
+            'dashboardData',
+            'filterOptions',
+            'filters'
+        ));
+    }
+
+    /**
+     * AJAX endpoint for live Product Analytics filter updates.
+     */
+    public function productsData(Request $request)
+    {
+        $filters = $request->all();
+        $skipCache = $request->boolean('refresh', false);
+
+        $data = $this->productAnalyticsService->getDashboardData($filters, $skipCache);
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * Export Product Analytics report to CSV / Excel.
+     */
+    public function productsExport(Request $request)
+    {
+        $filters = $request->all();
+        $data = $this->productAnalyticsService->getDashboardData($filters);
+        $tableData = $data['tables']['best_selling'] ?? [];
+        $format = strtolower($request->get('format', 'csv'));
+
+        $headings = [
+            'Product Name',
+            'SKU',
+            'Units Sold',
+            'Gross Revenue (INR)',
+            'Net Revenue (INR)',
+            'Refund Rate',
+            'Current Stock',
+            'Inventory Status',
+        ];
+
+        $rows = array_map(function ($item) {
+            return [
+                $item['name'] ?? '',
+                $item['sku'] ?? '',
+                $item['units_sold'] ?? 0,
+                $item['revenue'] ?? 0,
+                str_replace(['₹', ','], '', $item['net_revenue'] ?? '0'),
+                $item['refund_pct'] ?? '0.0%',
+                $item['current_stock'] ?? 0,
+                ucfirst(str_replace('_', ' ', $item['inventory_status'] ?? 'in_stock')),
+            ];
+        }, $tableData);
+
+        $filename = 'product_analytics_' . now()->format('Y_m_d_His');
+
+        if ($format === 'excel' || $format === 'xls') {
+            return $this->excelExportService->download($filename, $headings, $rows);
+        }
+
+        return $this->excelExportService->downloadCsv($filename, $headings, $rows);
     }
 
     /**

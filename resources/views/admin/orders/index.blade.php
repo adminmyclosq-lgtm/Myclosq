@@ -48,23 +48,23 @@
     @endif
 
     {{-- Operations Dashboard KPI Cards (Always visible & filter-synced) --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3 sm:gap-3.5">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-4.5 xl:gap-5">
         {{-- 1. Total Orders --}}
-        <div class="group relative rounded-2xl border border-stone-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
+        <div class="group relative rounded-2xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
             <div>
-                <div class="flex items-center justify-between gap-1 mb-2">
-                    <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-500">Total Orders</span>
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-stone-100 text-stone-600">
-                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <span class="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-stone-500">Total Orders</span>
+                    <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-stone-100 text-stone-600 transition-colors group-hover:bg-stone-200/70">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                     </span>
                 </div>
-                <div id="kpi-total-orders" class="text-xl sm:text-2xl font-bold tracking-tight text-stone-900 font-mono">
+                <div id="kpi-total-orders" class="text-2xl sm:text-3xl font-bold tracking-tight text-stone-900 font-mono">
                     {{ number_format($kpis['total_orders'] ?? 0) }}
                 </div>
             </div>
-            <div id="kpi-cohort-label" class="mt-2 pt-2 border-t border-stone-100 flex items-center text-[10.5px] text-stone-500 font-medium truncate">
+            <div id="kpi-cohort-label" class="mt-3.5 pt-2.5 border-t border-stone-100 flex items-center text-xs text-stone-500 font-medium truncate">
                 @if(($activeFilters ?? 0) > 0)
-                    <span class="inline-flex items-center text-amber-700 font-semibold gap-1 truncate">
+                    <span class="inline-flex items-center text-amber-700 font-semibold gap-1.5 truncate">
                         <span class="h-1.5 w-1.5 rounded-full bg-amber-500 shrink-0"></span>
                         Filtered cohort
                     </span>
@@ -75,110 +75,74 @@
         </div>
 
         {{-- 2. Net Sales --}}
-        <div class="group relative rounded-2xl border border-stone-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
+        <div class="group relative rounded-2xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
             <div>
-                <div class="flex items-center justify-between gap-1 mb-2">
-                    <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-500">Net Sales</span>
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
-                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <span class="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-stone-500">Net Sales</span>
+                    <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition-colors group-hover:bg-emerald-100/80">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     </span>
                 </div>
-                <div id="kpi-net-sales" class="text-xl sm:text-2xl font-bold tracking-tight text-emerald-950 font-mono truncate" title="₹{{ number_format($kpis['net_sales'] ?? 0, 2) }}">
+                <div id="kpi-net-sales" class="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-950 font-mono truncate" title="₹{{ number_format($kpis['net_sales'] ?? 0, 2) }}">
                     ₹{{ number_format($kpis['net_sales'] ?? 0, 2) }}
                 </div>
             </div>
-            <div id="kpi-gross-sales-sub" class="mt-2 pt-2 border-t border-stone-100 flex items-center text-[10.5px] text-stone-500 font-medium truncate" title="Gross: ₹{{ number_format($kpis['gross_sales'] ?? 0, 2) }}">
+            <div id="kpi-gross-sales-sub" class="mt-3.5 pt-2.5 border-t border-stone-100 flex items-center text-xs text-stone-500 font-medium truncate" title="Gross: ₹{{ number_format($kpis['gross_sales'] ?? 0, 2) }}">
                 <span class="truncate">Gross ₹{{ number_format($kpis['gross_sales'] ?? 0, 2) }}</span>
             </div>
         </div>
 
         {{-- 3. Pending Payments --}}
-        <div class="group relative rounded-2xl border border-stone-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
+        <div class="group relative rounded-2xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
             <div>
-                <div class="flex items-center justify-between gap-1 mb-2">
-                    <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-500">Pending Pay</span>
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-amber-50 text-amber-700">
-                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <span class="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-stone-500">Pending Pay</span>
+                    <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-amber-700 transition-colors group-hover:bg-amber-100/80">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     </span>
                 </div>
-                <div id="kpi-pending-payments" class="text-xl sm:text-2xl font-bold tracking-tight text-amber-950 font-mono">
+                <div id="kpi-pending-payments" class="text-2xl sm:text-3xl font-bold tracking-tight text-amber-950 font-mono">
                     {{ number_format($kpis['pending_payments_count'] ?? 0) }}
                 </div>
             </div>
-            <div id="kpi-pending-payments-sub" class="mt-2 pt-2 border-t border-stone-100 flex items-center text-[10.5px] text-stone-500 font-medium truncate" title="Uncollected: ₹{{ number_format($kpis['pending_payments_amount'] ?? 0, 2) }}">
+            <div id="kpi-pending-payments-sub" class="mt-3.5 pt-2.5 border-t border-stone-100 flex items-center text-xs text-stone-500 font-medium truncate" title="Uncollected: ₹{{ number_format($kpis['pending_payments_amount'] ?? 0, 2) }}">
                 <span class="truncate">₹{{ number_format($kpis['pending_payments_amount'] ?? 0, 2) }} uncollected</span>
             </div>
         </div>
 
         {{-- 4. Pending Fulfillment --}}
-        <div class="group relative rounded-2xl border border-stone-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
+        <div class="group relative rounded-2xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
             <div>
-                <div class="flex items-center justify-between gap-1 mb-2">
-                    <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-500">Pending Fulfil</span>
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700">
-                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><path d="m7.5 4.27 9 5.15"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <span class="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-stone-500">Pending Fulfil</span>
+                    <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 transition-colors group-hover:bg-indigo-100/80">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><path d="m7.5 4.27 9 5.15"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
                     </span>
                 </div>
-                <div id="kpi-pending-fulfillment" class="text-xl sm:text-2xl font-bold tracking-tight text-indigo-950 font-mono">
+                <div id="kpi-pending-fulfillment" class="text-2xl sm:text-3xl font-bold tracking-tight text-indigo-950 font-mono">
                     {{ number_format($kpis['pending_fulfillment_count'] ?? 0) }}
                 </div>
             </div>
-            <div class="mt-2 pt-2 border-t border-stone-100 flex items-center text-[10.5px] text-stone-500 font-medium truncate">
+            <div class="mt-3.5 pt-2.5 border-t border-stone-100 flex items-center text-xs text-stone-500 font-medium truncate">
                 <span class="truncate">Awaiting dispatch</span>
             </div>
         </div>
 
-        {{-- 5. Average Order Value --}}
-        <div class="group relative rounded-2xl border border-stone-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
+        {{-- 5. Refunds --}}
+        <div class="group relative rounded-2xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between col-span-2 sm:col-span-1 lg:col-span-1">
             <div>
-                <div class="flex items-center justify-between gap-1 mb-2">
-                    <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-500">Avg Order Value</span>
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-violet-50 text-violet-700">
-                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <span class="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-stone-500">Refunds</span>
+                    <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-700 transition-colors group-hover:bg-rose-100/80">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                     </span>
                 </div>
-                <div id="kpi-average-order-value" class="text-xl sm:text-2xl font-bold tracking-tight text-violet-950 font-mono truncate" title="₹{{ number_format($kpis['average_order_value'] ?? 0, 2) }}">
-                    ₹{{ number_format($kpis['average_order_value'] ?? 0, 2) }}
-                </div>
-            </div>
-            <div class="mt-2 pt-2 border-t border-stone-100 flex items-center text-[10.5px] text-stone-500 font-medium truncate">
-                <span class="truncate">Per paid order</span>
-            </div>
-        </div>
-
-        {{-- 6. Refunds --}}
-        <div class="group relative rounded-2xl border border-stone-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
-            <div>
-                <div class="flex items-center justify-between gap-1 mb-2">
-                    <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-500">Refunds</span>
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-rose-50 text-rose-700">
-                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                    </span>
-                </div>
-                <div id="kpi-refunds-count" class="text-xl sm:text-2xl font-bold tracking-tight text-rose-950 font-mono">
+                <div id="kpi-refunds-count" class="text-2xl sm:text-3xl font-bold tracking-tight text-rose-950 font-mono">
                     {{ number_format($kpis['refunds_count'] ?? 0) }}
                 </div>
             </div>
-            <div id="kpi-refunds-amount-sub" class="mt-2 pt-2 border-t border-stone-100 flex items-center text-[10.5px] text-stone-500 font-medium truncate" title="Total: ₹{{ number_format($kpis['refunds_amount'] ?? 0, 2) }}">
+            <div id="kpi-refunds-amount-sub" class="mt-3.5 pt-2.5 border-t border-stone-100 flex items-center text-xs text-stone-500 font-medium truncate" title="Total: ₹{{ number_format($kpis['refunds_amount'] ?? 0, 2) }}">
                 <span class="truncate">₹{{ number_format($kpis['refunds_amount'] ?? 0, 2) }} returned</span>
-            </div>
-        </div>
-
-        {{-- 7. Active Reset Cycles --}}
-        <div class="group relative rounded-2xl border border-stone-200/90 bg-white p-3.5 sm:p-4 shadow-2xs hover:border-stone-300 hover:shadow-xs transition duration-200 flex flex-col justify-between">
-            <div>
-                <div class="flex items-center justify-between gap-1 mb-2">
-                    <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-500">Reset Cycles</span>
-                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-teal-50 text-teal-700">
-                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><path d="M16 2v4"/><path d="M8 2v4"/></svg>
-                    </span>
-                </div>
-                <div id="kpi-active-reset-cycles" class="text-xl sm:text-2xl font-bold tracking-tight text-teal-950 font-mono">
-                    {{ number_format($kpis['active_reset_cycles'] ?? 0) }}
-                </div>
-            </div>
-            <div class="mt-2 pt-2 border-t border-stone-100 flex items-center text-[10.5px] text-stone-500 font-medium truncate">
-                <span class="truncate">Active 30-day cohorts</span>
             </div>
         </div>
     </div>
@@ -762,12 +726,6 @@ function triggerFilterUpdate(page = 1) {
             const elPendingFulfil = document.getElementById('kpi-pending-fulfillment');
             if (elPendingFulfil) elPendingFulfil.textContent = formatNumber(k.pending_fulfillment_count);
 
-            const elAov = document.getElementById('kpi-average-order-value');
-            if (elAov) {
-                elAov.textContent = '₹' + formatCurrency(k.average_order_value);
-                elAov.title = '₹' + formatCurrency(k.average_order_value);
-            }
-
             const elRefunds = document.getElementById('kpi-refunds-count');
             if (elRefunds) elRefunds.textContent = formatNumber(k.refunds_count);
 
@@ -776,9 +734,6 @@ function triggerFilterUpdate(page = 1) {
                 elRefundsSub.innerHTML = '<span class="truncate">₹' + formatCurrency(k.refunds_amount) + ' returned</span>';
                 elRefundsSub.title = 'Total: ₹' + formatCurrency(k.refunds_amount);
             }
-
-            const elCycles = document.getElementById('kpi-active-reset-cycles');
-            if (elCycles) elCycles.textContent = formatNumber(k.active_reset_cycles);
         }
 
         // 2. Update Cascading Location Options

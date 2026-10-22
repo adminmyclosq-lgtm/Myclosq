@@ -5,7 +5,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 class AccountController extends Controller {
     public function index(Request $request) {
-        return view('account',['user'=>$request->user()->load('customerProfile','orders')]);
+        return view('account',['user'=>$request->user()->load('customerProfile','orders.orderItems','addresses')]);
     }
     public function order(Request $request, Order $order) {
         abort_unless($order->user_id===$request->user()->id,403);

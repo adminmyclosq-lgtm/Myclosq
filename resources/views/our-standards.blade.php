@@ -43,12 +43,14 @@
                     <h2 class="font-serif text-3xl leading-tight md:text-4xl text-center">{{ $section->title }}</h2>
                     <p class="mt-3 text-[14px] text-muted-foreground text-center">{{ $section->subtitle }}</p>
                     
-                    <div class="mt-10 overflow-hidden rounded-lg border border-border/60">
-                        <div class="bg-primary px-6 py-4 text-[12px] uppercase tracking-[0.14em] text-primary-foreground grid grid-cols-5 gap-4">
-                            <div>Ingredient</div><div>Declared Quantity</div><div>Intended Role</div><div>Source / Form</div><div>Supporting Information</div>
-                        </div>
-                        <div class="bg-cream/50 px-6 py-12 text-center text-[14px] text-foreground/60">
-                            No data available. Select a product to view formulation details.
+                    <div class="mt-10 overflow-x-auto rounded-lg border border-border/60">
+                        <div class="min-w-[620px]" style="min-width: 620px;">
+                            <div class="bg-primary px-6 py-4 text-[12px] uppercase tracking-[0.14em] text-primary-foreground grid grid-cols-5 gap-4">
+                                <div>Ingredient</div><div>Declared Quantity</div><div>Intended Role</div><div>Source / Form</div><div>Supporting Information</div>
+                            </div>
+                            <div class="bg-cream/50 px-6 py-12 text-center text-[14px] text-foreground/60">
+                                No data available. Select a product to view formulation details.
+                            </div>
                         </div>
                     </div>
                     <p class="mt-4 text-[13px] text-foreground/60 text-center">Select an ingredient to review its intended role, selection rationale, supporting information and evidence limitations.</p>

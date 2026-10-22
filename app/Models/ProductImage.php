@@ -12,5 +12,7 @@ class ProductImage extends Model
     protected $guarded = [];
     protected $casts = ['is_primary'=>'boolean'];
     public function variant() { return $this->belongsTo(ProductVariant::class, 'product_variant_id'); }
+    public function product() { return $this->belongsTo(Product::class, 'product_id'); }
     public function media() { return $this->belongsTo(Media::class, 'media_id'); }
+    public function getUrlAttribute(): ?string { return $this->media?->url; }
 }

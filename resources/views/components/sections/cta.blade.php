@@ -1,22 +1,41 @@
 @props(['section' => null])
 @php
-    $contentData = $section ? json_decode($section->content, true) : [];
-    $settings = $contentData['settings'] ?? [];
-    $topSpace = $settings['top_spacing'] ?? '80px';
-    $bottomSpace = $settings['bottom_spacing'] ?? '80px';
-    $bgColor = $settings['bg_color'] ?? '';
+    $cms = \App\Services\CmsSectionHelper::parse($section);
+    $content = $cms['content'];
+    $bgColor = $cms['bgColor'] ?: '';
+    
+    $fallbackButtons = [
+        ['text' => $content['primary_button_text'] ?? ($content['button_1'] ?? 'Shop Gut Reset'), 'url' => $content['primary_button_url'] ?? ($content['button_1_url'] ?? route('shop')), 'style' => 'primary'],
+        ['text' => $content['secondary_button_text'] ?? ($content['button_2'] ?? 'Check Your Fit'), 'url' => $content['secondary_button_url'] ?? ($content['button_2_url'] ?? '#fit'), 'style' => 'secondary']
+    ];
+
+    $imagePosition = $cms['imagePosition'] ?? 'right';
+    $mediaUrl = null;
+    if ($section && $section->media) {
+        $mediaUrl = $section->media->storage_path ? asset('storage/'.$section->media->storage_path) : $section->media->url;
+    }
+
+    $cardBgStyle = ($imagePosition === 'background' && $mediaUrl)
+        ? "background-image: linear-gradient(135deg, rgba(24,53,44,0.92) 0%, rgba(40,74,62,0.92) 100%), url('{$mediaUrl}'); background-size: cover; background-position: center;"
+        : "background: linear-gradient(135deg, #18352c 0%, #284a3e 55%, #3c5c4e 100%);";
 @endphp
-<section class="section {{ $bgColor }}" style="padding-top: {{ $topSpace }}; padding-bottom: {{ $bottomSpace }};" id="section-{{ $section->id ?? 'new' }}">
-    <div class="rounded-[2rem] bg-[linear-gradient(135deg,#18352c_0%,#284a3e_55%,#3c5c4e_100%)] px-6 py-12 text-white md:px-12 md:py-16">
-        <div class="grid gap-8 md:grid-cols-[1.25fr_.75fr] md:items-end">
-            <div>
-                <span class="badge bg-white/10 text-white">{{ $contentData['eyebrow'] ?? 'Start the course' }}</span>
-                <h2 class="display-serif mt-4 text-5xl leading-tight">{{ $section->title ?? 'Give the capsule a fair 30-day trial.' }}</h2>
-                <p class="mt-4 max-w-2xl text-white/80">{{ $section->subtitle ?? 'Start the course and receive your Gut Response Brief at Day 30.' }}</p>
-            </div>
-            <div class="flex flex-wrap gap-3 md:justify-end">
-                <a class="btn-primary !bg-white !text-[var(--ink)]" href="{{ $contentData['primary_button_url'] ?? route('shop') }}">{{ $contentData['primary_button_text'] ?? 'Shop Gut Reset' }}</a>
-                <a class="btn-secondary !border-white !text-white hover:bg-white/10" href="{{ $contentData['secondary_button_url'] ?? '#fit' }}">{{ $contentData['secondary_button_text'] ?? 'Check Your Fit' }}</a>
+<section id="{{ $cms['anchorId'] }}" class="{{ $bgColor }} {{ $cms['visibility'] }}" style="{{ $cms['style'] }}">
+    <div class="section {{ $cms['containerWidth'] }} {{ $cms['alignment'] }}">
+        <div class="rounded-2xl sm:rounded-[2rem] px-5 py-8 sm:px-8 sm:py-12 md:px-12 md:py-16 text-white shadow-lg overflow-hidden relative" style="{{ $cardBgStyle }}">
+            <div class="grid gap-6 sm:gap-8 md:grid-cols-[1.25fr_.75fr] md:items-end relative z-10">
+                <div>
+                    <span class="badge bg-white/10 text-white border-0">{{ $content['badge'] ?? ($content['eyebrow'] ?? 'Start the course') }}</span>
+                    <h2 class="display-serif mt-3 sm:mt-4 text-2xl sm:text-3xl md:text-5xl leading-tight break-words {{ $cms['fontFamily'] }}">
+                        {{ $section->title ?? 'Give the capsule a fair 30-day trial.' }}
+                    </h2>
+                    <p class="mt-3 sm:mt-4 max-w-2xl text-white/80 text-sm sm:text-[15px] leading-relaxed break-words">
+                        {{ $section->subtitle ?? 'Start the course and receive your Gut Response Brief at Day 30.' }}
+                    </p>
+                </div>
+                <div class="w-full md:w-auto flex flex-col sm:flex-row gap-3 md:justify-end">
+                    <!-- Dynamic Buttons -->
+                    <x-sections.partials.buttons :buttons="$content['buttons'] ?? []" :cms="$cms" :fallback="$fallbackButtons" />
+                </div>
             </div>
         </div>
     </div>

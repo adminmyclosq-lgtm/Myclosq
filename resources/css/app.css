@@ -60,8 +60,34 @@ button:disabled {
     background-color: rgba(24, 53, 44, 0.05);
 }
 
+.brand-gw-logo {
+    width: 2.375rem !important;
+    height: 2.375rem !important;
+    border-radius: 0.75rem !important;
+    background-color: #1c3d2c !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 700 !important;
+    font-size: 0.875rem !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08) !important;
+    user-select: none;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .section {
-    @apply mx-auto w-full max-w-[1200px] px-5 py-20 sm:px-8 md:py-24;
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+}
+
+main > .section {
+    @apply py-12 md:py-16;
+}
+
+section > .section {
+    @apply py-0;
 }
 
 .card {
@@ -84,3 +110,20 @@ button:disabled {
         transform: translateY(0);
     }
 }
+
+/* Mobile Section Spacing & Layout Protection */
+@media (max-width: 767px) {
+    [style*="--sec-pt"] {
+        padding-top: min(var(--sec-pt, 2.5rem), 2.5rem) !important;
+    }
+    [style*="--sec-pb"] {
+        padding-bottom: min(var(--sec-pb, 2.5rem), 2.5rem) !important;
+    }
+    [style*="--sec-pl"] {
+        padding-left: min(var(--sec-pl, 0px), 1rem) !important;
+    }
+    [style*="--sec-pr"] {
+        padding-right: min(var(--sec-pr, 0px), 1rem) !important;
+    }
+}
+

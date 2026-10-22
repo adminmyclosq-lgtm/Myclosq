@@ -16,14 +16,34 @@
         })();
     </script>
     <style>
-        /* Smooth transitions without layout jumping */
+        /* Smooth transitions without layout jumping (200-250ms duration) */
         .sidebar-transition {
-            transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1), padding 220ms cubic-bezier(0.4, 0, 0.2, 1);
         }
         #admin-sidebar {
             height: 100% !important;
             max-height: 100% !important;
             min-height: 0 !important;
+            border-right: 1px solid #E5E7EB !important;
+            box-shadow: none !important; /* Continuous vertical divider without shadow break */
+            box-sizing: border-box !important;
+        }
+        @media (min-width: 1024px) {
+            #admin-sidebar {
+                width: 260px !important;
+            }
+            #header-brand-container {
+                width: 260px !important;
+            }
+        }
+        #header-brand-container {
+            height: 5rem !important; /* Exactly 80px fixed height */
+            border-bottom: 1px solid #E5E7EB !important;
+            border-right: 1px solid #E5E7EB !important;
+            background-color: #ffffff;
+            position: relative !important;
+            box-sizing: border-box !important;
+            transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1), padding 220ms cubic-bezier(0.4, 0, 0.2, 1);
         }
         #admin-sidebar-nav {
             flex: 1 1 0% !important;
@@ -33,8 +53,62 @@
             scrollbar-width: thin;
             scrollbar-color: #E2E8F0 transparent;
         }
-        html.sidebar-collapsed #admin-sidebar {
-            width: 72px !important;
+        /* Circular 30px Sidebar Collapse / Expand Toggle Button directly on Divider (Shopify Admin style) */
+        #sidebar-collapse-btn {
+            position: absolute !important;
+            right: -15px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 50 !important;
+            width: 30px !important;
+            height: 30px !important;
+            border-radius: 9999px !important;
+            background-color: #ffffff !important;
+            border: 1px solid #E5E7EB !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            flex-shrink: 0 !important;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04) !important;
+            transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        #sidebar-collapse-btn:hover {
+            background-color: #f9fafb !important;
+            border-color: #D1D5DB !important;
+            color: #111827 !important;
+            box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.08) !important;
+            transform: translateY(-50%) scale(1.08) !important;
+        }
+        .sidebar-chevron-icon {
+            transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+            transform: rotate(0deg);
+        }
+
+        /* Collapsed Sidebar State */
+        @media (min-width: 1024px) {
+            html.sidebar-collapsed #admin-sidebar {
+                width: 72px !important;
+            }
+            html.sidebar-collapsed #header-brand-container {
+                width: 72px !important;
+            }
+        }
+        html.sidebar-collapsed #header-brand-container {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            justify-content: center !important;
+        }
+        html.sidebar-collapsed #brand-block {
+            justify-content: center !important;
+            width: 100% !important;
+            padding: 0 !important;
+        }
+        html.sidebar-collapsed #brand-name-wrapper {
+            display: none !important;
+        }
+        html.sidebar-collapsed .sidebar-chevron-icon {
+            transform: rotate(180deg) !important;
         }
         /* When sidebar is collapsed, force ALL navigation groups and icons to remain visible */
         html.sidebar-collapsed .nav-group-items {
@@ -53,27 +127,31 @@
             padding-left: 0.5rem !important;
             padding-right: 0.5rem !important;
         }
+        html.sidebar-collapsed .sidebar-profile-card {
+            justify-content: center !important;
+            padding: 0.375rem !important;
+        }
         /* Unified Brand GW Logo Style */
         .brand-gw-logo {
-            width: 1.75rem !important; /* 28px */
-            height: 1.75rem !important; /* 28px */
-            border-radius: 0.5rem !important; /* rounded-lg */
-            background-color: #204b34 !important;
+            width: 2.375rem !important; /* 38px */
+            height: 2.375rem !important; /* 38px */
+            border-radius: 0.75rem !important; /* rounded-xl */
+            background-color: #1c3d2c !important;
             color: #ffffff !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             font-weight: 700 !important;
-            font-size: 0.75rem !important;
+            font-size: 0.875rem !important;
             line-height: 1 !important;
             flex-shrink: 0 !important;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.08) !important;
             user-select: none;
-            transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .brand-gw-logo:hover,
-        .group:hover .brand-gw-logo {
-            background-color: #183927 !important;
+        #brand-block:hover .brand-gw-logo {
+            background-color: #142e21 !important;
+            transform: scale(1.04);
         }
         /* Search bar perfect vertical centering */
         .admin-search-wrapper {
@@ -130,82 +208,114 @@
         $roleName = $authUser?->roles->first()?->name ?? ($isSuperAdmin ? 'Super Admin' : 'Admin Staff');
     @endphp
 
-    <!-- Top Header -->
-    <header class="w-full h-16 border-b border-stone-200 bg-white text-stone-600 flex items-center justify-between px-4 sm:px-6 select-none relative z-40 shrink-0">
-        <div class="flex items-center gap-3">
-            <!-- Mobile Drawer Button -->
-            <button type="button" onclick="toggleMobileSidebar()" class="lg:hidden p-2 rounded-xl text-stone-500 hover:bg-stone-100 transition">
+    <!-- Top Header (Fixed ~80px Height with subtle 1px #E5E7EB horizontal bottom border) -->
+    <header class="w-full h-20 border-b border-[#E5E7EB] bg-white text-stone-600 flex items-center justify-between px-0 select-none relative z-40 shrink-0">
+        <!-- Unified Top-Left SaaS Brand & Sidebar Header (Fixed ~80px Height, 1px #E5E7EB border) -->
+        <div
+            id="header-brand-container"
+            class="sidebar-transition h-full flex items-center px-4 border-r border-[#E5E7EB] w-auto lg:w-[260px] shrink-0 overflow-visible relative bg-white"
+        >
+            <!-- Mobile Drawer Button (Mobile only) -->
+            <button
+                type="button"
+                onclick="toggleMobileSidebar()"
+                class="lg:hidden p-1.5 -ml-1 mr-2 rounded-xl text-stone-500 hover:bg-stone-100 hover:text-stone-800 transition"
+                title="Toggle Menu"
+            >
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
 
-            <!-- Store Brand -->
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 group">
-                <x-gw-logo />
-                <div class="hidden sm:block">
-                    <span class="block font-semibold text-stone-900 text-sm tracking-tight leading-none">Guided Wellness</span>
-                    <span class="text-[10px] text-stone-400 font-medium uppercase tracking-wider mt-0.5 block">Enterprise Admin</span>
+            <!-- Unified Single Branding Block (Vertically Aligned Logo, Title & Subtitle) -->
+            <a
+                href="{{ route('admin.dashboard') }}"
+                id="brand-block"
+                onclick="handleBrandClick(event)"
+                class="flex items-center gap-3.5 min-w-0 group select-none transition-all duration-200"
+                title="Guided Wellness Enterprise Admin"
+            >
+                <x-gw-logo class="brand-gw-logo shrink-0" />
+                <div id="brand-name-wrapper" class="sidebar-text flex flex-col justify-center min-w-0 transition-opacity duration-200">
+                    <span class="font-bold text-stone-900 text-[14.5px] tracking-tight leading-snug group-hover:text-emerald-950 transition-colors whitespace-nowrap">Guided Wellness</span>
+                    <span class="text-[10px] text-stone-400 font-bold uppercase tracking-wider leading-none mt-1 whitespace-nowrap">Enterprise Admin</span>
                 </div>
             </a>
+
+            <!-- Circular 30px Collapse/Expand Toggle Button (Directly on the Vertical Divider - Shopify style) -->
+            <button
+                type="button"
+                id="sidebar-collapse-btn"
+                onclick="toggleSidebarCollapse()"
+                class="hidden lg:flex items-center justify-center shrink-0 text-stone-500 hover:text-stone-900 focus:outline-none"
+                title="Collapse sidebar"
+                aria-label="Toggle sidebar navigation"
+            >
+                <svg class="h-3.5 w-3.5 sidebar-chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </button>
         </div>
 
-        <!-- Center Search Bar (Stripe / Linear style) -->
-        <div class="hidden md:flex items-center flex-1 max-w-md mx-6">
-            <div class="admin-search-wrapper relative w-full flex items-center">
-                <div class="admin-search-icon absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none text-stone-400">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                </div>
-                <input
-                    type="text"
-                    id="admin-global-search"
-                    placeholder="Search orders, customers, products..."
-                    class="h-9 w-full rounded-xl border border-stone-200 bg-stone-50/70 pl-9 pr-14 text-xs leading-none text-stone-800 placeholder-stone-400 outline-none transition focus:border-[#204b34] focus:bg-white focus:ring-2 focus:ring-[#204b34]/15"
-                >
-                <div class="admin-search-kbd absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-                    <kbd class="inline-flex items-center justify-center rounded-md border border-stone-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-stone-400 shadow-2xs leading-none select-none">⌘K</kbd>
+        <!-- Right Header Area (Search, Storefront, Notifications, User) -->
+        <div class="flex items-center justify-between flex-1 px-4 sm:px-6 min-w-0">
+            <!-- Center Search Bar (Stripe / Linear style) -->
+            <div class="hidden md:flex items-center flex-1 max-w-md mr-6">
+                <div class="admin-search-wrapper relative w-full flex items-center">
+                    <div class="admin-search-icon absolute left-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none text-stone-400">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <input
+                        type="text"
+                        id="admin-global-search"
+                        placeholder="Search orders, customers, products..."
+                        class="h-9 w-full rounded-xl border border-stone-200 bg-stone-50/70 pl-9 pr-14 text-xs leading-none text-stone-800 placeholder-stone-400 outline-none transition focus:border-[#204b34] focus:bg-white focus:ring-2 focus:ring-[#204b34]/15"
+                    >
+                    <div class="admin-search-kbd absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
+                        <kbd class="inline-flex items-center justify-center rounded-md border border-stone-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-stone-400 shadow-2xs leading-none select-none">⌘K</kbd>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Right Header Actions -->
-        <div class="flex items-center gap-3">
-            <!-- View Live Store -->
-            <a href="{{ route('home') }}" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-50 transition shadow-2xs">
-                <span>Storefront</span>
-                <svg class="h-3 w-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            </a>
+            <!-- Right Header Actions -->
+            <div class="flex items-center gap-3 ml-auto">
+                <!-- View Live Store -->
+                <a href="{{ route('home') }}" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-50 transition shadow-2xs">
+                    <span>Storefront</span>
+                    <svg class="h-3 w-3 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
 
-            <!-- Notification Bell -->
-            <button type="button" class="relative rounded-xl p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                <span class="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-            </button>
+                <!-- Notification Bell -->
+                <button type="button" class="relative rounded-xl p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                    <span class="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                </button>
 
-            <!-- User Menu Dropdown -->
-            <details class="group relative flex items-center">
-                <summary class="flex cursor-pointer list-none items-center gap-2 rounded-xl border border-stone-200 bg-white p-1.5 sm:px-3 sm:py-1.5 text-xs font-medium text-stone-700 shadow-2xs hover:bg-stone-50 transition select-none [&::-webkit-details-marker]:hidden">
-                    <div class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
-                        {{ strtoupper(substr($authUser->name ?? 'A', 0, 1)) }}
-                    </div>
-                    <span class="hidden md:inline font-semibold text-stone-800">{{ $authUser->name ?? 'Admin' }}</span>
-                    <svg class="h-3 w-3 text-stone-400 transition group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/></svg>
-                </summary>
-                <div class="absolute right-0 top-full z-50 mt-2 w-56 rounded-2xl border border-stone-200 bg-white p-2 shadow-xl ring-1 ring-black/5">
-                    <div class="border-b border-stone-100 px-3 py-2.5 mb-1 pb-3">
-                        <div class="font-semibold text-xs text-stone-900 truncate">{{ $authUser->name ?? 'Administrator' }}</div>
-                        <div class="text-[11px] text-stone-400 truncate mt-0.5">{{ $authUser->email ?? '' }}</div>
-                        <div class="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 uppercase tracking-wider">
-                            {{ $roleName }}
+                <!-- User Menu Dropdown -->
+                <details class="group relative flex items-center">
+                    <summary class="flex cursor-pointer list-none items-center gap-2 rounded-xl border border-stone-200 bg-white p-1.5 sm:px-3 sm:py-1.5 text-xs font-medium text-stone-700 shadow-2xs hover:bg-stone-50 transition select-none [&::-webkit-details-marker]:hidden">
+                        <div class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+                            {{ strtoupper(substr($authUser->name ?? 'A', 0, 1)) }}
                         </div>
+                        <span class="hidden md:inline font-semibold text-stone-800">{{ $authUser->name ?? 'Admin' }}</span>
+                        <svg class="h-3 w-3 text-stone-400 transition group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6"/></svg>
+                    </summary>
+                    <div class="absolute right-0 top-full z-50 mt-2 w-56 rounded-2xl border border-stone-200 bg-white p-2 shadow-xl ring-1 ring-black/5">
+                        <div class="border-b border-stone-100 px-3 py-2.5 mb-1 pb-3">
+                            <div class="font-semibold text-xs text-stone-900 truncate">{{ $authUser->name ?? 'Administrator' }}</div>
+                            <div class="text-[11px] text-stone-400 truncate mt-0.5">{{ $authUser->email ?? '' }}</div>
+                            <div class="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 uppercase tracking-wider">
+                                {{ $roleName }}
+                            </div>
+                        </div>
+                        <form method="POST" action="{{ route('logout') }}" class="pt-1">
+                            @csrf
+                            <button type="submit" class="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-medium text-rose-600 hover:bg-rose-50 transition cursor-pointer">
+                                <svg class="h-3.5 w-3.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                Sign Out
+                            </button>
+                        </form>
                     </div>
-                    <form method="POST" action="{{ route('logout') }}" class="pt-1">
-                        @csrf
-                        <button type="submit" class="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-medium text-rose-600 hover:bg-rose-50 transition cursor-pointer">
-                            <svg class="h-3.5 w-3.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                            Sign Out
-                        </button>
-                    </form>
-                </div>
-            </details>
+                </details>
+            </div>
         </div>
     </header>
 
@@ -218,42 +328,35 @@
         <!-- Modern Enterprise SaaS Sidebar -->
         <aside
             id="admin-sidebar"
-            class="sidebar-transition fixed inset-y-0 left-0 z-50 -translate-x-full lg:translate-x-0 flex flex-col bg-white border-r border-stone-200/90 shadow-sm lg:static lg:z-auto w-[260px] shrink-0 h-full max-h-full min-h-0"
+            class="sidebar-transition fixed inset-y-0 left-0 z-50 -translate-x-full lg:translate-x-0 flex flex-col bg-white border-r border-[#E5E7EB] lg:static lg:z-auto w-[260px] shrink-0 h-full max-h-full min-h-0"
         >
-            <!-- Sidebar Header with Collapse Toggle -->
-            <div class="h-14 flex items-center justify-between px-4 border-b border-stone-100 shrink-0">
-                <div class="flex items-center gap-2.5 min-w-0 cursor-pointer" onclick="toggleSidebarCollapse()" title="Click to collapse / expand">
-                    <x-gw-logo />
-                    <span class="sidebar-text truncate font-semibold text-xs text-stone-900 tracking-tight">Navigation</span>
-                </div>
-                <button
-                    type="button"
-                    onclick="toggleSidebarCollapse()"
-                    id="sidebar-collapse-btn"
-                    title="Toggle Sidebar (260px / 72px)"
-                    class="sidebar-toggle-btn p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition shrink-0"
-                >
-                    <svg class="h-4 w-4 sidebar-collapse-icon transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
-                </button>
-            </div>
-
-            <!-- Scrollable Navigation Tree -->
+            <!-- Scrollable Navigation Tree (Starts immediately below header) -->
             <nav id="admin-sidebar-nav" class="flex-1 overflow-y-auto px-3 pt-3 pb-8 space-y-3">
 
-                <!-- 1. DASHBOARD -->
-                <div>
-                    @php $isDashActive = request()->routeIs('admin.dashboard'); @endphp
-                    <a
-                        href="{{ route('admin.dashboard') }}"
-                        class="nav-item group relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition {{ $isDashActive ? 'bg-emerald-50 text-emerald-900 font-semibold' : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900' }}"
-                        data-title="Dashboard"
+                <!-- 1. GENERAL GROUP -->
+                @php
+                    $isDashActive = request()->routeIs('admin.dashboard');
+                @endphp
+                <div class="nav-group" data-group="general">
+                    <button
+                        type="button"
+                        onclick="toggleNavGroup('general')"
+                        class="nav-group-header w-full flex items-center justify-between px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-stone-400 hover:text-stone-600 transition"
                     >
-                        @if($isDashActive)
-                            <span class="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#16A34A] rounded-r-sm"></span>
-                        @endif
-                        <svg class="h-4 w-4 shrink-0 {{ $isDashActive ? 'text-[#16A34A]' : 'text-stone-400 group-hover:text-stone-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                        <span class="sidebar-text truncate">Dashboard</span>
-                    </a>
+                        <span class="sidebar-text">General</span>
+                        <svg class="nav-group-chevron h-3 w-3 sidebar-text transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="nav-group-items space-y-1 mt-1">
+                        <a
+                            href="{{ route('admin.dashboard') }}"
+                            class="nav-item group relative flex items-center gap-3 px-3 py-2 rounded-xl text-xs transition {{ $isDashActive ? 'bg-emerald-50 text-emerald-900 font-semibold' : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900' }}"
+                            data-title="Dashboard"
+                        >
+                            @if($isDashActive)<span class="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#16A34A] rounded-r-sm"></span>@endif
+                            <svg class="h-4 w-4 shrink-0 {{ $isDashActive ? 'text-[#16A34A]' : 'text-stone-400 group-hover:text-stone-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                            <span class="sidebar-text truncate">Dashboard</span>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- 2. STORE GROUP -->
@@ -380,6 +483,14 @@
                             @if($isActive)<span class="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#16A34A] rounded-r-sm"></span>@endif
                             <svg class="h-4 w-4 shrink-0 {{ $isActive ? 'text-[#16A34A]' : 'text-stone-400 group-hover:text-stone-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                             <span class="sidebar-text truncate">Sales Analytics</span>
+                        </a>
+
+                        <!-- Product Analytics -->
+                        @php $isActive = request()->routeIs('admin.analytics.products*'); @endphp
+                        <a href="{{ route('admin.analytics.products') }}" class="nav-item group relative flex items-center gap-3 px-3 py-2 rounded-xl text-xs transition {{ $isActive ? 'bg-emerald-50 text-emerald-900 font-semibold' : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900' }}" data-title="Product Analytics">
+                            @if($isActive)<span class="absolute left-0 top-1.5 bottom-1.5 w-1 bg-[#16A34A] rounded-r-sm"></span>@endif
+                            <svg class="h-4 w-4 shrink-0 {{ $isActive ? 'text-[#16A34A]' : 'text-stone-400 group-hover:text-stone-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span class="sidebar-text truncate">Product Analytics</span>
                         </a>
 
                         <!-- Customer Analytics -->
@@ -526,7 +637,7 @@
 
             <!-- Bottom User Profile Pill in Sidebar (Linear / Notion style) -->
             <div class="p-3 border-t border-stone-100 shrink-0">
-                <div class="flex items-center justify-between rounded-xl p-2 bg-stone-50/70 border border-stone-100 text-xs">
+                <div class="sidebar-profile-card flex items-center justify-between rounded-xl p-2 bg-stone-50/70 border border-stone-100 text-xs">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="h-7 w-7 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold flex items-center justify-center shrink-0">
                             {{ strtoupper(substr($authUser->name ?? 'A', 0, 1)) }}
@@ -557,28 +668,52 @@
     <script>
         const sidebar = document.getElementById('admin-sidebar');
         const tooltip = document.getElementById('sidebar-tooltip');
-        const collapseIcon = document.querySelector('.sidebar-collapse-icon');
+        const brandContainer = document.getElementById('header-brand-container');
+        const brandBlock = document.getElementById('brand-block');
+        const collapseBtn = document.getElementById('sidebar-collapse-btn');
 
         // Check if sidebar is currently in collapsed state
         function isCollapsed() {
             return document.documentElement.classList.contains('sidebar-collapsed');
         }
 
-        // Toggle Sidebar Collapse (260px <-> 72px)
+        // Handle clicking the brand logo in collapsed mode (expands sidebar)
+        function handleBrandClick(e) {
+            if (isCollapsed()) {
+                e.preventDefault();
+                toggleSidebarCollapse();
+            }
+        }
+
+        // Toggle Sidebar Collapse (260px <-> 72px) with smooth 220ms ease-in-out
         function toggleSidebarCollapse() {
             const willCollapse = !isCollapsed();
             if (willCollapse) {
                 document.documentElement.classList.add('sidebar-collapsed');
                 sidebar.classList.remove('w-[260px]');
                 sidebar.classList.add('w-[72px]');
+                if (brandContainer) {
+                    brandContainer.classList.remove('lg:w-[260px]', 'px-4');
+                    brandContainer.classList.add('lg:w-[72px]', 'px-0', 'justify-center');
+                }
+                if (collapseBtn) {
+                    collapseBtn.setAttribute('title', 'Expand sidebar');
+                    collapseBtn.setAttribute('aria-label', 'Expand sidebar navigation');
+                }
                 localStorage.setItem('admin_sidebar_collapsed', 'true');
-                if (collapseIcon) collapseIcon.classList.add('rotate-180');
             } else {
                 document.documentElement.classList.remove('sidebar-collapsed');
                 sidebar.classList.remove('w-[72px]');
                 sidebar.classList.add('w-[260px]');
+                if (brandContainer) {
+                    brandContainer.classList.remove('lg:w-[72px]', 'px-0', 'justify-center');
+                    brandContainer.classList.add('lg:w-[260px]', 'px-4');
+                }
+                if (collapseBtn) {
+                    collapseBtn.setAttribute('title', 'Collapse sidebar');
+                    collapseBtn.setAttribute('aria-label', 'Collapse sidebar navigation');
+                }
                 localStorage.setItem('admin_sidebar_collapsed', 'false');
-                if (collapseIcon) collapseIcon.classList.remove('rotate-180');
             }
             updateSidebarTextVisibility();
         }
@@ -649,6 +784,22 @@
             });
         });
 
+        // Tooltip for top brand block in collapsed mode
+        if (brandBlock) {
+            brandBlock.addEventListener('mouseenter', () => {
+                if (!isCollapsed()) return;
+                tooltip.textContent = 'Guided Wellness (Click to expand)';
+                const rect = brandBlock.getBoundingClientRect();
+                tooltip.style.top = `${rect.top + (rect.height / 2) - 12}px`;
+                tooltip.style.left = `80px`;
+                tooltip.classList.remove('hidden');
+            });
+
+            brandBlock.addEventListener('mouseleave', () => {
+                tooltip.classList.add('hidden');
+            });
+        }
+
         // Hide tooltip while scrolling nav
         const sidebarNav = document.getElementById('admin-sidebar-nav');
         if (sidebarNav) {
@@ -663,10 +814,25 @@
             if (localStorage.getItem('admin_sidebar_collapsed') === 'true') {
                 sidebar.classList.remove('w-[260px]');
                 sidebar.classList.add('w-[72px]');
-                if (collapseIcon) collapseIcon.classList.add('rotate-180');
+                if (brandContainer) {
+                    brandContainer.classList.remove('lg:w-[260px]', 'px-4');
+                    brandContainer.classList.add('lg:w-[72px]', 'px-0', 'justify-center');
+                }
+                if (collapseBtn) {
+                    collapseBtn.setAttribute('title', 'Expand sidebar');
+                    collapseBtn.setAttribute('aria-label', 'Expand sidebar navigation');
+                }
             } else {
                 sidebar.classList.add('w-[260px]');
                 sidebar.classList.remove('w-[72px]');
+                if (brandContainer) {
+                    brandContainer.classList.add('lg:w-[260px]', 'px-4');
+                    brandContainer.classList.remove('lg:w-[72px]', 'px-0', 'justify-center');
+                }
+                if (collapseBtn) {
+                    collapseBtn.setAttribute('title', 'Collapse sidebar');
+                    collapseBtn.setAttribute('aria-label', 'Collapse sidebar navigation');
+                }
             }
             updateSidebarTextVisibility();
 

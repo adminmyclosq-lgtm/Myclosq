@@ -11,9 +11,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $page = CmsPage::with('sections')->where('slug','home')->where('status','published')->first();
-        $products = Product::with(['productImages.media','variants.prices'])
-            ->where('status','active')->where('is_featured',true)->orderBy('sort_order')->limit(4)->get();
+        $page = CmsPage::with(['sections.media'])->where('slug', 'home')->where('status', 'published')->first();
+        $products = Product::with(['productImages.media', 'variants.prices'])
+            ->where('status', 'active')->where('is_featured', true)->orderBy('sort_order')->limit(4)->get();
         $heroContent = $page?->sections->firstWhere('section_type', 'hero')?->content;
         $heroContent = is_string($heroContent) ? json_decode($heroContent, true) : [];
         $headerLogo = !empty($heroContent['header_logo_media_id'] ?? null)
@@ -25,7 +25,17 @@ class HomeController extends Controller
 
     public function howItWorks()
     {
-        $page = CmsPage::with('sections')->where('slug', 'how-it-works')->first();
+        $page = CmsPage::with(['sections.media'])->where('slug', 'how-it-works')->first();
         return view('how-it-works', compact('page'));
+    }
+
+    public function showPage(string $slug)
+    {
+        $page = CmsPage::with(['sections.media'])
+            ->where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
+
+        return view('cms-page', compact('page'));
     }
 }

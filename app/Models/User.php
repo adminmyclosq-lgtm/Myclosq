@@ -91,6 +91,11 @@ class User extends Authenticatable
         return $this->hasOne(WhatsappContact::class);
     }
 
+    public function customerNotes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(CustomerNote::class, 'customer_id')->latest('created_at');
+    }
+
     public function getNameAttribute($value): string
     {
         return $value ?: ($this->customerProfile?->display_name ?: trim(($this->customerProfile?->first_name ?? '').' '.($this->customerProfile?->last_name ?? '')) ?: (string) $this->email);

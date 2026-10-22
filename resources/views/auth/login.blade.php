@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 @section('content')
 <div class="grid min-h-[calc(100vh-142px)] grid-cols-1 lg:grid-cols-2">
-    <section class="bg-[var(--ink)] px-6 py-12 text-white sm:px-12 lg:px-16 lg:py-16 xl:px-20">
+    <section class="order-2 lg:order-1 bg-[var(--ink)] px-6 py-12 text-white sm:px-12 lg:px-16 lg:py-16 xl:px-20">
         <div class="mx-auto max-w-md">
             <div class="text-[11px] font-medium uppercase tracking-[.18em] text-white/70">Your Guided Wellness Account</div>
             <h1 class="display-serif mt-5 text-5xl leading-[1.02] sm:text-6xl">Your product.<br>Your course.<br>Your brief.</h1>
@@ -15,7 +15,7 @@
         </div>
     </section>
 
-    <section class="bg-white px-6 py-12 sm:px-12 lg:px-16 lg:py-16 xl:px-20">
+    <section class="order-1 lg:order-2 bg-white px-6 py-12 sm:px-12 lg:px-16 lg:py-16 xl:px-20">
         <div class="mx-auto max-w-md">
             <h2 class="display-serif text-4xl leading-[1.05] sm:text-5xl">Sign in or activate.</h2>
             <p class="mt-4 text-[15px] leading-7 text-stone-600">Already activated? Sign in below. Have a new product? Activate it first.</p>

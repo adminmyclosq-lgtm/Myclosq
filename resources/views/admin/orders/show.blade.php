@@ -1496,6 +1496,16 @@
                 <textarea name="reason" rows="2" required placeholder="e.g. Item out of stock / Customer returned item" class="w-full rounded-xl border border-stone-200 p-2.5 text-xs text-stone-800"></textarea>
             </div>
 
+            <div class="rounded-xl border border-stone-200 bg-stone-50/70 p-3">
+                <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                    <input type="checkbox" name="restock" value="1" checked class="h-4 w-4 rounded border-stone-300 text-purple-700 focus:ring-purple-600 mt-0.5">
+                    <div>
+                        <span class="font-semibold text-stone-800 text-xs">Restock items to inventory</span>
+                        <p class="text-[10px] text-stone-500 leading-tight mt-0.5">Automatically releases reserved quantities and restores items back to active stock.</p>
+                    </div>
+                </label>
+            </div>
+
             <div class="flex justify-end gap-2.5 pt-3 border-t border-stone-100">
                 <button type="button" onclick="document.getElementById('refundModal').close()" class="rounded-xl border border-stone-200 bg-white px-4 py-2 text-xs font-semibold text-stone-700 hover:bg-stone-50">
                     Cancel
